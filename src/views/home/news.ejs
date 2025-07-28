@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">公司门户网站</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">公司介绍</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products">产品展示</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">新闻动态</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">联系我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">首页</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="mb-4">新闻动态</h1>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">公司荣获2025年度行业创新奖</h2>
+                        <p class="card-text text-muted">发布时间：2025年7月20日</p>
+                        <p>在刚刚结束的2025年度行业颁奖典礼上，我公司凭借在技术创新和产品开发方面的卓越表现，荣获"年度创新奖"。这一荣誉是对我们团队不懈努力和持续创新的充分肯定。</p>
+                        <p>我们的核心产品在性能、安全性和用户体验方面都取得了重大突破，得到了行业专家和客户的一致好评。</p>
+                        <a href="#" class="btn btn-primary">阅读全文</a>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">公司与知名高校建立产学研合作关系</h2>
+                        <p class="card-text text-muted">发布时间：2025年7月5日</p>
+                        <p>为进一步加强技术创新能力，我公司与国内知名高校签署了产学研合作协议。双方将在人才培养、技术研发、项目合作等方面展开深度合作。</p>
+                        <p>此次合作将为公司引入更多前沿技术资源，加速产品迭代升级，同时也为高校提供实践平台，实现互利共赢。</p>
+                        <a href="#" class="btn btn-primary">阅读全文</a>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">新产品发布会圆满成功</h2>
+                        <p class="card-text text-muted">发布时间：2025年6月15日</p>
+                        <p>我公司于本月10日成功举办新产品发布会，正式推出了面向未来的创新产品。发布会吸引了众多行业专家、合作伙伴和媒体的关注。</p>
+                        <p>新产品采用了最新的技术架构，在性能、安全性和智能化方面都有显著提升，将为客户带来更优质的使用体验。</p>
+                        <a href="#" class="btn btn-primary">阅读全文</a>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">公司成功完成B轮融资</h2>
+                        <p class="card-text text-muted">发布时间：2025年5月30日</p>
+                        <p>我公司于近日成功完成B轮融资，融资金额达数亿元人民币。本轮融资由知名投资机构领投，将主要用于技术研发、市场拓展和团队建设。</p>
+                        <p>融资的成功充分体现了资本市场对公司发展前景的认可，也为公司下一阶段的发展提供了充足的资金支持。</p>
+                        <a href="#" class="btn btn-primary">阅读全文</a>
+                    </div>
+                </div>
+                
+                <!-- 分页 -->
+                <nav aria-label="新闻分页">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">上一页</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">下一页</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">热门标签</div>
+                    <div class="card-body">
+                        <span class="badge bg-primary me-1 mb-1">产品发布</span>
+                        <span class="badge bg-secondary me-1 mb-1">行业动态</span>
+                        <span class="badge bg-success me-1 mb-1">技术创新</span>
+                        <span class="badge bg-danger me-1 mb-1">合作签约</span>
+                        <span class="badge bg-warning me-1 mb-1">融资新闻</span>
+                        <span class="badge bg-info me-1 mb-1">奖项荣誉</span>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">推荐阅读</div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#">公司参加2025国际科技展览会</a></li>
+                            <li class="mb-2"><a href="#">2025年第一季度业绩报告</a></li>
+                            <li class="mb-2"><a href="#">研发中心扩建项目启动</a></li>
+                            <li class="mb-2"><a href="#">客户满意度再创新高</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">订阅资讯</div>
+                    <div class="card-body">
+                        <p>订阅我们的资讯，第一时间获取公司最新动态。</p>
+                        <form>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="请输入邮箱地址">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">订阅</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p>&copy; 2025 公司名称. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

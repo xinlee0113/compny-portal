@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">公司门户网站</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">公司介绍</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products">产品展示</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">新闻动态</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">联系我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1 class="display-4">欢迎访问公司门户网站</h1>
+            <p class="lead">我们致力于提供最优质的产品和服务</p>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">公司介绍</h5>
+                        <p class="card-text">了解我们的发展历程、企业文化和核心团队。</p>
+                        <a href="/about" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">产品展示</h5>
+                        <p class="card-text">展示我们的核心产品和解决方案。</p>
+                        <a href="/products" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">新闻动态</h5>
+                        <p class="card-text">获取公司最新资讯和行业动态。</p>
+                        <a href="/news" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2>为什么选择我们？</h2>
+                <p>我们是一家专注于提供高质量产品和服务的公司，在行业内拥有丰富的经验和良好的声誉。</p>
+                <ul>
+                    <li>行业领先的技术实力</li>
+                    <li>专业的服务团队</li>
+                    <li>完善的售后服务体系</li>
+                    <li>持续的创新能力</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p>&copy; 2025 公司名称. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
