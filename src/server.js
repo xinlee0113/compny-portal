@@ -44,10 +44,18 @@ app.use((err, req, res, next) => {
   });
 });
 
+// 设置端口
+const PORT = process.env.PORT || 3001;
+
 // 启动服务器
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`服务器运行在端口 ${PORT}`);
+  console.log(`访问地址: http://localhost:${PORT}`);
+  console.log(`公司首页: http://localhost:${PORT}`);
+  console.log(`公司介绍: http://localhost:${PORT}/about`);
+  console.log(`产品展示: http://localhost:${PORT}/products`);
+  console.log(`新闻动态: http://localhost:${PORT}/news`);
+  console.log(`联系我们: http://localhost:${PORT}/contact`);
 });
 
 module.exports = app;
