@@ -1,0 +1,31 @@
+{
+  "watch": [
+    "src/**/*",
+    "public/**/*",
+    ".env"
+  ],
+  "ext": "js,json,ejs,html,css",
+  "ignore": [
+    "node_modules/",
+    "tests/",
+    "coverage/",
+    "reports/",
+    "*.test.js",
+    "*.spec.js",
+    ".git/"
+  ],
+  "delay": 1000,
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "app:*"
+  },
+  "colours": true,
+  "legacyWatch": false,
+  "verbose": true,
+  "exec": "node src/server.js",
+  "events": {
+    "restart": "echo '🔄 服务器重启中...'",
+    "crash": "echo '💥 服务器崩溃，等待文件更改...'",
+    "start": "echo '🚀 开发服务器启动'"
+  }
+}

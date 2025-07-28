@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 运行pre-commit检查..."
+
+# 运行代码格式化
+echo "📝 格式化代码..."
+npm run format
+
+# 运行代码规范检查
+echo "🔍 检查代码规范..."
+npm run lint
+
+# 运行测试
+echo "🧪 运行测试..."
+npm run test:ci
+
+echo "✅ Pre-commit检查完成！"

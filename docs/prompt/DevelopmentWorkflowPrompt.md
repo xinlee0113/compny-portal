@@ -1,3 +1,42 @@
+# 测试报告模板
+
+## 测试基本信息
+
+- 测试人员：LiXin
+- 测试时间：YYYY-MM-DD HH:mm:ss
+- 测试版本：vX.X.X
+- 测试环境：Windows 11 Pro, Node.js vXX.XX.X
+
+## 测试概述
+
+简要描述本次测试的范围、目标和测试方法。
+
+## 测试结果
+
+### 单元测试
+- 测试用例总数：XX
+- 通过数：XX
+- 失败数：XX
+- 通过率：XX%
+
+### 集成测试
+- 测试用例总数：XX
+- 通过数：XX
+- 失败数：XX
+- 通过率：XX%
+
+## 代码覆盖率
+- 函数覆盖率：XX%
+- 行覆盖率：XX%
+- 分支覆盖率：XX%
+
+## 问题汇总
+1. [问题描述] - 严重程度：高/中/低
+2. [问题描述] - 严重程度：高/中/低
+
+## 测试结论
+
+总结测试结果，评估系统稳定性，给出是否通过测试的结论。
 # 自动化开发流程提示词模板
 
 ## 概述
@@ -58,7 +97,13 @@
    npm test
    ```
 
-3. 参照项目实施检查表进行验证
+3. 生成测试报告：
+   - 创建测试报告目录：`docs/test-report/`
+   - 使用模板：[docs/test-report/template_test_report.md](file://E:/01_lixin_work_space/01_code/company-portal/docs/test-report/template_test_report.md)
+   - 生成具体测试报告文件，命名为：`TestReport_YYYY-MM-DD_HH-mm-ss.md`
+   - 填写测试结果、覆盖率等信息
+
+4. 参照项目实施检查表进行验证
 
 ## 第四步：代码提交到GitHub
 
@@ -171,6 +216,7 @@
 ### 完成情况
 - [x] 功能实现
 - [x] 测试通过
+- [x] 生成测试报告
 - [x] 代码提交到GitHub
 - [x] 更新项目实施检查表
 - [x] 创建工作汇报文档 (docs/work-reports/WorkReport_YYYY-MM-DD_HH-mm-ss.md)
