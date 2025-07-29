@@ -79,12 +79,12 @@ app.use((req, res, next) => {
     // 升级不安全请求
     res.setHeader(
       'Content-Security-Policy',
-      'default-src \'self\'; ' +
-        'script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' cdn.jsdelivr.net; ' +
-        'style-src \'self\' \'unsafe-inline\' cdn.jsdelivr.net; ' +
-        'img-src \'self\' data: https:; ' +
-        'font-src \'self\' cdn.jsdelivr.net; ' +
-        'connect-src \'self\'; ' +
+      "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net; " +
+        "style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; " +
+        "img-src 'self' data: https:; " +
+        "font-src 'self' cdn.jsdelivr.net; " +
+        "connect-src 'self'; " +
         'upgrade-insecure-requests'
     );
   }

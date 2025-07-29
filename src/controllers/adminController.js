@@ -365,39 +365,39 @@ const manageUser = async (req, res) => {
 
     // 在实际项目中，这里应该操作数据库
     switch (action) {
-    case 'update_status':
-      // 更新用户状态
-      res.json({
-        success: true,
-        message: '用户状态更新成功',
-        data: { userId, status: data.status },
-      });
-      break;
+      case 'update_status':
+        // 更新用户状态
+        res.json({
+          success: true,
+          message: '用户状态更新成功',
+          data: { userId, status: data.status },
+        });
+        break;
 
-    case 'update_role':
-      // 更新用户角色
-      res.json({
-        success: true,
-        message: '用户角色更新成功',
-        data: { userId, role: data.role },
-      });
-      break;
+      case 'update_role':
+        // 更新用户角色
+        res.json({
+          success: true,
+          message: '用户角色更新成功',
+          data: { userId, role: data.role },
+        });
+        break;
 
-    case 'reset_password':
-      // 重置用户密码
-      res.json({
-        success: true,
-        message: '密码重置成功，新密码已发送到用户邮箱',
-        data: { userId },
-      });
-      break;
+      case 'reset_password':
+        // 重置用户密码
+        res.json({
+          success: true,
+          message: '密码重置成功，新密码已发送到用户邮箱',
+          data: { userId },
+        });
+        break;
 
-    default:
-      res.status(400).json({
-        success: false,
-        message: '无效的操作类型',
-        code: 'INVALID_ACTION',
-      });
+      default:
+        res.status(400).json({
+          success: false,
+          message: '无效的操作类型',
+          code: 'INVALID_ACTION',
+        });
     }
   } catch (error) {
     console.error('用户管理操作失败:', error);

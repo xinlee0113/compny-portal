@@ -161,16 +161,16 @@ class Product {
 
     // 排序
     switch (sort) {
-    case 'name':
-      results.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-      break;
-    case 'date':
-      results.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      break;
-    case 'relevance':
-    default:
-      results.sort((a, b) => b.relevanceScore - a.relevanceScore);
-      break;
+      case 'name':
+        results.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+        break;
+      case 'date':
+        results.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        break;
+      case 'relevance':
+      default:
+        results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+        break;
     }
 
     // 限制结果数量

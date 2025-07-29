@@ -573,28 +573,28 @@ module.exports = (sequelize, DataTypes) => {
 
     // 排序选项
     switch (sort) {
-    case 'name':
-      order.push(['name', 'ASC']);
-      break;
-    case 'price_asc':
-      order.push(['price', 'ASC']);
-      break;
-    case 'price_desc':
-      order.push(['price', 'DESC']);
-      break;
-    case 'newest':
-      order.push(['published_at', 'DESC']);
-      break;
-    case 'rating':
-      order.push(['rating_average', 'DESC']);
-      break;
-    case 'popularity':
-      order.push(['view_count', 'DESC']);
-      break;
-    default:
-      if (!query) {
-        order.push(['sort_order', 'ASC'], ['name', 'ASC']);
-      }
+      case 'name':
+        order.push(['name', 'ASC']);
+        break;
+      case 'price_asc':
+        order.push(['price', 'ASC']);
+        break;
+      case 'price_desc':
+        order.push(['price', 'DESC']);
+        break;
+      case 'newest':
+        order.push(['published_at', 'DESC']);
+        break;
+      case 'rating':
+        order.push(['rating_average', 'DESC']);
+        break;
+      case 'popularity':
+        order.push(['view_count', 'DESC']);
+        break;
+      default:
+        if (!query) {
+          order.push(['sort_order', 'ASC'], ['name', 'ASC']);
+        }
     }
 
     const result = await this.findAndCountAll({

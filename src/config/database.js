@@ -50,9 +50,9 @@ const postgresConfig = {
   dialectOptions: {
     ssl: DB_SSL
       ? {
-        require: true,
-        rejectUnauthorized: false,
-      }
+          require: true,
+          rejectUnauthorized: false,
+        }
       : false,
 
     // 连接超时
