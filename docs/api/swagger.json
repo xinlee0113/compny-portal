@@ -1,0 +1,858 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "车载应用开发服务公司门户网站 - 认证系统API",
+    "description": "企业级用户认证和权限管理API",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API支持",
+      "email": "dev@company-portal.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/api/auth",
+      "description": "开发环境"
+    },
+    {
+      "url": "https://portal.company.com/api/auth",
+      "description": "生产环境"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "用户认证相关操作"
+    },
+    {
+      "name": "Profile",
+      "description": "用户资料管理"
+    },
+    {
+      "name": "Session",
+      "description": "会话管理"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "用户注册",
+        "description": "创建新用户账户",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "注册成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "输入验证失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "用户名或邮箱已存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "用户登录",
+        "description": "用户身份验证并获取访问令牌",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "登录成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "认证失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "用户登出",
+        "description": "登出当前用户并撤销令牌",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登出成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/refresh": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "刷新令牌",
+        "description": "使用refresh token获取新的access token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "令牌刷新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Refresh Token无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/verify": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "验证令牌",
+        "description": "验证当前访问令牌的有效性",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "令牌有效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "令牌无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "获取用户资料",
+        "description": "获取当前用户的详细资料",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Profile"],
+        "summary": "更新用户资料",
+        "description": "更新当前用户的基本信息",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/change-password": {
+      "post": {
+        "tags": ["Profile"],
+        "summary": "修改密码",
+        "description": "修改当前用户的登录密码",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "密码修改成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "当前密码错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "认证状态检查",
+        "description": "检查当前认证状态（可选认证）",
+        "responses": {
+          "200": {
+            "description": "状态检查成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "get": {
+        "tags": ["Session"],
+        "summary": "获取会话列表",
+        "description": "获取当前用户的所有活跃会话",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{sessionId}": {
+      "delete": {
+        "tags": ["Session"],
+        "summary": "撤销特定会话",
+        "description": "撤销指定的用户会话",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "会话ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "会话撤销成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "会话不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["username", "email", "password", "confirmPassword"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9]+$",
+            "description": "用户名，3-50字符，字母数字"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "邮箱地址"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "description": "密码，至少6字符"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "description": "确认密码"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "名字"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "姓氏"
+          },
+          "phone": {
+            "type": "string",
+            "description": "手机号码"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["login", "password"],
+        "properties": {
+          "login": {
+            "type": "string",
+            "description": "用户名或邮箱"
+          },
+          "password": {
+            "type": "string",
+            "description": "密码"
+          },
+          "rememberMe": {
+            "type": "boolean",
+            "description": "记住我选项"
+          }
+        }
+      },
+      "RefreshRequest": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "刷新令牌"
+          }
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "名字"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "姓氏"
+          },
+          "phone": {
+            "type": "string",
+            "description": "手机号码"
+          }
+        }
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "required": ["currentPassword", "newPassword", "confirmNewPassword"],
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "description": "当前密码"
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 6,
+            "description": "新密码"
+          },
+          "confirmNewPassword": {
+            "type": "string",
+            "description": "确认新密码"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "description": "用户名"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "邮箱地址"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "名字"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "姓氏"
+          },
+          "phone": {
+            "type": "string",
+            "description": "手机号码"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["admin", "manager", "employee", "user"],
+            "description": "用户角色"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "inactive", "suspended", "pending"],
+            "description": "用户状态"
+          },
+          "emailVerified": {
+            "type": "boolean",
+            "description": "邮箱是否已验证"
+          },
+          "lastLogin": {
+            "type": "string",
+            "format": "date-time",
+            "description": "最后登录时间"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        }
+      },
+      "Tokens": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "访问令牌"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "刷新令牌"
+          },
+          "expiresIn": {
+            "type": "string",
+            "description": "过期时间"
+          },
+          "tokenType": {
+            "type": "string",
+            "description": "令牌类型"
+          }
+        }
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "会话ID"
+          },
+          "deviceType": {
+            "type": "string",
+            "description": "设备类型"
+          },
+          "browser": {
+            "type": "string",
+            "description": "浏览器"
+          },
+          "os": {
+            "type": "string",
+            "description": "操作系统"
+          },
+          "ipAddress": {
+            "type": "string",
+            "description": "IP地址"
+          },
+          "lastActivity": {
+            "type": "string",
+            "format": "date-time",
+            "description": "最后活动时间"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "current": {
+            "type": "boolean",
+            "description": "是否为当前会话"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "$ref": "#/components/schemas/User"
+              },
+              "tokens": {
+                "$ref": "#/components/schemas/Tokens"
+              }
+            }
+          }
+        }
+      },
+      "ProfileResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      },
+      "RefreshResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "accessToken": {
+                "type": "string",
+                "description": "新的访问令牌"
+              },
+              "expiresIn": {
+                "type": "string",
+                "description": "过期时间"
+              },
+              "tokenType": {
+                "type": "string",
+                "description": "令牌类型"
+              }
+            }
+          }
+        }
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "valid": {
+                "type": "boolean",
+                "description": "令牌是否有效"
+              },
+              "user": {
+                "$ref": "#/components/schemas/User"
+              },
+              "token": {
+                "type": "object",
+                "properties": {
+                  "issuer": {
+                    "type": "string"
+                  },
+                  "audience": {
+                    "type": "string"
+                  },
+                  "issuedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "expiresAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "StatusResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "authenticated": {
+                "type": "boolean",
+                "description": "是否已认证"
+              },
+              "user": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "SessionsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "sessions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              },
+              "total": {
+                "type": "integer",
+                "description": "会话总数"
+              }
+            }
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          },
+          "data": {
+            "description": "响应数据",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          },
+          "message": {
+            "type": "string",
+            "description": "错误消息"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码"
+          },
+          "details": {
+            "description": "错误详情",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

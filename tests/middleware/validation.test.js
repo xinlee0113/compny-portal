@@ -8,7 +8,7 @@ const { validateContactForm } = require('../../src/middleware/validation');
 const createMockRes = () => {
   return {
     status: jest.fn().mockReturnThis(),
-    json: jest.fn()
+    json: jest.fn(),
   };
 };
 
@@ -26,14 +26,14 @@ describe('验证中间件测试', () => {
         name: '张三',
         email: 'zhangsan@example.com',
         phone: '13800138000',
-        message: '这是一条测试消息'
-      }
+        message: '这是一条测试消息',
+      },
     };
-    
+
     const res = createMockRes();
-    
+
     validateContactForm(req, res, next);
-    
+
     // 验证是否调用了next函数
     expect(next).toHaveBeenCalled();
     // 验证没有返回错误响应
@@ -45,20 +45,20 @@ describe('验证中间件测试', () => {
       body: {
         name: '',
         email: 'zhangsan@example.com',
-        message: '这是一条测试消息'
-      }
+        message: '这是一条测试消息',
+      },
     };
-    
+
     const res = createMockRes();
-    
+
     validateContactForm(req, res, next);
-    
+
     // 验证返回了400状态码
     expect(res.status).toHaveBeenCalledWith(400);
     // 验证返回了错误信息
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['姓名不能为空']
+      errors: ['姓名不能为空'],
     });
     // 验证没有调用next函数
     expect(next).not.toHaveBeenCalled();
@@ -69,20 +69,20 @@ describe('验证中间件测试', () => {
       body: {
         name: '张三',
         email: 'invalid-email',
-        message: '这是一条测试消息'
-      }
+        message: '这是一条测试消息',
+      },
     };
-    
+
     const res = createMockRes();
-    
+
     validateContactForm(req, res, next);
-    
+
     // 验证返回了400状态码
     expect(res.status).toHaveBeenCalledWith(400);
     // 验证返回了错误信息
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['邮箱格式不正确']
+      errors: ['邮箱格式不正确'],
     });
     // 验证没有调用next函数
     expect(next).not.toHaveBeenCalled();
@@ -93,20 +93,20 @@ describe('验证中间件测试', () => {
       body: {
         name: '张三',
         email: 'zhangsan@example.com',
-        message: ''
-      }
+        message: '',
+      },
     };
-    
+
     const res = createMockRes();
-    
+
     validateContactForm(req, res, next);
-    
+
     // 验证返回了400状态码
     expect(res.status).toHaveBeenCalledWith(400);
     // 验证返回了错误信息
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['消息内容不能为空']
+      errors: ['消息内容不能为空'],
     });
     // 验证没有调用next函数
     expect(next).not.toHaveBeenCalled();
@@ -117,8 +117,8 @@ describe('验证中间件测试', () => {
       body: {
         name: 'a'.repeat(51), // 51个字符，超过限制
         email: 'test@example.com',
-        message: '测试消息'
-      }
+        message: '测试消息',
+      },
     };
     const res = createMockRes();
     const next = jest.fn();
@@ -128,7 +128,7 @@ describe('验证中间件测试', () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['姓名长度不能超过50个字符']
+      errors: ['姓名长度不能超过50个字符'],
     });
     expect(next).not.toHaveBeenCalled();
   });
@@ -138,8 +138,8 @@ describe('验证中间件测试', () => {
       body: {
         name: '张三',
         email: '',
-        message: '测试消息'
-      }
+        message: '测试消息',
+      },
     };
     const res = createMockRes();
     const next = jest.fn();
@@ -149,7 +149,7 @@ describe('验证中间件测试', () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['邮箱不能为空']
+      errors: ['邮箱不能为空'],
     });
     expect(next).not.toHaveBeenCalled();
   });
@@ -160,8 +160,8 @@ describe('验证中间件测试', () => {
         name: '张三',
         email: 'zhangsan@example.com',
         phone: 'invalid-phone-123abc',
-        message: '测试消息'
-      }
+        message: '测试消息',
+      },
     };
     const res = createMockRes();
     const next = jest.fn();
@@ -171,7 +171,7 @@ describe('验证中间件测试', () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['电话号码格式不正确']
+      errors: ['电话号码格式不正确'],
     });
     expect(next).not.toHaveBeenCalled();
   });
@@ -181,8 +181,8 @@ describe('验证中间件测试', () => {
       body: {
         name: '张三',
         email: 'zhangsan@example.com',
-        message: 'a'.repeat(1001) // 1001个字符，超过限制
-      }
+        message: 'a'.repeat(1001), // 1001个字符，超过限制
+      },
     };
     const res = createMockRes();
     const next = jest.fn();
@@ -192,7 +192,7 @@ describe('验证中间件测试', () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       success: false,
-      errors: ['消息内容长度不能超过1000个字符']
+      errors: ['消息内容长度不能超过1000个字符'],
     });
     expect(next).not.toHaveBeenCalled();
   });
@@ -203,8 +203,8 @@ describe('验证中间件测试', () => {
         name: '张三',
         email: 'zhangsan@example.com',
         phone: '+86 138-0013-8000',
-        message: '测试消息'
-      }
+        message: '测试消息',
+      },
     };
     const res = createMockRes();
     const next = jest.fn();

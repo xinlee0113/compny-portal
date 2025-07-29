@@ -22,7 +22,7 @@ describe('Product Model', () => {
     test('返回的产品应该包含必要的字段', () => {
       const products = productModel.getAllProducts();
       const firstProduct = products[0];
-            
+
       expect(firstProduct).toHaveProperty('id');
       expect(firstProduct).toHaveProperty('name');
       expect(firstProduct).toHaveProperty('description');
@@ -88,18 +88,20 @@ describe('Product Model', () => {
     test('应该支持名称排序', () => {
       const results = productModel.searchProducts({ sort: 'name' });
       expect(results.length).toBeGreaterThan(1);
-            
+
       for (let i = 1; i < results.length; i++) {
-        expect(results[i-1].name.localeCompare(results[i].name, 'zh-CN')).toBeLessThanOrEqual(0);
+        expect(
+          results[i - 1].name.localeCompare(results[i].name, 'zh-CN')
+        ).toBeLessThanOrEqual(0);
       }
     });
 
     test('应该支持日期排序', () => {
       const results = productModel.searchProducts({ sort: 'date' });
       expect(results.length).toBeGreaterThan(1);
-            
+
       for (let i = 1; i < results.length; i++) {
-        const prevDate = new Date(results[i-1].created_at);
+        const prevDate = new Date(results[i - 1].created_at);
         const currDate = new Date(results[i].created_at);
         expect(prevDate >= currDate).toBe(true);
       }
@@ -115,12 +117,12 @@ describe('Product Model', () => {
         query: '数字化',
         category: '行业解决方案',
         sort: 'name',
-        limit: 5
+        limit: 5,
       });
-            
+
       expect(Array.isArray(results)).toBe(true);
       expect(results.length).toBeLessThanOrEqual(5);
-            
+
       if (results.length > 0) {
         results.forEach(product => {
           expect(product.category).toBe('行业解决方案');
@@ -137,9 +139,9 @@ describe('Product Model', () => {
         description: '一般描述',
         features: ['功能1'],
         tags: ['标签1'],
-        category: '分类1'
+        category: '分类1',
       };
-            
+
       const score = productModel.calculateRelevanceScore(product, '智能');
       expect(score).toBeGreaterThanOrEqual(10);
     });
@@ -150,9 +152,9 @@ describe('Product Model', () => {
         description: '描述',
         features: ['智能控制'],
         tags: ['标签1'],
-        category: '分类1'
+        category: '分类1',
       };
-            
+
       const score = productModel.calculateRelevanceScore(product, '智能');
       expect(score).toBeGreaterThanOrEqual(8);
     });
@@ -163,9 +165,9 @@ describe('Product Model', () => {
         description: '描述',
         features: ['功能'],
         tags: ['标签'],
-        category: '分类'
+        category: '分类',
       };
-            
+
       const score = productModel.calculateRelevanceScore(product, 'xyz');
       expect(score).toBe(0);
     });
@@ -195,4 +197,4 @@ describe('Product Model', () => {
       });
     });
   });
-}); 
+});

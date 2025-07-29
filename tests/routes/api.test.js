@@ -24,9 +24,7 @@ describe('API Routes', () => {
 
   describe('GET /api/status', () => {
     test('应该返回API状态信息', async () => {
-      const response = await request(app)
-        .get('/api/status')
-        .expect(200);
+      const response = await request(app).get('/api/status').expect(200);
 
       expect(response.body).toHaveProperty('success', true);
       expect(response.body).toHaveProperty('message', 'API服务正常运行');
@@ -37,9 +35,7 @@ describe('API Routes', () => {
 
   describe('GET /api/health', () => {
     test('应该返回系统健康状态', async () => {
-      const response = await request(app)
-        .get('/api/health')
-        .expect(200);
+      const response = await request(app).get('/api/health').expect(200);
 
       expect(response.body).toHaveProperty('success', true);
       expect(response.body).toHaveProperty('status');
@@ -52,9 +48,7 @@ describe('API Routes', () => {
     });
 
     test('健康状态应该包含正确的指标', async () => {
-      const response = await request(app)
-        .get('/api/health')
-        .expect(200);
+      const response = await request(app).get('/api/health').expect(200);
 
       const metrics = response.body.metrics;
       expect(metrics).toHaveProperty('totalRequests');
@@ -65,19 +59,17 @@ describe('API Routes', () => {
     });
 
     test('应该正确报告健康状态', async () => {
-      const response = await request(app)
-        .get('/api/health')
-        .expect(200);
+      const response = await request(app).get('/api/health').expect(200);
 
-      expect(['healthy', 'warning', 'unhealthy']).toContain(response.body.status);
+      expect(['healthy', 'warning', 'unhealthy']).toContain(
+        response.body.status
+      );
     });
   });
 
   describe('GET /api/metrics', () => {
     test('应该返回监控指标', async () => {
-      const response = await request(app)
-        .get('/api/metrics')
-        .expect(200);
+      const response = await request(app).get('/api/metrics').expect(200);
 
       expect(response.body).toHaveProperty('success', true);
       expect(response.body).toHaveProperty('metrics');
@@ -85,9 +77,7 @@ describe('API Routes', () => {
     });
 
     test('监控指标应该包含所有必要数据', async () => {
-      const response = await request(app)
-        .get('/api/metrics')
-        .expect(200);
+      const response = await request(app).get('/api/metrics').expect(200);
 
       const metrics = response.body.metrics;
       expect(metrics).toHaveProperty('totalRequests');
@@ -101,9 +91,7 @@ describe('API Routes', () => {
 
   describe('GET /api/docs', () => {
     test('应该返回API文档', async () => {
-      const response = await request(app)
-        .get('/api/docs')
-        .expect(200);
+      const response = await request(app).get('/api/docs').expect(200);
 
       expect(response.body).toHaveProperty('title');
       expect(response.body).toHaveProperty('version');
@@ -113,9 +101,7 @@ describe('API Routes', () => {
     });
 
     test('API文档应该包含健康检查端点', async () => {
-      const response = await request(app)
-        .get('/api/docs')
-        .expect(200);
+      const response = await request(app).get('/api/docs').expect(200);
 
       const systemEndpoints = response.body.endpoints.system;
       expect(systemEndpoints).toHaveProperty('GET /health');
@@ -130,9 +116,7 @@ describe('API Routes', () => {
       await request(app).get('/api/health');
       await request(app).get('/api/metrics');
 
-      const response = await request(app)
-        .get('/api/metrics')
-        .expect(200);
+      const response = await request(app).get('/api/metrics').expect(200);
 
       const metrics = response.body.metrics;
       expect(metrics.totalRequests).toBeGreaterThan(0);
@@ -143,9 +127,7 @@ describe('API Routes', () => {
       // 请求不存在的端点
       await request(app).get('/api/nonexistent').expect(404);
 
-      const response = await request(app)
-        .get('/api/metrics')
-        .expect(200);
+      const response = await request(app).get('/api/metrics').expect(200);
 
       const metrics = response.body.metrics;
       expect(metrics.totalErrors).toBeGreaterThan(0);
@@ -155,9 +137,7 @@ describe('API Routes', () => {
     test('应该测量响应时间', async () => {
       await request(app).get('/api/status');
 
-      const response = await request(app)
-        .get('/api/metrics')
-        .expect(200);
+      const response = await request(app).get('/api/metrics').expect(200);
 
       const metrics = response.body.metrics;
       expect(metrics.averageResponseTime).toBeGreaterThanOrEqual(0);
@@ -166,9 +146,7 @@ describe('API Routes', () => {
 
   describe('错误处理', () => {
     test('不存在的API端点应该返回404', async () => {
-      await request(app)
-        .get('/api/nonexistent')
-        .expect(404);
+      await request(app).get('/api/nonexistent').expect(404);
 
       // 验证这被记录为错误
       const metricsResponse = await request(app)
@@ -185,9 +163,7 @@ describe('API Routes', () => {
         throw new Error('模拟错误');
       });
 
-      const response = await request(app)
-        .get('/api/health')
-        .expect(500);
+      const response = await request(app).get('/api/health').expect(500);
 
       expect(response.body.success).toBe(false);
       expect(response.body.status).toBe('error');
@@ -204,9 +180,7 @@ describe('API Routes', () => {
         throw new Error('模拟错误');
       });
 
-      const response = await request(app)
-        .get('/api/metrics')
-        .expect(500);
+      const response = await request(app).get('/api/metrics').expect(500);
 
       expect(response.body.success).toBe(false);
       expect(response.body.message).toBe('获取监控指标失败');
@@ -219,10 +193,8 @@ describe('API Routes', () => {
   describe('性能测试', () => {
     test('健康检查应该在合理时间内响应', async () => {
       const startTime = Date.now();
-      
-      await request(app)
-        .get('/api/health')
-        .expect(200);
+
+      await request(app).get('/api/health').expect(200);
 
       const responseTime = Date.now() - startTime;
       expect(responseTime).toBeLessThan(100); // 应该在100ms内响应
@@ -230,10 +202,8 @@ describe('API Routes', () => {
 
     test('监控指标应该在合理时间内响应', async () => {
       const startTime = Date.now();
-      
-      await request(app)
-        .get('/api/metrics')
-        .expect(200);
+
+      await request(app).get('/api/metrics').expect(200);
 
       const responseTime = Date.now() - startTime;
       expect(responseTime).toBeLessThan(100); // 应该在100ms内响应

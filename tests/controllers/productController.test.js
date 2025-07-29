@@ -21,9 +21,7 @@ app.get('/api/products/:id', productController.getProductById);
 describe('Product Controller', () => {
   describe('GET /api/products', () => {
     test('应该返回所有产品', async () => {
-      const response = await request(app)
-        .get('/api/products')
-        .expect(200);
+      const response = await request(app).get('/api/products').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(Array.isArray(response.body.data)).toBe(true);
@@ -32,9 +30,7 @@ describe('Product Controller', () => {
     });
 
     test('返回的产品应该包含正确的字段', async () => {
-      const response = await request(app)
-        .get('/api/products')
-        .expect(200);
+      const response = await request(app).get('/api/products').expect(200);
 
       const product = response.body.data[0];
       expect(product).toHaveProperty('id');
@@ -85,7 +81,7 @@ describe('Product Controller', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.keyword).toBe('创新');
-            
+
       if (response.body.data.length > 0) {
         response.body.data.forEach(product => {
           expect(product.relevanceScore).toBeGreaterThan(0);
@@ -100,7 +96,7 @@ describe('Product Controller', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.category).toBe('核心产品');
-            
+
       if (response.body.data.length > 0) {
         response.body.data.forEach(product => {
           expect(product.category).toBe('核心产品');
@@ -128,7 +124,9 @@ describe('Product Controller', () => {
 
     test('应该支持组合查询', async () => {
       const response = await request(app)
-        .get('/api/products/search?q=数字化&category=行业解决方案&sort=name&limit=5')
+        .get(
+          '/api/products/search?q=数字化&category=行业解决方案&sort=name&limit=5'
+        )
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -224,7 +222,7 @@ describe('Product Controller', () => {
       // 创建一个会抛出错误的mock控制器
       const mockApp = express();
       mockApp.use(express.json());
-      
+
       mockApp.get('/api/products', (req, res) => {
         try {
           throw new Error('模拟数据库错误');
@@ -233,14 +231,12 @@ describe('Product Controller', () => {
           res.status(500).json({
             success: false,
             message: '获取产品列表失败',
-            error: error.message
+            error: error.message,
           });
         }
       });
 
-      const response = await request(mockApp)
-        .get('/api/products')
-        .expect(500);
+      const response = await request(mockApp).get('/api/products').expect(500);
 
       expect(response.body.success).toBe(false);
       expect(response.body.message).toBe('获取产品列表失败');
@@ -249,7 +245,7 @@ describe('Product Controller', () => {
     test('getProductById遇到错误时应该返回500', async () => {
       const mockApp = express();
       mockApp.use(express.json());
-      
+
       mockApp.get('/api/products/:id', (req, res) => {
         try {
           throw new Error('模拟查询错误');
@@ -258,7 +254,7 @@ describe('Product Controller', () => {
           res.status(500).json({
             success: false,
             message: '获取产品详情失败',
-            error: error.message
+            error: error.message,
           });
         }
       });
@@ -274,7 +270,7 @@ describe('Product Controller', () => {
     test('searchProducts遇到错误时应该返回500', async () => {
       const mockApp = express();
       mockApp.use(express.json());
-      
+
       mockApp.get('/api/products/search', (req, res) => {
         try {
           throw new Error('模拟搜索错误');
@@ -283,7 +279,7 @@ describe('Product Controller', () => {
           res.status(500).json({
             success: false,
             message: '产品搜索失败',
-            error: error.message
+            error: error.message,
           });
         }
       });
@@ -296,4 +292,4 @@ describe('Product Controller', () => {
       expect(response.body.message).toBe('产品搜索失败');
     });
   });
-}); 
+});

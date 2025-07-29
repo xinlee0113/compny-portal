@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const security = require('./middleware/security');
 const monitor = require('./utils/monitor');
 const dotenv = require('dotenv');
@@ -33,16 +34,24 @@ app.use(express.static(path.join(__dirname, '../public')));
 // 解析请求体中间件
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+
+// 国际化中间件
+const { i18nMiddleware } = require('./config/i18n');
+app.use(i18nMiddleware);
 
 // 路由
 app.use('/', require('./routes/home'));
+app.use('/auth', require('./routes/auth-pages'));
+app.use('/admin', require('./routes/admin')); // 管理员路由
 app.use('/api', require('./routes/api'));
 
 // 错误处理中间件
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+app.use((err, req, res, next) => {
+  // eslint-disable-line no-unused-vars
   console.error(err.stack);
   res.status(500).render('500', {
-    title: '服务器内部错误'
+    title: '服务器内部错误',
   });
 });
 
@@ -61,7 +70,7 @@ app.listen(PORT, () => {
   console.log(`API文档: http://localhost:${PORT}/api/docs`);
   console.log(`API状态: http://localhost:${PORT}/api/status`);
   console.log(`系统监控: http://localhost:${PORT}/api/health`);
-  
+
   // 启动监控系统
   monitor.startPeriodicMonitoring();
   console.log('📊 监控系统已启动');

@@ -1,136 +1,163 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title><%= texts.contact.title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">公司门户网站</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">首页</a>
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">公司介绍</a>
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products">产品展示</a>
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">新闻动态</a>
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">联系我们</a>
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/api/docs" target="_blank">
+                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin">
+                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
+                            </a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
-      <h1 class="mb-4">联系我们</h1>
-      
-      <div class="row">
-        <div class="col-md-6">
-          <h3>公司信息</h3>
-          <p><strong>公司名称：</strong>车载应用开发服务公司</p>
-          <p><strong>地址：</strong>中国某市某区某路123号</p>
-          <p><strong>电话：</strong>+86 123 4567 8900</p>
-          <p><strong>邮箱：</strong>info@company.com</p>
-          
-          <h3 class="mt-4">办公时间</h3>
-          <p>周一至周五：9:00 - 18:00</p>
-          <p>周六：10:00 - 16:00</p>
-          <p>周日：休息</p>
+    <main class="container my-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><%= texts.nav.home %></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%= texts.contact.title %></li>
+            </ol>
+        </nav>
+
+        <div class="container mt-4">
+            <h1 class="mb-4"><%= texts.contact.title %></h1>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h3><%= texts.contact.info.title %></h3>
+                    <p><strong><%= texts.contact.info.address %></strong></p>
+                    <p><strong><%= texts.contact.info.phone %></strong></p>
+                    <p><strong><%= texts.contact.info.email %></strong></p>
+                    
+                    <h3 class="mt-4"><%= texts.contact.hours.title %></h3>
+                    <p><%= texts.contact.hours.weekdays %></p>
+                    <p><%= texts.contact.hours.weekend %></p>
+                    <p><%= texts.contact.hours.holiday %></p>
+                </div>
+                
+                <div class="col-md-6">
+                    <h3><%= texts.contact.form.title %></h3>
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><%= texts.contact.form.name %> *</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label"><%= texts.contact.form.email %> *</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="subject" class="form-label"><%= texts.contact.form.subject %></label>
+                            <input type="text" class="form-control" id="subject" name="subject">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label"><%= texts.contact.form.message %> *</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary"><%= texts.contact.form.submit %></button>
+                    </form>
+                    
+                    <div id="formMessage" class="mt-3" style="display: none;"></div>
+                </div>
+            </div>
         </div>
-        
-        <div class="col-md-6">
-          <h3>发送消息</h3>
-          <form id="contactForm">
-            <div class="mb-3">
-              <label for="name" class="form-label">姓名 *</label>
-              <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            
-            <div class="mb-3">
-              <label for="email" class="form-label">邮箱 *</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            
-            <div class="mb-3">
-              <label for="phone" class="form-label">电话</label>
-              <input type="tel" class="form-control" id="phone" name="phone">
-            </div>
-            
-            <div class="mb-3">
-              <label for="message" class="form-label">消息 *</label>
-              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn-primary">发送消息</button>
-          </form>
-          
-          <div id="formMessage" class="mt-3" style="display: none;"></div>
-        </div>
-      </div>
-    </div>
+    </main>
 
     <footer class="bg-dark text-white text-center py-4">
         <div class="container">
-            <p>&copy; 2025 公司名称. 保留所有权利.</p>
+            <p><%= texts.site.copyright %></p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-      document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // 获取表单数据
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
-        
-        // 发送请求
-        fetch('/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-          const messageDiv = document.getElementById('formMessage');
-          
-          if (result.success) {
-            messageDiv.className = 'alert alert-success';
-            messageDiv.textContent = result.message;
-            // 重置表单
-            this.reset();
-          } else {
-            messageDiv.className = 'alert alert-danger';
-            messageDiv.textContent = '提交失败：' + (result.errors ? result.errors.join(', ') : result.message);
-          }
-          
-          messageDiv.style.display = 'block';
-        })
-        .catch(error => {
-          const messageDiv = document.getElementById('formMessage');
-          messageDiv.className = 'alert alert-danger';
-          messageDiv.textContent = '提交失败，请稍后重试。';
-          messageDiv.style.display = 'block';
+        // 联系表单处理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // 模拟提交
+            fetch('/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                const messageDiv = document.getElementById('formMessage');
+                messageDiv.style.display = 'block';
+                
+                if (result.success) {
+                    messageDiv.className = 'alert alert-success';
+                    messageDiv.textContent = '<%= texts.contact.form.success %>';
+                    // 重置表单
+                    this.reset();
+                } else {
+                    messageDiv.className = 'alert alert-danger';
+                    messageDiv.textContent = '<%= texts.contact.form.error %>' + (result.errors ? result.errors.join(', ') : result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const messageDiv = document.getElementById('formMessage');
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.textContent = '<%= texts.contact.form.networkError %>';
+                messageDiv.style.display = 'block';
+            });
         });
-      });
     </script>
-
 </body>
 </html>
+
+
+

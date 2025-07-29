@@ -9,7 +9,7 @@ describe('路由测试', () => {
     '/products': { status: 200, title: '产品展示' },
     '/news': { status: 200, title: '新闻动态' },
     '/contact': { status: 200, title: '联系我们' },
-    '/non-existent-page': { status: 404, title: '页面未找到' }
+    '/non-existent-page': { status: 404, title: '页面未找到' },
   };
 
   test('应该返回首页页面', () => {

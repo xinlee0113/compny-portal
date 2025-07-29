@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员面板 - 车载应用开发服务公司</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/auto/chart.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logo {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logo h4 {
+            color: white;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.users {
+            border-left-color: #667eea;
+        }
+
+        .stat-card.sessions {
+            border-left-color: #28a745;
+        }
+
+        .stat-card.performance {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card.security {
+            border-left-color: #dc3545;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .trend-up {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .trend-down {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .quick-actions {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .recent-activities {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .activity-icon.login {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .activity-icon.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .activity-icon.update {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .system-status {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+        }
+
+        .status-online {
+            background: #28a745;
+        }
+
+        .status-offline {
+            background: #dc3545;
+        }
+
+        .status-warning {
+            background: #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .header {
+                margin: -1rem -1rem 1rem -1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h4><i class="fas fa-cogs me-2"></i>管理面板</h4>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="/admin">
+                    <i class="fas fa-tachometer-alt"></i>仪表盘
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/users">
+                    <i class="fas fa-users"></i>用户管理
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/monitor">
+                    <i class="fas fa-chart-line"></i>系统监控
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/logs">
+                    <i class="fas fa-file-alt"></i>日志管理
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/settings">
+                    <i class="fas fa-cog"></i>系统设置
+                </a>
+            </li>
+            <li class="nav-item">
+                <hr style="border-color: rgba(255,255,255,0.1);">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-home"></i>返回首页
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/auth/profile">
+                    <i class="fas fa-user"></i>个人中心
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 头部 -->
+        <header class="header">
+            <div>
+                <h1 class="h3 mb-0">管理员面板</h1>
+                <small class="text-muted">系统概览与管理中心</small>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="text-muted me-3">欢迎, <%= user ? (user.firstName + user.lastName || user.username) : '管理员' %></span>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/auth/profile">个人设置</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- 统计卡片 -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card users">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number"><%= stats ? stats.users.total : '150' %></div>
+                            <div class="stat-label">总用户数</div>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                            <div class="stat-trend trend-up mt-2">
+                                <%= stats ? stats.users.trend : '+12%' %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card sessions">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number"><%= stats ? stats.sessions.online : '23' %></div>
+                            <div class="stat-label">在线用户</div>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-globe fa-2x text-success"></i>
+                            <div class="stat-trend trend-up mt-2">
+                                <%= stats ? stats.sessions.trend : '+8%' %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card performance">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number"><%= stats && stats.system && stats.system.requests ? stats.system.requests.totalRequests : '1.2K' %></div>
+                            <div class="stat-label">今日请求</div>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-chart-bar fa-2x text-warning"></i>
+                            <div class="stat-trend trend-up mt-2">+15%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card security">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-number"><%= stats ? stats.security.blockedIPs : '12' %></div>
+                            <div class="stat-label">安全事件</div>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-shield-alt fa-2x text-danger"></i>
+                            <div class="stat-trend trend-down mt-2">-5%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图表和快速操作 -->
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <h5 class="mb-3">
+                        <i class="fas fa-chart-line me-2"></i>系统性能趋势
+                    </h5>
+                    <canvas id="performanceChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="quick-actions">
+                    <h5 class="mb-3">
+                        <i class="fas fa-bolt me-2"></i>快速操作
+                    </h5>
+                    <div class="d-grid gap-2">
+                        <button class="action-btn" onclick="location.href='/admin/users'">
+                            <i class="fas fa-users me-2"></i>管理用户
+                        </button>
+                        <button class="action-btn" onclick="refreshSystemStatus()">
+                            <i class="fas fa-sync me-2"></i>刷新状态
+                        </button>
+                        <button class="action-btn" onclick="location.href='/admin/logs'">
+                            <i class="fas fa-file-alt me-2"></i>查看日志
+                        </button>
+                        <button class="action-btn" onclick="location.href='/admin/settings'">
+                            <i class="fas fa-cog me-2"></i>系统设置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最近活动和系统状态 -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="recent-activities">
+                    <h5 class="mb-3">
+                        <i class="fas fa-history me-2"></i>最近活动
+                    </h5>
+                    <div id="recentActivities">
+                        <div class="activity-item">
+                            <div class="activity-icon login">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">用户登录</div>
+                                <small class="text-muted">admin@company.com - 刚刚</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon update">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">用户资料更新</div>
+                                <small class="text-muted">user123 - 5分钟前</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon error">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">登录失败</div>
+                                <small class="text-muted">192.168.1.100 - 10分钟前</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="system-status">
+                    <h5 class="mb-3">
+                        <i class="fas fa-server me-2"></i>系统状态
+                    </h5>
+                    <div class="status-item">
+                        <span>Web服务器</span>
+                        <div class="d-flex align-items-center">
+                            <span class="text-success">正常</span>
+                            <div class="status-indicator status-online"></div>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span>数据库</span>
+                        <div class="d-flex align-items-center">
+                            <span class="text-danger">离线</span>
+                            <div class="status-indicator status-offline"></div>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span>缓存服务</span>
+                        <div class="d-flex align-items-center">
+                            <span class="text-danger">离线</span>
+                            <div class="status-indicator status-offline"></div>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span>内存使用</span>
+                        <div class="d-flex align-items-center">
+                            <span class="text-warning">68%</span>
+                            <div class="status-indicator status-warning"></div>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span>CPU负载</span>
+                        <div class="d-flex align-items-center">
+                            <span class="text-success">25%</span>
+                            <div class="status-indicator status-online"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/auto/Chart.min.js"></script>
+    
+    <script>
+        // 性能图表
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+                datasets: [{
+                    label: 'CPU使用率',
+                    data: [12, 19, 25, 32, 28, 35, 30],
+                    borderColor: 'rgb(102, 126, 234)',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.1
+                }, {
+                    label: '内存使用率',
+                    data: [30, 35, 40, 45, 50, 55, 48],
+                    borderColor: 'rgb(40, 167, 69)',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        // 刷新系统状态
+        async function refreshSystemStatus() {
+            try {
+                const response = await fetch('/admin/api/system/status', {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    updateSystemStatus(result.data);
+                    showNotification('系统状态已刷新', 'success');
+                } else {
+                    showNotification('刷新失败', 'error');
+                }
+            } catch (error) {
+                console.error('刷新系统状态失败:', error);
+                showNotification('网络错误', 'error');
+            }
+        }
+
+        // 更新系统状态显示
+        function updateSystemStatus(status) {
+            // 这里可以更新页面上的状态显示
+            console.log('系统状态:', status);
+        }
+
+        // 获取认证令牌
+        function getToken() {
+            return localStorage.getItem('accessToken') || 
+                   document.cookie.replace(/(?:(?:^|.*;\s*)accessToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        }
+
+        // 显示通知
+        function showNotification(message, type) {
+            // 创建简单的通知
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const notification = document.createElement('div');
+            notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '9999';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // 登出功能
+        async function logout() {
+            try {
+                await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                window.location.href = '/auth/login';
+            } catch (error) {
+                console.error('登出失败:', error);
+            }
+        }
+
+        // 定期刷新状态
+        setInterval(() => {
+            refreshSystemStatus();
+        }, 30000); // 每30秒刷新一次
+    </script>
+</body>
+</html>

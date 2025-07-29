@@ -1,22 +1,68 @@
 version: '3.8'
 
 services:
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:15-alpine
+    container_name: company-portal-postgres
+    environment:
+      POSTGRES_DB: company_portal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: company_portal_2025
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: company-portal-redis
+    command: redis-server --appendonly yes --requirepass company_portal_2025
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # 应用服务
   app:
     build: .
+    container_name: company-portal-app
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=company_portal
+      - DB_USER=postgres
+      - DB_PASSWORD=company_portal_2025
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=company_portal_2025
     volumes:
       - ./public:/usr/src/app/public
       - ./src:/usr/src/app/src
+    depends_on:
+      - postgres
+      - redis
     restart: unless-stopped
     networks:
       - app-network
 
+  # Nginx 反向代理
   nginx:
     image: nginx:alpine
+    container_name: company-portal-nginx
     ports:
       - "80:80"
       - "443:443"
@@ -28,6 +74,12 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
 
 networks:
   app-network:

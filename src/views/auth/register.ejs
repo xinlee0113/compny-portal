@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户注册 - 车载应用开发服务公司</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem 0;
+    }
+    
+    .register-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      margin: 2rem 0;
+    }
+    
+    .register-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .register-header h1 {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .register-header p {
+      color: #666;
+      margin: 0;
+    }
+    
+    .form-control {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .form-control.is-valid {
+      border-color: #28a745;
+    }
+    
+    .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+    
+    .btn-register {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      color: white;
+    }
+    
+    .btn-register:disabled {
+      opacity: 0.6;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .alert {
+      border-radius: 10px;
+      border: none;
+    }
+    
+    .input-group-text {
+      background: transparent;
+      border: 2px solid #e9ecef;
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+    }
+    
+    .input-group .form-control {
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+    }
+    
+    .password-toggle {
+      background: transparent;
+      border: 2px solid #e9ecef;
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+    }
+    
+    .password-strength {
+      margin-top: 0.5rem;
+    }
+    
+    .strength-bar {
+      height: 4px;
+      border-radius: 2px;
+      background: #e9ecef;
+      overflow: hidden;
+    }
+    
+    .strength-fill {
+      height: 100%;
+      transition: all 0.3s ease;
+      width: 0%;
+    }
+    
+    .strength-weak { background: #dc3545; }
+    .strength-fair { background: #ffc107; }
+    .strength-good { background: #fd7e14; }
+    .strength-strong { background: #28a745; }
+    
+    .strength-text {
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    
+    .back-home:hover {
+      color: #f8f9fa;
+    }
+    
+    .links {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    
+    .links a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .links a:hover {
+      text-decoration: underline;
+    }
+    
+    .loading-spinner {
+      display: none;
+    }
+    
+    .form-text {
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+    
+    .row .col-md-6 {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- 返回首页按钮 -->
+  <a href="/" class="back-home">
+    <i class="fas fa-arrow-left"></i> 返回首页
+  </a>
+
+  <div class="register-container">
+    <!-- 注册表单头部 -->
+    <div class="register-header">
+      <h1><i class="fas fa-user-plus"></i> 用户注册</h1>
+      <p>加入车载应用开发服务平台</p>
+    </div>
+    
+    <!-- 错误提示 -->
+    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span id="errorMessage"></span>
+    </div>
+    
+    <!-- 成功提示 -->
+    <div id="successAlert" class="alert alert-success d-none" role="alert">
+      <i class="fas fa-check-circle"></i>
+      <span id="successMessage"></span>
+    </div>
+    
+    <!-- 注册表单 -->
+    <form id="registerForm">
+      <!-- 用户名 -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-user"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="username" 
+          name="username"
+          placeholder="用户名"
+          required
+          autocomplete="username"
+        >
+      </div>
+      <div class="form-text mb-3">用户名长度3-50字符，只能包含字母和数字</div>
+      
+      <!-- 邮箱 -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          name="email"
+          placeholder="邮箱地址"
+          required
+          autocomplete="email"
+        >
+      </div>
+      
+      <!-- 姓名 -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-id-card"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="firstName" 
+              name="firstName"
+              placeholder="名字"
+              autocomplete="given-name"
+            >
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-id-card"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="lastName" 
+              name="lastName"
+              placeholder="姓氏"
+              autocomplete="family-name"
+            >
+          </div>
+        </div>
+      </div>
+      
+      <!-- 手机号 -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-phone"></i>
+        </span>
+        <input 
+          type="tel" 
+          class="form-control" 
+          id="phone" 
+          name="phone"
+          placeholder="手机号码（可选）"
+          autocomplete="tel"
+        >
+      </div>
+      
+      <!-- 密码 -->
+      <div class="input-group mb-2">
+        <span class="input-group-text">
+          <i class="fas fa-lock"></i>
+        </span>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password" 
+          name="password"
+          placeholder="密码"
+          required
+          autocomplete="new-password"
+        >
+        <span class="input-group-text password-toggle" onclick="togglePassword('password')">
+          <i class="fas fa-eye" id="passwordToggleIcon"></i>
+        </span>
+      </div>
+      
+      <!-- 密码强度指示器 -->
+      <div class="password-strength mb-3">
+        <div class="strength-bar">
+          <div class="strength-fill" id="strengthBar"></div>
+        </div>
+        <div class="strength-text" id="strengthText">请输入密码</div>
+      </div>
+      
+      <!-- 确认密码 -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-lock"></i>
+        </span>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="confirmPassword" 
+          name="confirmPassword"
+          placeholder="确认密码"
+          required
+          autocomplete="new-password"
+        >
+        <span class="input-group-text password-toggle" onclick="togglePassword('confirmPassword')">
+          <i class="fas fa-eye" id="confirmPasswordToggleIcon"></i>
+        </span>
+      </div>
+      
+      <!-- 注册按钮 -->
+      <button type="submit" class="btn btn-register" id="registerBtn">
+        <span class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </span>
+        <span class="btn-text">注册账户</span>
+      </button>
+    </form>
+    
+    <!-- 链接 -->
+    <div class="links">
+      <div>
+        <a href="/auth/login">已有账户？立即登录</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // 注册表单处理
+    class RegisterForm {
+      constructor() {
+        this.form = document.getElementById('registerForm');
+        this.registerBtn = document.getElementById('registerBtn');
+        this.loadingSpinner = this.registerBtn.querySelector('.loading-spinner');
+        this.btnText = this.registerBtn.querySelector('.btn-text');
+        
+        this.initEventListeners();
+        this.checkAuthStatus();
+      }
+      
+      initEventListeners() {
+        this.form.addEventListener('submit', this.handleSubmit.bind(this));
+        
+        // 输入框实时验证
+        const inputs = this.form.querySelectorAll('input');
+        inputs.forEach(input => {
+          input.addEventListener('input', this.validateInput.bind(this));
+          input.addEventListener('blur', this.validateInput.bind(this));
+        });
+        
+        // 密码强度检查
+        document.getElementById('password').addEventListener('input', this.checkPasswordStrength.bind(this));
+      }
+      
+      async handleSubmit(e) {
+        e.preventDefault();
+        
+        if (!this.validateForm()) {
+          return;
+        }
+        
+        this.setLoading(true);
+        this.hideAlerts();
+        
+        const formData = new FormData(this.form);
+        const registerData = {
+          username: formData.get('username'),
+          email: formData.get('email'),
+          password: formData.get('password'),
+          confirmPassword: formData.get('confirmPassword'),
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+          phone: formData.get('phone')
+        };
+        
+        try {
+          const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(registerData)
+          });
+          
+          const result = await response.json();
+          
+          if (response.ok && result.success) {
+            this.showSuccess('注册成功！正在跳转到登录页面...');
+            
+            // 注册成功，延迟跳转到登录页
+            setTimeout(() => {
+              window.location.href = '/auth/login';
+            }, 2000);
+            
+          } else {
+            this.showError(result.message || '注册失败，请检查输入信息');
+          }
+          
+        } catch (error) {
+          console.error('注册请求失败:', error);
+          this.showError('网络连接失败，请检查网络连接后重试');
+        } finally {
+          this.setLoading(false);
+        }
+      }
+      
+      validateForm() {
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (!username) {
+          this.showError('请输入用户名');
+          return false;
+        }
+        
+        if (username.length < 3 || username.length > 50) {
+          this.showError('用户名长度需要3-50个字符');
+          return false;
+        }
+        
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+          this.showError('用户名只能包含字母和数字');
+          return false;
+        }
+        
+        if (!email) {
+          this.showError('请输入邮箱地址');
+          return false;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          this.showError('请输入有效的邮箱地址');
+          return false;
+        }
+        
+        if (!password) {
+          this.showError('请输入密码');
+          return false;
+        }
+        
+        if (password.length < 6) {
+          this.showError('密码至少需要6个字符');
+          return false;
+        }
+        
+        if (password !== confirmPassword) {
+          this.showError('两次输入的密码不一致');
+          return false;
+        }
+        
+        // 检查密码强度
+        const strength = this.calculatePasswordStrength(password);
+        if (strength < 2) {
+          this.showError('密码强度太弱，请使用更复杂的密码');
+          return false;
+        }
+        
+        return true;
+      }
+      
+      validateInput(e) {
+        const input = e.target;
+        const value = input.value.trim();
+        
+        input.classList.remove('is-invalid', 'is-valid');
+        
+        switch (input.name) {
+          case 'username':
+            if (value && (value.length < 3 || value.length > 50 || !/^[a-zA-Z0-9]+$/.test(value))) {
+              input.classList.add('is-invalid');
+            } else if (value) {
+              input.classList.add('is-valid');
+            }
+            break;
+            
+          case 'email':
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (value && !emailRegex.test(value)) {
+              input.classList.add('is-invalid');
+            } else if (value) {
+              input.classList.add('is-valid');
+            }
+            break;
+            
+          case 'password':
+            if (value && value.length < 6) {
+              input.classList.add('is-invalid');
+            } else if (value) {
+              input.classList.add('is-valid');
+            }
+            
+            // 检查确认密码匹配
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (confirmPassword.value && confirmPassword.value !== value) {
+              confirmPassword.classList.add('is-invalid');
+            } else if (confirmPassword.value === value && value) {
+              confirmPassword.classList.add('is-valid');
+            }
+            break;
+            
+          case 'confirmPassword':
+            const password = document.getElementById('password').value;
+            if (value && value !== password) {
+              input.classList.add('is-invalid');
+            } else if (value === password && value) {
+              input.classList.add('is-valid');
+            }
+            break;
+            
+          case 'phone':
+            if (value && !/^[\+]?[1-9][\d]{0,15}$/.test(value)) {
+              input.classList.add('is-invalid');
+            } else if (value) {
+              input.classList.add('is-valid');
+            }
+            break;
+            
+          default:
+            if (input.hasAttribute('required') && !value) {
+              input.classList.add('is-invalid');
+            } else if (value) {
+              input.classList.add('is-valid');
+            }
+        }
+      }
+      
+      checkPasswordStrength(e) {
+        const password = e.target.value;
+        const strength = this.calculatePasswordStrength(password);
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+        
+        const strengthLevels = [
+          { text: '密码强度：很弱', class: 'strength-weak', width: '25%' },
+          { text: '密码强度：较弱', class: 'strength-fair', width: '50%' },
+          { text: '密码强度：良好', class: 'strength-good', width: '75%' },
+          { text: '密码强度：很强', class: 'strength-strong', width: '100%' }
+        ];
+        
+        if (password.length === 0) {
+          strengthBar.style.width = '0%';
+          strengthText.textContent = '请输入密码';
+          strengthBar.className = 'strength-fill';
+          return;
+        }
+        
+        const level = strengthLevels[strength] || strengthLevels[0];
+        strengthBar.style.width = level.width;
+        strengthBar.className = `strength-fill ${level.class}`;
+        strengthText.textContent = level.text;
+      }
+      
+      calculatePasswordStrength(password) {
+        let strength = 0;
+        
+        // 长度检查
+        if (password.length >= 8) strength++;
+        if (password.length >= 12) strength++;
+        
+        // 字符类型检查
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^a-zA-Z0-9]/.test(password)) strength++;
+        
+        // 多样性检查
+        const uniqueChars = new Set(password).size;
+        if (uniqueChars >= password.length * 0.7) strength++;
+        
+        return Math.min(strength, 3);
+      }
+      
+      setLoading(loading) {
+        this.registerBtn.disabled = loading;
+        if (loading) {
+          this.loadingSpinner.style.display = 'inline-block';
+          this.btnText.textContent = '注册中...';
+        } else {
+          this.loadingSpinner.style.display = 'none';
+          this.btnText.textContent = '注册账户';
+        }
+      }
+      
+      showError(message) {
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        errorMessage.textContent = message;
+        errorAlert.classList.remove('d-none');
+        
+        // 自动隐藏错误提示
+        setTimeout(() => {
+          errorAlert.classList.add('d-none');
+        }, 5000);
+      }
+      
+      showSuccess(message) {
+        const successAlert = document.getElementById('successAlert');
+        const successMessage = document.getElementById('successMessage');
+        
+        successMessage.textContent = message;
+        successAlert.classList.remove('d-none');
+      }
+      
+      hideAlerts() {
+        document.getElementById('errorAlert').classList.add('d-none');
+        document.getElementById('successAlert').classList.add('d-none');
+      }
+      
+      async checkAuthStatus() {
+        try {
+          const response = await fetch('/api/auth/status');
+          const result = await response.json();
+          
+          if (result.success && result.data.authenticated) {
+            // 用户已登录，显示提示并跳转
+            this.showSuccess(`您已登录为 ${result.data.user.username}，正在跳转...`);
+            
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 2000);
+          }
+        } catch (error) {
+          // 忽略检查失败
+          console.warn('认证状态检查失败:', error);
+        }
+      }
+    }
+    
+    // 密码显示/隐藏切换
+    function togglePassword(inputId) {
+      const passwordInput = document.getElementById(inputId);
+      const toggleIcon = document.getElementById(inputId + 'ToggleIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+    
+    // 初始化注册表单
+    document.addEventListener('DOMContentLoaded', () => {
+      new RegisterForm();
+    });
+  </script>
+</body>
+</html>

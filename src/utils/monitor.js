@@ -20,15 +20,15 @@ class Monitor {
   requestMiddleware() {
     return (req, res, next) => {
       const startTime = Date.now();
-      
+
       // 增加请求计数
       this.metrics.requests++;
-      
+
       // 监听响应完成
       res.on('finish', () => {
         const responseTime = Date.now() - startTime;
         this.recordResponseTime(responseTime);
-        
+
         // 记录错误
         if (res.statusCode >= 400) {
           this.metrics.errors++;
@@ -41,7 +41,7 @@ class Monitor {
             ip: req.ip,
           });
         }
-        
+
         // 记录慢请求
         if (responseTime > 1000) {
           this.logSlowRequest({
@@ -51,7 +51,7 @@ class Monitor {
           });
         }
       });
-      
+
       next();
     };
   }
@@ -61,7 +61,7 @@ class Monitor {
    */
   recordResponseTime(time) {
     this.metrics.responseTime.push(time);
-    
+
     // 保留最近1000条记录
     if (this.metrics.responseTime.length > 1000) {
       this.metrics.responseTime.shift();
@@ -80,7 +80,7 @@ class Monitor {
       heapUsed: usage.heapUsed,
       external: usage.external,
     });
-    
+
     // 保留最近100条记录
     if (this.metrics.memoryUsage.length > 100) {
       this.metrics.memoryUsage.shift();
@@ -96,7 +96,7 @@ class Monitor {
     const avgResponseTime = this.getAverageResponseTime();
     const errorRate = this.getErrorRate();
     const memoryUsage = process.memoryUsage();
-    
+
     const status = {
       status: 'healthy',
       timestamp: new Date().toISOString(),
@@ -116,26 +116,29 @@ class Monitor {
       version: process.env.npm_package_version || '1.0.0',
       environment: process.env.NODE_ENV || 'development',
     };
-    
+
     // 判断健康状态
-    if (errorRate > 0.1) { // 错误率超过10%
+    if (errorRate > 0.1) {
+      // 错误率超过10%
       status.status = 'unhealthy';
       status.issues = status.issues || [];
       status.issues.push('高错误率');
     }
-    
-    if (avgResponseTime > 2000) { // 平均响应时间超过2秒
+
+    if (avgResponseTime > 2000) {
+      // 平均响应时间超过2秒
       status.status = 'unhealthy';
       status.issues = status.issues || [];
       status.issues.push('响应时间过长');
     }
-    
-    if (memoryUsage.heapUsed > 500 * 1024 * 1024) { // 内存使用超过500MB
+
+    if (memoryUsage.heapUsed > 500 * 1024 * 1024) {
+      // 内存使用超过500MB
       status.status = 'warning';
       status.issues = status.issues || [];
       status.issues.push('内存使用偏高');
     }
-    
+
     return status;
   }
 
@@ -144,7 +147,7 @@ class Monitor {
    */
   getAverageResponseTime() {
     if (this.metrics.responseTime.length === 0) return 0;
-    
+
     const sum = this.metrics.responseTime.reduce((acc, time) => acc + time, 0);
     return Math.round(sum / this.metrics.responseTime.length);
   }
@@ -165,7 +168,7 @@ class Monitor {
     const minutes = Math.floor(ms / (1000 * 60)) % 60;
     const hours = Math.floor(ms / (1000 * 60 * 60)) % 24;
     const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-    
+
     if (days > 0) {
       return `${days}天 ${hours}小时 ${minutes}分钟`;
     } else if (hours > 0) {
@@ -184,7 +187,7 @@ class Monitor {
       timestamp: new Date().toISOString(),
       ...errorInfo,
     };
-    
+
     if (this.isProduction) {
       // 生产环境：发送到日志收集服务
       this.sendToLogService(logData);
@@ -204,7 +207,7 @@ class Monitor {
       timestamp: new Date().toISOString(),
       ...requestInfo,
     };
-    
+
     if (this.isProduction) {
       this.sendToLogService(logData);
     } else {
@@ -221,7 +224,7 @@ class Monitor {
     // - Splunk
     // - CloudWatch Logs
     // - 自建日志服务
-    
+
     // 目前暂时输出到控制台
     console.log('📊 Log:', JSON.stringify(logData));
   }
@@ -234,7 +237,7 @@ class Monitor {
     setInterval(() => {
       this.recordMemoryUsage();
     }, 60000);
-    
+
     // 每10分钟输出一次监控报告
     setInterval(() => {
       this.generateMonitoringReport();
@@ -246,7 +249,7 @@ class Monitor {
    */
   generateMonitoringReport() {
     const health = this.getHealthStatus();
-    
+
     console.log('📊 系统监控报告:');
     console.log('================');
     console.log(`状态: ${health.status}`);
@@ -255,7 +258,7 @@ class Monitor {
     console.log(`错误率: ${(health.metrics.errorRate * 100).toFixed(2)}%`);
     console.log(`平均响应时间: ${health.metrics.averageResponseTime}ms`);
     console.log(`内存使用: ${health.metrics.currentMemoryUsage.heapUsed}`);
-    
+
     if (health.issues) {
       console.log(`⚠️  问题: ${health.issues.join(', ')}`);
     }

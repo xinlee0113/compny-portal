@@ -37,7 +37,7 @@ const validateContactForm = (req, res, next) => {
   if (errors.length > 0) {
     return res.status(400).json({
       success: false,
-      errors: errors
+      errors: errors,
     });
   }
 
@@ -46,5 +46,5 @@ const validateContactForm = (req, res, next) => {
 };
 
 module.exports = {
-  validateContactForm
+  validateContactForm,
 };

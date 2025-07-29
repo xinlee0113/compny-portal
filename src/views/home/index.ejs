@@ -3,33 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title><%= texts.site.title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">公司门户网站</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">首页</a>
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">公司介绍</a>
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products">产品展示</a>
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">新闻动态</a>
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">联系我们</a>
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/api/docs" target="_blank">
+                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin">
+                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
+                            </a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -38,8 +53,8 @@
 
     <header class="bg-primary text-white text-center py-5">
         <div class="container">
-            <h1 class="display-4">欢迎访问公司门户网站</h1>
-            <p class="lead">我们致力于提供最优质的产品和服务</p>
+            <h1 class="display-4"><%= texts.site.welcome %></h1>
+            <p class="lead"><%= texts.site.subtitle %></p>
         </div>
     </header>
 
@@ -48,27 +63,27 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">公司介绍</h5>
-                        <p class="card-text">了解我们的发展历程、企业文化和核心团队。</p>
-                        <a href="/about" class="btn btn-primary">查看详情</a>
+                        <h5 class="card-title"><%= texts.home.aboutCard.title %></h5>
+                        <p class="card-text"><%= texts.home.aboutCard.content %></p>
+                        <a href="/about" class="btn btn-primary"><%= texts.home.aboutCard.button %></a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">产品展示</h5>
-                        <p class="card-text">展示我们的核心产品和解决方案。</p>
-                        <a href="/products" class="btn btn-primary">查看详情</a>
+                        <h5 class="card-title"><%= texts.home.productsCard.title %></h5>
+                        <p class="card-text"><%= texts.home.productsCard.content %></p>
+                        <a href="/products" class="btn btn-primary"><%= texts.home.productsCard.button %></a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">新闻动态</h5>
-                        <p class="card-text">获取公司最新资讯和行业动态。</p>
-                        <a href="/news" class="btn btn-primary">查看详情</a>
+                        <h5 class="card-title"><%= texts.home.newsCard.title %></h5>
+                        <p class="card-text"><%= texts.home.newsCard.content %></p>
+                        <a href="/news" class="btn btn-primary"><%= texts.home.newsCard.button %></a>
                     </div>
                 </div>
             </div>
@@ -76,13 +91,12 @@
 
         <div class="row mt-5">
             <div class="col-12">
-                <h2>为什么选择我们？</h2>
-                <p>我们是一家专注于提供高质量产品和服务的公司，在行业内拥有丰富的经验和良好的声誉。</p>
+                <h2><%= texts.home.whyChooseUs %></h2>
+                <p><%= texts.home.whyContent %></p>
                 <ul>
-                    <li>行业领先的技术实力</li>
-                    <li>专业的服务团队</li>
-                    <li>完善的售后服务体系</li>
-                    <li>持续的创新能力</li>
+                    <% texts.home.advantages.forEach(advantage => { %>
+                        <li><%= advantage %></li>
+                    <% }) %>
                 </ul>
             </div>
         </div>
@@ -90,10 +104,63 @@
 
     <footer class="bg-dark text-white text-center py-4">
         <div class="container">
-            <p>&copy; 2025 公司名称. 保留所有权利.</p>
+            <p><%= texts.site.copyright %></p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 确保Bootstrap下拉菜单正常工作
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，初始化下拉菜单...');
+            
+            // 检查Bootstrap是否正确加载
+            if (typeof bootstrap === 'undefined') {
+                console.error('Bootstrap JavaScript未加载！');
+                return;
+            }
+            
+            console.log('Bootstrap已加载，版本：', bootstrap);
+            
+            // 手动初始化所有下拉菜单
+            const dropdownElements = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+            console.log('找到下拉菜单元素数量：', dropdownElements.length);
+            
+            dropdownElements.forEach((element, index) => {
+                try {
+                    // 初始化下拉菜单
+                    const dropdown = new bootstrap.Dropdown(element);
+                    console.log(`下拉菜单 ${index + 1} 初始化成功`);
+                    
+                    // 添加点击事件监听器用于调试
+                    element.addEventListener('click', function(e) {
+                        console.log('下拉菜单被点击：', e.target);
+                        e.preventDefault(); // 阻止默认链接行为
+                        dropdown.toggle(); // 手动切换下拉菜单
+                    });
+                    
+                } catch (error) {
+                    console.error(`下拉菜单 ${index + 1} 初始化失败：`, error);
+                }
+            });
+            
+            // 添加备用的点击处理
+            const systemToolsDropdown = document.getElementById('navbarDropdown');
+            if (systemToolsDropdown) {
+                systemToolsDropdown.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('系统工具菜单被点击');
+                    
+                    const dropdownMenu = this.nextElementSibling;
+                    if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
+                        dropdownMenu.classList.toggle('show');
+                        console.log('手动切换下拉菜单显示状态');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
+
