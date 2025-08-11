@@ -3,13 +3,15 @@
  */
 
 // 性能数据存储（实际应该使用专业的监控服务如New Relic, DataDog等）
+const memoryThresholdEnv = parseInt(process.env.PERF_MEMORY_THRESHOLD || '95', 10);
+
 const performanceMetrics = {
   requests: [],
   errors: [],
   alerts: [],
   systemHealth: {
     cpu: { usage: 0, threshold: 80 },
-    memory: { usage: 0, threshold: 95 },
+    memory: { usage: 0, threshold: isNaN(memoryThresholdEnv) ? 95 : memoryThresholdEnv },
     disk: { usage: 0, threshold: 85 },
     uptime: process.uptime(),
   },
@@ -201,7 +203,7 @@ const checkSystemResourceThresholds = () => {
   // 内存使用率告警
   if (health.memory.usage > health.memory.threshold) {
     // 告警去抖：仅当连续3次超过阈值才告警
-    const recent = performanceMetrics.alerts.slice(-5).filter(a => a.type === 'high_memory');
+    const recent = performanceMetrics.alerts.slice(-5).filter((a) => a.type === 'high_memory');
     const lastExceeds = recent.length > 0 ? recent[recent.length - 1].details.usage : 0;
     if (lastExceeds > health.memory.threshold) {
       createAlert('high_memory', 'critical', {
