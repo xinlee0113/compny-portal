@@ -175,45 +175,77 @@
             <div class="vmodel-diagram position-relative">
                 <% const leftIdx = [1,2,3,4,5]; const rightIdx = [11,10,9,8,7]; %>
                 <style>
-                    /* 重新设计：真正的V字形布局 */
+                    /* ASPICE V-Model标准布局：系统/软件工程过程组对称 */
                     .vmodel-grid{
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        max-width: 1000px;
+                        max-width: 1200px;
                         margin: 0 auto;
                         position: relative;
                         padding: 40px 20px;
                     }
                     
-                    /* V字形的每一行 */
-                    .v-row {
-                        display: flex;
-                        justify-content: space-between;
-                        width: 100%;
+                    /* 系统工程边界 */
+                    .system-boundary {
+                        border: 2px solid #28a745;
+                        border-radius: 10px;
+                        padding: 20px;
                         margin-bottom: 20px;
+                        background: rgba(40, 167, 69, 0.05);
                         position: relative;
                     }
                     
-                    /* 第一行：最顶端，左右各一个 */
-                    .v-row-1 { width: 90%; }
-                    /* 第二行：次顶端，向内收缩 */
-                    .v-row-2 { width: 75%; }
-                    /* 第三行：中间层，继续收缩 */
-                    .v-row-3 { width: 60%; }
-                    /* 第四行：较低层，更加收缩 */
-                    .v-row-4 { width: 45%; }
-                    /* 第五行：接近底部，几乎相邻 */
-                    .v-row-5 { width: 30%; }
-                    /* 第六行：底部中心，只有一个 */
-                    .v-row-6 { width: 15%; justify-content: center; }
+                    .system-boundary::before {
+                        content: "系统工程过程组";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #28a745;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
                     
-                    /* 左臂节点 */
-                    .v-left { justify-self: flex-start; }
-                    /* 右臂节点 */
-                    .v-right { justify-self: flex-end; }
-                    /* 中心节点 */
-                    .v-center { justify-self: center; }
+                    /* 软件工程边界 */
+                    .software-boundary {
+                        border: 2px solid #007bff;
+                        border-radius: 10px;
+                        padding: 20px;
+                        background: rgba(0, 123, 255, 0.05);
+                        position: relative;
+                    }
+                    
+                    .software-boundary::before {
+                        content: "软件工程过程组";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #007bff;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* V字形行布局 */
+                    .v-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 15px;
+                        align-items: center;
+                    }
+                    
+                    /* 系统级行 */
+                    .sys-row { margin-bottom: 20px; }
+                    
+                    /* 软件级行 */
+                    .swe-row { margin-bottom: 15px; }
+                    
+                    /* 左侧节点 */
+                    .v-left { flex: 0 0 45%; }
+                    /* 右侧节点 */
+                    .v-right { flex: 0 0 45%; }
+                    /* 底部并排节点 */
+                    .v-bottom-pair { display: flex; justify-content: space-between; gap: 20px; }
                     /* 移除连接线，保持干净的V字形布局 */
                     
                     /* 每个节点增加视觉效果 */
@@ -255,94 +287,102 @@
                     }
                 </style>
                 <div class="vmodel-grid" aria-label="ASPICE V-Model">
-                    <!-- 第一行：SYS.2 和 SYS.5 -->
-                    <div class="v-row v-row-1">
-                        <% if(dp[1]){ %>
-                            <div class="vmodel-box v-left">
-                                <div class="vmodel-code">步骤 <%= dp[1].step %> · <%= (dp[1].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[1].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                        <% if(dp[11]){ %>
-                            <div class="vmodel-box v-right">
-                                <div class="vmodel-code">步骤 <%= dp[11].step %> · <%= (dp[11].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[11].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
+                    <!-- 系统工程过程组 -->
+                    <div class="system-boundary">
+                        <!-- SYS.2 和 SYS.5 -->
+                        <div class="v-row sys-row">
+                            <% if(dp[1]){ %>
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">步骤 <%= dp[1].step %> · <%= (dp[1].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[1].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                            <% if(dp[11]){ %>
+                                <div class="vmodel-box v-right">
+                                    <div class="vmodel-code">步骤 <%= dp[11].step %> · <%= (dp[11].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[11].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- SYS.3 和 SYS.4-Do -->
+                        <div class="v-row sys-row">
+                            <% if(dp[2]){ %>
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">步骤 <%= dp[2].step %> · <%= (dp[2].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[2].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                            <% if(dp[10]){ %>
+                                <div class="vmodel-box v-right">
+                                    <div class="vmodel-code">步骤 <%= dp[10].step %> · <%= (dp[10].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[10].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- SYS.4-Plan 和 SWE.6 -->
+                        <div class="v-row sys-row">
+                            <% if(dp[3]){ %>
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">步骤 <%= dp[3].step %> · <%= (dp[3].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[3].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                            <% if(dp[9]){ %>
+                                <div class="vmodel-box v-right">
+                                    <div class="vmodel-code">步骤 <%= dp[9].step %> · <%= (dp[9].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[9].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                        </div>
                     </div>
                     
-                    <!-- 第二行：SYS.3 和 SYS.4-Do -->
-                    <div class="v-row v-row-2">
-                        <% if(dp[2]){ %>
-                            <div class="vmodel-box v-left">
-                                <div class="vmodel-code">步骤 <%= dp[2].step %> · <%= (dp[2].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[2].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                    <!-- 软件工程过程组 -->
+                    <div class="software-boundary">
+                        <!-- SWE.1 和 SWE.5 -->
+                        <div class="v-row swe-row">
+                            <% if(dp[4]){ %>
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">步骤 <%= dp[4].step %> · <%= (dp[4].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[4].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                            <% if(dp[8]){ %>
+                                <div class="vmodel-box v-right">
+                                    <div class="vmodel-code">步骤 <%= dp[8].step %> · <%= (dp[8].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[8].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- SWE.2 在左侧 -->
+                        <div class="v-row swe-row">
+                            <% if(dp[5]){ %>
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">步骤 <%= dp[5].step %> · <%= (dp[5].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[5].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- SWE.3 和 SWE.4 并排在底部 -->
+                        <div class="v-row swe-row">
+                            <div class="v-bottom-pair">
+                                <% if(dp[6]){ %>
+                                    <div class="vmodel-box">
+                                        <div class="vmodel-code">步骤 <%= dp[6].step %> · <%= (dp[6].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                        <p class="vmodel-title"><%= dp[6].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    </div>
+                                <% } %>
+                                <% if(dp[7]){ %>
+                                    <div class="vmodel-box">
+                                        <div class="vmodel-code">步骤 <%= dp[7].step %> · <%= (dp[7].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                        <p class="vmodel-title"><%= dp[7].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    </div>
+                                <% } %>
                             </div>
-                        <% } %>
-                        <% if(dp[10]){ %>
-                            <div class="vmodel-box v-right">
-                                <div class="vmodel-code">步骤 <%= dp[10].step %> · <%= (dp[10].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[10].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                    </div>
-                    
-                    <!-- 第三行：SYS.4-Plan 和 SWE.6 -->
-                    <div class="v-row v-row-3">
-                        <% if(dp[3]){ %>
-                            <div class="vmodel-box v-left">
-                                <div class="vmodel-code">步骤 <%= dp[3].step %> · <%= (dp[3].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[3].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                        <% if(dp[9]){ %>
-                            <div class="vmodel-box v-right">
-                                <div class="vmodel-code">步骤 <%= dp[9].step %> · <%= (dp[9].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[9].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                    </div>
-                    
-                    <!-- 第四行：SWE.1 和 SWE.5 -->
-                    <div class="v-row v-row-4">
-                        <% if(dp[4]){ %>
-                            <div class="vmodel-box v-left">
-                                <div class="vmodel-code">步骤 <%= dp[4].step %> · <%= (dp[4].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[4].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                        <% if(dp[8]){ %>
-                            <div class="vmodel-box v-right">
-                                <div class="vmodel-code">步骤 <%= dp[8].step %> · <%= (dp[8].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[8].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                    </div>
-                    
-                    <!-- 第五行：SWE.2 和 SWE.4 -->
-                    <div class="v-row v-row-5">
-                        <% if(dp[5]){ %>
-                            <div class="vmodel-box v-left">
-                                <div class="vmodel-code">步骤 <%= dp[5].step %> · <%= (dp[5].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[5].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                        <% if(dp[7]){ %>
-                            <div class="vmodel-box v-right">
-                                <div class="vmodel-code">步骤 <%= dp[7].step %> · <%= (dp[7].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[7].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
-                    </div>
-                    
-                    <!-- 第六行：SWE.3（底部中心） -->
-                    <div class="v-row v-row-6">
-                        <% if(dp[6]){ %>
-                            <div class="vmodel-box v-center">
-                                <div class="vmodel-code">步骤 <%= dp[6].step %> · <%= (dp[6].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[6].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% } %>
+                        </div>
                     </div>
                 </div>
                 <!-- 图例：V两侧对应关系说明 -->
