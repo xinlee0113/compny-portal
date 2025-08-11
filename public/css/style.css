@@ -4,6 +4,16 @@ body {
   line-height: 1.6;
 }
 
+/* 可访问性：全局焦点可视化 */
+:focus {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+.btn:focus, .form-control:focus, .nav-link:focus, .dropdown-item:focus, a:focus {
+  box-shadow: 0 0 0 0.15rem rgba(251, 191, 36, 0.45);
+}
+
 /* 车载主题导航栏样式 */
 .automotive-navbar {
   background: var(--automotive-gradient) !important;
@@ -150,6 +160,14 @@ body {
   background-color: #f8f9fa;
 }
 
+/* 可访问性：提高面包屑对比度 */
+.breadcrumb a {
+  color: #0d6efd;
+}
+.breadcrumb .breadcrumb-item.active {
+  color: #495057;
+}
+
 /* 卡片样式 */
 .card {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -217,6 +235,20 @@ footer {
   background-color: #f8f9fa;
   padding: 2rem;
   border-radius: 0.375rem;
+}
+
+/* 表单校验可视化 */
+.form-control[aria-invalid="true"] {
+  border-color: #dc3545;
+}
+.form-hint, .form-error {
+  font-size: 0.875rem;
+}
+.form-hint {
+  color: #6c757d;
+}
+.form-error {
+  color: #dc3545;
 }
 
 /* 错误页面样式 */

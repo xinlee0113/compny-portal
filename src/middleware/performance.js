@@ -4,15 +4,29 @@
 
 // 性能数据存储（实际应该使用专业的监控服务如New Relic, DataDog等）
 const memoryThresholdEnv = parseInt(process.env.PERF_MEMORY_THRESHOLD || '95', 10);
+const cpuThresholdEnv = parseInt(process.env.PERF_CPU_THRESHOLD || '80', 10);
+const diskThresholdEnv = parseInt(process.env.PERF_DISK_THRESHOLD || '85', 10);
+const alertRecipientsEnv = (process.env.ALERT_RECIPIENTS || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+const alertChannelsEnv = (process.env.ALERT_CHANNELS || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+const alertDebounceMsEnv = parseInt(process.env.ALERT_DEBOUNCE_MS || '30000', 10);
+
+// 关键告警发送去抖存储
+const lastCriticalNotificationAt = {};
 
 const performanceMetrics = {
   requests: [],
   errors: [],
   alerts: [],
   systemHealth: {
-    cpu: { usage: 0, threshold: 80 },
+    cpu: { usage: 0, threshold: isNaN(cpuThresholdEnv) ? 80 : cpuThresholdEnv },
     memory: { usage: 0, threshold: isNaN(memoryThresholdEnv) ? 95 : memoryThresholdEnv },
-    disk: { usage: 0, threshold: 85 },
+    disk: { usage: 0, threshold: isNaN(diskThresholdEnv) ? 85 : diskThresholdEnv },
     uptime: process.uptime(),
   },
 };
@@ -104,18 +118,18 @@ const systemResourceMonitor = () => {
     timestamp: new Date().toISOString(),
     cpu: {
       usage: Math.random() * 30 + 10, // 模拟CPU使用率10-40%
-      threshold: 80,
+      threshold: isNaN(cpuThresholdEnv) ? 80 : cpuThresholdEnv,
     },
     memory: {
       usage: Math.round((usage.heapUsed / usage.heapTotal) * 100),
       heapUsed: usage.heapUsed,
       heapTotal: usage.heapTotal,
       rss: usage.rss,
-      threshold: 90,
+      threshold: isNaN(memoryThresholdEnv) ? 95 : memoryThresholdEnv,
     },
     disk: {
       usage: Math.random() * 20 + 30, // 模拟磁盘使用率30-50%
-      threshold: 85,
+      threshold: isNaN(diskThresholdEnv) ? 85 : diskThresholdEnv,
     },
     uptime: process.uptime(),
     loadAverage: process.platform !== 'win32' ? require('os').loadavg() : [0, 0, 0],
@@ -254,9 +268,15 @@ const createAlert = (type, severity, details) => {
 
   // 根据严重程度决定是否立即通知
   if (severity === 'critical') {
-    console.error(`[CRITICAL ALERT] ${details.message}`);
-    // 这里可以集成邮件、短信、Slack等通知服务
-    sendCriticalAlertNotification(alert);
+    const now = Date.now();
+    const lastAt = lastCriticalNotificationAt[type] || 0;
+    const debounceMs = isNaN(alertDebounceMsEnv) ? 30000 : alertDebounceMsEnv;
+    if (now - lastAt >= debounceMs) {
+      lastCriticalNotificationAt[type] = now;
+      console.error(`[CRITICAL ALERT] ${details.message}`);
+      // 这里可以集成邮件、短信、Slack等通知服务
+      sendCriticalAlertNotification(alert);
+    }
   } else if (severity === 'error') {
     console.warn(`[ERROR ALERT] ${details.message}`);
   } else {
@@ -266,11 +286,16 @@ const createAlert = (type, severity, details) => {
 
 // 发送关键告警通知
 const sendCriticalAlertNotification = async (alert) => {
+  const recipients = alertRecipientsEnv.length
+    ? alertRecipientsEnv
+    : ['admin@chuqi-tech.com', 'ops@chuqi-tech.com'];
+  const channels = alertChannelsEnv.length ? alertChannelsEnv : ['email', 'sms', 'slack'];
+
   // 这里集成实际的通知服务
   console.log('发送关键告警通知:', {
     alert: alert,
-    recipients: ['admin@chuqi-tech.com', 'ops@chuqi-tech.com'],
-    channels: ['email', 'sms', 'slack'],
+    recipients,
+    channels,
   });
 };
 

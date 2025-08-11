@@ -37,31 +37,36 @@
                 
                 <div class="col-md-6">
                     <h3><%= texts.contact.form.title %></h3>
-                    <form id="contactForm">
+                    <form id="contactForm" novalidate aria-describedby="privacyNote">
                         <div class="mb-3">
-                            <label for="name" class="form-label"><%= texts.contact.form.name %> *</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="name" class="form-label"><%= texts.contact.form.name %> <span class="text-danger" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required aria-required="true" aria-invalid="false" aria-describedby="nameHint">
+                            <div id="nameHint" class="form-hint"><%= texts.contact.form.required %></div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="email" class="form-label"><%= texts.contact.form.email %> *</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label for="email" class="form-label"><%= texts.contact.form.email %> <span class="text-danger" aria-hidden="true">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" required aria-required="true" aria-invalid="false" aria-describedby="emailHint">
+                            <div id="emailHint" class="form-hint">我们仅用于与您联系，不会对外公开</div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="subject" class="form-label"><%= texts.contact.form.subject %></label>
                             <input type="text" class="form-control" id="subject" name="subject">
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="message" class="form-label"><%= texts.contact.form.message %> *</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            <label for="message" class="form-label"><%= texts.contact.form.message %> <span class="text-danger" aria-hidden="true">*</span></label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required aria-required="true" aria-invalid="false" aria-describedby="messageHint"></textarea>
+                            <div id="messageHint" class="form-hint"><%= texts.contact.form.required %></div>
                         </div>
-                        
+
+                        <div id="privacyNote" class="form-hint mb-3">提交即代表您同意我们仅在必要范围内使用联系方式与您沟通。</div>
+
                         <button type="submit" class="btn btn-primary"><%= texts.contact.form.submit %></button>
                     </form>
-                    
-                    <div id="formMessage" class="mt-3" style="display: none;"></div>
+
+                    <div id="formMessage" class="mt-3" role="alert" aria-live="polite" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -73,12 +78,39 @@
     
     <script>
         // 联系表单处理
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        const formEl = document.getElementById('contactForm');
+        const nameEl = document.getElementById('name');
+        const emailEl = document.getElementById('email');
+        const messageEl = document.getElementById('message');
+
+        formEl.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // 获取表单数据
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
+
+            // 简单前端可访问性校验，设置 aria-invalid
+            let hasError = false;
+            if (!nameEl.value.trim()) {
+                nameEl.setAttribute('aria-invalid', 'true');
+                hasError = true;
+            } else {
+                nameEl.setAttribute('aria-invalid', 'false');
+            }
+            if (!emailEl.validity.valid) {
+                emailEl.setAttribute('aria-invalid', 'true');
+                hasError = true;
+            } else {
+                emailEl.setAttribute('aria-invalid', 'false');
+            }
+            if (!messageEl.value.trim()) {
+                messageEl.setAttribute('aria-invalid', 'true');
+                hasError = true;
+            } else {
+                messageEl.setAttribute('aria-invalid', 'false');
+            }
+            if (hasError) return;
             
             // 模拟提交
             fetch('/contact', {
@@ -98,6 +130,9 @@
                     messageDiv.textContent = '<%= texts.contact.form.success %>';
                     // 重置表单
                     this.reset();
+                    nameEl.setAttribute('aria-invalid', 'false');
+                    emailEl.setAttribute('aria-invalid', 'false');
+                    messageEl.setAttribute('aria-invalid', 'false');
                 } else {
                     messageDiv.className = 'alert alert-danger';
                     messageDiv.textContent = '<%= texts.contact.form.error %>' + (result.errors ? result.errors.join(', ') : result.message);

@@ -1,3 +1,30 @@
+## 监控与告警环境变量
+
+为方便不同环境配置性能监控与告警，新增以下环境变量（可写入 `config/env.local` 或部署环境的变量管理）：
+
+- PERF_MEMORY_THRESHOLD: 内存使用率阈值（百分比，默认 95）
+- PERF_CPU_THRESHOLD: CPU 使用率阈值（百分比，默认 80）
+- PERF_DISK_THRESHOLD: 磁盘使用率阈值（百分比，默认 85）
+- ALERT_RECIPIENTS: 告警收件人，逗号分隔邮箱列表，如 `ops@example.com,admin@example.com`
+- ALERT_CHANNELS: 告警通道，逗号分隔，可选 `email,sms,slack`（默认三者）
+- ALERT_DEBOUNCE_MS: 关键告警去抖间隔（毫秒，默认 30000）
+
+示例（Windows PowerShell 临时设置）：
+
+```powershell
+$env:PERF_MEMORY_THRESHOLD="95"; $env:PERF_CPU_THRESHOLD="80"; $env:PERF_DISK_THRESHOLD="85"; $env:ALERT_RECIPIENTS="ops@example.com,admin@example.com"; $env:ALERT_CHANNELS="email,slack"; $env:ALERT_DEBOUNCE_MS="30000"
+```
+
+示例（.env 文件）：
+
+```
+PERF_MEMORY_THRESHOLD=95
+PERF_CPU_THRESHOLD=80
+PERF_DISK_THRESHOLD=85
+ALERT_RECIPIENTS=ops@example.com,admin@example.com
+ALERT_CHANNELS=email,slack
+ALERT_DEBOUNCE_MS=30000
+```
 # 开发环境配置指南
 
 ## 概述
