@@ -12,48 +12,36 @@
     <!-- 使用统一导航栏组件 -->
     <%- include('../partials/navbar', { currentPage: 'home', texts: texts }) %>
 
-    <!-- Hero Section - 智能车载应用开发专家 -->
+    <!-- Hero Section - 强调质量与工程 -->
     <section class="automotive-hero">
         <div class="container">
             <div class="row align-items-center min-vh-75">
                 <div class="col-lg-6">
                     <div class="hero-content">
-                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🚗 专注车载应用开发</span>
-                        <h1 class="display-3 fw-bold text-white mb-4">
-                            一起打磨可靠的车载应用<br>
-                            <span class="text-automotive-accent">小团队，专注与专业</span>
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🚗 <%= texts.home.hero.badge %></span>
+                        <h1 class="display-3 fw-bold text-white mb-3">
+                            <%= texts.home.hero.title %><br />
+                            <span class="text-automotive-accent"><%= texts.home.hero.accent %></span>
                         </h1>
-                        <p class="lead text-white-80 mb-4 fs-5">
-                            团队具备 Android Automotive OS、QNX 等平台经验，我们以务实交付为先，支持座舱应用与车联网相关场景
-                        </p>
+                        <p class="lead text-white-80 mb-4 fs-5"><%= texts.home.hero.subtitle %></p>
                         <div class="hero-buttons d-flex flex-wrap gap-3">
                             <a href="/services/automotive-development" class="btn btn-automotive-primary btn-lg px-4 py-3">
-                                <i class="fas fa-car me-2"></i>车载应用方案
+                                <i class="fas fa-car me-2"></i><%= texts.home.hero.primaryCta %>
                             </a>
-                            <a href="/case-studies" class="btn btn-outline-light btn-lg px-4 py-3">
-                                <i class="fas fa-eye me-2"></i>代表性实践
+                            <a href="/services/testing-validation" class="btn btn-outline-light btn-lg px-4 py-3">
+                                <i class="fas fa-shield-alt me-2"></i><%= texts.home.hero.secondaryCta %>
                             </a>
                         </div>
                         <div class="hero-stats mt-5">
                             <div class="row text-center">
-                                <div class="col-4">
+                                <% texts.home.hero.stats.forEach(function(s){ %>
+                                  <div class="col-4">
                                     <div class="stat-item">
-                                         <h3 class="text-white fw-bold mb-1">踏实</h3>
-                                         <p class="text-white-70 small mb-0">按需定制交付</p>
+                                      <h3 class="text-white fw-bold mb-1"><%= s.label %></h3>
+                                      <p class="text-white-70 small mb-0"><%= s.desc %></p>
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="stat-item">
-                                         <h3 class="text-white fw-bold mb-1">透明</h3>
-                                         <p class="text-white-70 small mb-0">过程可视沟通</p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="stat-item">
-                                         <h3 class="text-white fw-bold mb-1">长期</h3>
-                                         <p class="text-white-70 small mb-0">以长期合作为目标</p>
-                                    </div>
-                                </div>
+                                  </div>
+                                <% }) %>
                             </div>
                         </div>
                     </div>
@@ -79,6 +67,29 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- 质量与工程实践 -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center mb-5">
+            <h2 class="h1 fw-bold mb-3"><%= texts.home.quality.title %></h2>
+            <p class="lead text-muted"><%= texts.home.quality.subtitle %></p>
+          </div>
+        </div>
+        <div class="row g-4">
+          <% texts.home.quality.items.forEach(function(item){ %>
+            <div class="col-lg-4 col-md-6">
+              <div class="tech-card h-100">
+                <div class="tech-icon"><i class="<%= item.icon %>"></i></div>
+                <h5><%= item.title %></h5>
+                <p class="text-muted"><%= item.desc %></p>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
     </section>
 
     <!-- 核心技术栈展示 -->

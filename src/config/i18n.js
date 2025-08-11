@@ -40,6 +40,32 @@ const texts = {
 
     // 首页内容
     home: {
+      hero: {
+        badge: '专注车载软件工程',
+        title: '一起打造可靠的车载软件',
+        accent: '以质量与工程为先',
+        subtitle:
+          '坚持ASPICE与ISO 26262的工程方法，重视架构设计、编码规范与自动化测试，用长期主义交付可靠产品',
+        primaryCta: '车载应用方案',
+        secondaryCta: '质量体系',
+        stats: [
+          { label: 'ASPICE', desc: '流程落地与度量' },
+          { label: '架构', desc: '以架构驱动开发' },
+          { label: '代码', desc: 'Clean Code规范' },
+        ],
+      },
+      quality: {
+        title: '质量与工程实践',
+        subtitle: '以ASPICE为核心，融合ISO 26262、CI/CD与自动化测试，确保端到端质量',
+        items: [
+          { icon: 'fas fa-project-diagram', title: 'ASPICE流程落地', desc: '需求→架构→实现→验证→发布闭环与度量' },
+          { icon: 'fas fa-sitemap', title: '架构设计评审', desc: '以架构为先，设立设计评审与技术决策记录' },
+          { icon: 'fas fa-code', title: '编码规范与静态分析', desc: 'ESLint/Prettier/EditorConfig，全量静态检查' },
+          { icon: 'fas fa-vial', title: '自动化测试金字塔', desc: '单元/集成/端到端/性能/安全五层测试' },
+          { icon: 'fas fa-cogs', title: 'CI/CD与质量门禁', desc: '提交即构建、测试、扫描，质量阈值门禁' },
+          { icon: 'fas fa-chart-line', title: '可观测性与度量', desc: '日志/指标/追踪三位一体，质量持续改进' },
+        ],
+      },
       aboutCard: {
         title: '公司介绍',
         content: `了解${companyInfo.name}的发展历程、企业文化和核心团队。`,
