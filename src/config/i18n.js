@@ -58,12 +58,36 @@ const texts = {
         title: '质量与工程实践',
         subtitle: '以ASPICE为核心，融合ISO 26262、CI/CD与自动化测试，确保端到端质量',
         items: [
-          { icon: 'fas fa-project-diagram', title: 'ASPICE流程落地', desc: '需求→架构→实现→验证→发布闭环与度量' },
-          { icon: 'fas fa-sitemap', title: '架构设计评审', desc: '以架构为先，设立设计评审与技术决策记录' },
-          { icon: 'fas fa-code', title: '编码规范与静态分析', desc: 'ESLint/Prettier/EditorConfig，全量静态检查' },
-          { icon: 'fas fa-vial', title: '自动化测试金字塔', desc: '单元/集成/端到端/性能/安全五层测试' },
-          { icon: 'fas fa-cogs', title: 'CI/CD与质量门禁', desc: '提交即构建、测试、扫描，质量阈值门禁' },
-          { icon: 'fas fa-chart-line', title: '可观测性与度量', desc: '日志/指标/追踪三位一体，质量持续改进' },
+          {
+            icon: 'fas fa-project-diagram',
+            title: 'ASPICE流程落地',
+            desc: '需求→架构→实现→验证→发布闭环与度量',
+          },
+          {
+            icon: 'fas fa-sitemap',
+            title: '架构设计评审',
+            desc: '以架构为先，设立设计评审与技术决策记录',
+          },
+          {
+            icon: 'fas fa-code',
+            title: '编码规范与静态分析',
+            desc: 'ESLint/Prettier/EditorConfig，全量静态检查',
+          },
+          {
+            icon: 'fas fa-vial',
+            title: '自动化测试金字塔',
+            desc: '单元/集成/端到端/性能/安全五层测试',
+          },
+          {
+            icon: 'fas fa-cogs',
+            title: 'CI/CD与质量门禁',
+            desc: '提交即构建、测试、扫描，质量阈值门禁',
+          },
+          {
+            icon: 'fas fa-chart-line',
+            title: '可观测性与度量',
+            desc: '日志/指标/追踪三位一体，质量持续改进',
+          },
         ],
       },
       aboutCard: {

@@ -18,12 +18,12 @@
             <div class="row align-items-center min-vh-75">
                 <div class="col-lg-6">
                     <div class="hero-content">
-                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🚗 <%= texts.home.hero.badge %></span>
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🚗 <%= (texts.home && texts.home.hero && texts.home.hero.badge) || '专注车载软件工程' %></span>
                         <h1 class="display-3 fw-bold text-white mb-3">
-                            <%= texts.home.hero.title %><br />
-                            <span class="text-automotive-accent"><%= texts.home.hero.accent %></span>
+                            <%= (texts.home && texts.home.hero && texts.home.hero.title) || '一起打造可靠的车载软件' %><br />
+                            <span class="text-automotive-accent"><%= (texts.home && texts.home.hero && texts.home.hero.accent) || '以质量与工程为先' %></span>
                         </h1>
-                        <p class="lead text-white-80 mb-4 fs-5"><%= texts.home.hero.subtitle %></p>
+                        <p class="lead text-white-80 mb-4 fs-5"><%= (texts.home && texts.home.hero && texts.home.hero.subtitle) || '坚持ASPICE与ISO 26262的工程方法，重视架构设计、编码规范与自动化测试' %></p>
                         <div class="hero-buttons d-flex flex-wrap gap-3">
                             <a href="/services/automotive-development" class="btn btn-automotive-primary btn-lg px-4 py-3">
                                 <i class="fas fa-car me-2"></i><%= texts.home.hero.primaryCta %>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="hero-stats mt-5">
                             <div class="row text-center">
-                                <% texts.home.hero.stats.forEach(function(s){ %>
+                                <% (texts.home && texts.home.hero && texts.home.hero.stats ? texts.home.hero.stats : [{label:'ASPICE',desc:'流程落地与度量'},{label:'架构',desc:'以架构驱动开发'},{label:'代码',desc:'Clean Code规范'}]).forEach(function(s){ %>
                                   <div class="col-4">
                                     <div class="stat-item">
                                       <h3 class="text-white fw-bold mb-1"><%= s.label %></h3>
