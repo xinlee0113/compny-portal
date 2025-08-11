@@ -26,6 +26,10 @@
             margin: 0 auto;
             line-height: 1.8;
         }
+        /* 文档头部内的面包屑在深色背景下的可读性 */
+        .document-header .breadcrumb { background: transparent; margin-bottom: 0.5rem; }
+        .document-header .breadcrumb a { color: rgba(255,255,255,0.85) !important; }
+        .document-header .breadcrumb .breadcrumb-item.active { color: #fff !important; }
         .document-content h1,
         .document-content h2,
         .document-content h3,
@@ -130,9 +134,9 @@
     <%- include('../partials/navbar', { currentPage: 'downloads', texts: texts }) %>
 
     <!-- 文档头部 -->
-    <header class="automotive-hero automotive-hero--short document-header" style="background:none;">
+    <header class="automotive-hero automotive-hero--short document-header">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-end">
                 <div class="col-lg-8">
                     <nav aria-label="breadcrumb" class="mb-3">
                         <ol class="breadcrumb text-white-50">
