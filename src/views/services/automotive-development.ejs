@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> - <%= texts.site.title %></title>
-    <meta name="description" content="<%= texts.services.automotiveDev.description %>">
+    <meta name="description" content="<%= (texts.services && texts.services.automotiveDevelopment && texts.services.automotiveDevelopment.description) || '专业的车载应用开发服务' %>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
@@ -186,6 +186,86 @@
                     </div>
                 </div>
                 <% }) %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 我们能做 / 不做 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="h4 fw-bold mb-3">我们能做</h3>
+                            <ul class="mb-0">
+                                <li>Android Automotive / QNX / Linux 车载应用开发与移植</li>
+                                <li>车机系统 UI 设计与交互优化（多语言/深浅色）</li>
+                                <li>CAN 总线/车载协议集成与调试</li>
+                                <li>性能优化（启动/渲染/内存/稳定性）与监控上报</li>
+                                <li>合规与安全加固（权限、隐私、数据加密）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="h4 fw-bold mb-3">不做/合作边界</h3>
+                            <ul class="mb-0">
+                                <li>不承诺未验证的资质与不现实的交付时间</li>
+                                <li>不绕过主机厂/供应商既定流程与安全要求</li>
+                                <li>不提供未经授权的第三方专有软件/资源</li>
+                                <li>不以牺牲质量换取短期交付</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 典型交付物 -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="h3 fw-bold mb-4">典型交付物</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-semibold mb-2">技术方案与原型</h5>
+                            <ul class="mb-0">
+                                <li>需求澄清与技术选型报告</li>
+                                <li>可交互原型/示例应用</li>
+                                <li>风险评估与里程碑计划</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-semibold mb-2">实现与测试资产</h5>
+                            <ul class="mb-0">
+                                <li>源代码与构建脚本</li>
+                                <li>测试用例/报告（功能、性能、稳定性）</li>
+                                <li>监控与日志方案</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-semibold mb-2">交付与运维资料</h5>
+                            <ul class="mb-0">
+                                <li>部署手册/回滚与应急预案</li>
+                                <li>运维SOP/问题排查手册</li>
+                                <li>培训材料与知识转移</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
