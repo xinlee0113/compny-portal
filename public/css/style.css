@@ -309,6 +309,18 @@ footer {
 .automotive-hero h1.display-3 { line-height: 1.2; word-break: keep-all; overflow-wrap: break-word; }
 .automotive-hero .hero-content .badge { white-space: nowrap; }
 
+/* Hero 副标题更易读（桌面端放大，移动端适中） */
+.automotive-hero .hero-content .lead {
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+@media (max-width: 991px) {
+  .automotive-hero .hero-content .lead {
+    font-size: 1.2rem;
+    line-height: 1.55;
+  }
+}
+
 /* 短款Hero，适用于非首页模块页 */
 .automotive-hero--short {
   min-height: 360px;
