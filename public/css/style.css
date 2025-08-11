@@ -25,6 +25,13 @@ body {
   z-index: 1030;
 }
 
+/* 桌面端：导航强制单行、图标与文字同行对齐 */
+@media (min-width: 992px) {
+  .automotive-navbar .navbar-collapse { flex-wrap: nowrap; }
+  .automotive-navbar .navbar-nav { flex-wrap: nowrap; align-items: center; }
+  .automotive-navbar .navbar-nav .nav-item { white-space: nowrap; }
+}
+
 .automotive-brand {
   font-weight: 700;
   font-size: 1.5rem;
@@ -55,6 +62,11 @@ body {
   border-radius: 8px;
   transition: all 0.3s ease;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
 .automotive-navbar .navbar-nav .nav-link:hover {
@@ -90,6 +102,7 @@ body {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   padding: 8px 0;
   margin-top: 8px;
+  white-space: nowrap;
 }
 
 .automotive-navbar .dropdown-item {

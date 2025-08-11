@@ -13,18 +13,18 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'active' : '' %>" href="/" <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-home me-1"></i><%= texts.nav.home %>
+                        <i class="fas fa-home"></i> <span><%= texts.nav.home %></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'active' : '' %>" href="/about" <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-users me-1"></i><%= texts.nav.about %>
+                        <i class="fas fa-users"></i> <span><%= texts.nav.about %></span>
                     </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <%= (typeof currentPage !== 'undefined' && currentPage === 'services') ? 'active' : '' %>" 
                        href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-cogs me-1"></i><%= texts.nav.services %>
+                        <i class="fas fa-cogs"></i> <span><%= texts.nav.services %></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="servicesDropdown">
                         <li><a class="dropdown-item" href="/services/automotive-development">
@@ -40,33 +40,33 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'active' : '' %>" href="/case-studies" <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-trophy me-1"></i><%= texts.nav.portfolio %>
+                        <i class="fas fa-trophy"></i> <span><%= texts.nav.portfolio %></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'active' : '' %>" href="/products" <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-cube me-1"></i><%= texts.nav.products %>
+                        <i class="fas fa-cube"></i> <span><%= texts.nav.products %></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'active' : '' %>" href="/contact" <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-phone me-1"></i><%= texts.nav.contact %>
+                        <i class="fas fa-phone"></i> <span><%= texts.nav.contact %></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'active' : '' %>" href="/video-tutorials" <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
+                        <i class="fas fa-play-circle"></i> <span><%= texts.nav.videoTutorials %></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'active' : '' %>" href="/downloads" <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
+                        <i class="fas fa-download"></i> <span><%= texts.nav.downloads %></span>
                     </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <%= (typeof currentPage !== 'undefined' && currentPage === 'dev-center') ? 'active' : '' %>" 
                        href="#" id="devCenterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-laptop-code me-1"></i><%= texts.nav.devCenter %>
+                        <i class="fas fa-laptop-code"></i> <span><%= texts.nav.devCenter %></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="devCenterDropdown">
                         <li><a class="dropdown-item" href="/dev-center">
@@ -92,7 +92,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="systemToolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-tools me-1"></i><%= texts.nav.systemTools %>
+                        <i class="fas fa-tools"></i> <span><%= texts.nav.systemTools %></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="systemToolsDropdown">
                         <li><a class="dropdown-item" href="/api-docs" target="_blank">
