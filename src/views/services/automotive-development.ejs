@@ -226,18 +226,83 @@
                         font-size: 12px;
                     }
                     
-                    /* 支持过程组边界 */
+                    /* 过程组分类标题 */
+                    .process-section-title {
+                        color: #495057;
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-bottom: 20px;
+                        text-align: center;
+                        border-bottom: 2px solid #dee2e6;
+                        padding-bottom: 10px;
+                    }
+                    
+                    /* 生命周期过程组区块 */
+                    .primary-lifecycle-section,
+                    .supporting-lifecycle-section,
+                    .organizational-lifecycle-section {
+                        margin-bottom: 30px;
+                        padding: 20px;
+                        background: rgba(248, 249, 250, 0.5);
+                        border-radius: 15px;
+                    }
+                    
+                    /* 采购过程组 (ACQ) - 橙色 */
+                    .acq-boundary {
+                        border: 2px solid #fd7e14;
+                        border-radius: 10px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        background: rgba(253, 126, 20, 0.05);
+                        position: relative;
+                    }
+                    
+                    .acq-boundary::before {
+                        content: "采购过程组 (ACQ)";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #fd7e14;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* 供应过程组 (SPL) - 粉色 */
+                    .spl-boundary {
+                        border: 2px solid #e83e8c;
+                        border-radius: 10px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        background: rgba(232, 62, 140, 0.05);
+                        position: relative;
+                    }
+                    
+                    .spl-boundary::before {
+                        content: "供应过程组 (SPL)";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #e83e8c;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* 支持过程组 (SUP) - 灰色 */
                     .support-boundary {
                         border: 2px solid #6c757d;
                         border-radius: 10px;
-                        padding: 15px;
+                        padding: 20px;
                         margin-bottom: 20px;
                         background: rgba(108, 117, 125, 0.05);
                         position: relative;
                     }
                     
                     .support-boundary::before {
-                        content: "支持过程组";
+                        content: "支持过程组 (SUP)";
                         position: absolute;
                         top: -12px;
                         left: 20px;
@@ -248,39 +313,40 @@
                         font-size: 12px;
                     }
                     
-                    /* 质量保证过程组边界 */
-                    .quality-boundary {
-                        border: 2px solid #ffc107;
+                    /* 复用过程组 (REU) - 青色 */
+                    .reu-boundary {
+                        border: 2px solid #20c997;
                         border-radius: 10px;
                         padding: 20px;
                         margin-bottom: 20px;
-                        background: rgba(255, 193, 7, 0.05);
+                        background: rgba(32, 201, 151, 0.05);
                         position: relative;
                     }
                     
-                    .quality-boundary::before {
-                        content: "质量保证过程组";
+                    .reu-boundary::before {
+                        content: "复用过程组 (REU)";
                         position: absolute;
                         top: -12px;
                         left: 20px;
                         background: white;
                         padding: 0 10px;
-                        color: #ffc107;
+                        color: #20c997;
                         font-weight: bold;
                         font-size: 12px;
                     }
                     
-                    /* 组织过程组边界 */
-                    .organization-boundary {
+                    /* 管理过程组 (MAN) - 深蓝 */
+                    .man-boundary {
                         border: 2px solid #6f42c1;
                         border-radius: 10px;
                         padding: 20px;
+                        margin-bottom: 20px;
                         background: rgba(111, 66, 193, 0.05);
                         position: relative;
                     }
                     
-                    .organization-boundary::before {
-                        content: "组织过程组";
+                    .man-boundary::before {
+                        content: "管理过程组 (MAN)";
                         position: absolute;
                         top: -12px;
                         left: 20px;
@@ -291,30 +357,55 @@
                         font-size: 12px;
                     }
                     
-                    /* 质量保证过程和组织过程的布局 */
-                    .quality-processes, .org-processes {
+                    /* 过程改进过程组 (PIM) - 黄色 */
+                    .pim-boundary {
+                        border: 2px solid #ffc107;
+                        border-radius: 10px;
+                        padding: 20px;
+                        background: rgba(255, 193, 7, 0.05);
+                        position: relative;
+                    }
+                    
+                    .pim-boundary::before {
+                        content: "过程改进过程组 (PIM)";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #ffc107;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* 过程组内部布局 */
+                    .acq-processes, .spl-processes, .support-processes, 
+                    .reu-processes, .man-processes, .pim-processes {
                         display: flex;
-                        justify-content: space-between;
-                        gap: 10px;
+                        justify-content: flex-start;
+                        gap: 15px;
                         flex-wrap: wrap;
                     }
                     
-                    .quality-box, .org-box {
-                        flex: 1;
-                        min-width: 200px;
-                        max-width: 250px;
+                    /* 过程盒子样式 */
+                    .acq-box, .spl-box, .support-box, .reu-box, .man-box, .pim-box {
+                        flex: 0 0 auto;
+                        min-width: 180px;
+                        max-width: 220px;
                         background: white;
                         border: 1px solid #e9ecef;
-                        border-radius: 6px;
-                        padding: 12px;
+                        border-radius: 8px;
+                        padding: 12px 8px;
                         text-align: center;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        transition: transform 0.2s ease;
                     }
                     
-                    /* 支持过程组行 */
-                    .sup-row { margin-bottom: 15px; justify-content: center; }
-                    
-                    /* 质量和组织过程行 */
-                    .quality-row, .org-row { margin-bottom: 15px; }
+                    .acq-box:hover, .spl-box:hover, .support-box:hover, 
+                    .reu-box:hover, .man-box:hover, .pim-box:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    }
                     
                     /* V字形行布局 */
                     .v-row {
@@ -376,157 +467,213 @@
                         .vmodel-grid .c{grid-column:auto}
                     }
                 </style>
-                <div class="vmodel-grid" aria-label="ASPICE V-Model">
-                    <!-- 支持过程组 (SUP) -->
-                    <div class="support-boundary">
-                        <!-- SUP.1 项目策划与立项 -->
-                        <div class="v-row sup-row">
-                            <% if(dp[0]){ %>
-                                <div class="vmodel-box v-center">
-                                    <div class="vmodel-code">步骤 <%= dp[0].step %> · <%= (dp[0].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[0].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                <div class="vmodel-grid" aria-label="标准ASPICE V-Model">
+                    <!-- 主要生命周期过程组 (Primary Life Cycle Processes) -->
+                    <div class="primary-lifecycle-section">
+                        <h4 class="process-section-title">主要生命周期过程组 (Primary Life Cycle Processes)</h4>
+                        
+                        <!-- 采购过程组 (ACQ) -->
+                        <div class="acq-boundary">
+                            <div class="acq-processes">
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.3 · 合同协议</div>
+                                    <p class="vmodel-title">Contract Agreement</p>
                                 </div>
-                            <% } %>
-                        </div>
-                    </div>
-                    
-                    <!-- 系统工程过程组 (SYS) -->
-                    <div class="system-boundary">
-                        <!-- SYS.2 和 SYS.5 -->
-                        <div class="v-row sys-row">
-                            <% if(dp[1]){ %>
-                                <div class="vmodel-box v-left">
-                                    <div class="vmodel-code">步骤 <%= dp[1].step %> · <%= (dp[1].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[1].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.4 · 供应商监控</div>
+                                    <p class="vmodel-title">Supplier Monitoring</p>
                                 </div>
-                            <% } %>
-                            <% if(dp[11]){ %>
-                                <div class="vmodel-box v-right">
-                                    <div class="vmodel-code">步骤 <%= dp[11].step %> · <%= (dp[11].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[11].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.11 · 技术需求</div>
+                                    <p class="vmodel-title">Technical Requirements</p>
                                 </div>
-                            <% } %>
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.12 · 法律行政需求</div>
+                                    <p class="vmodel-title">Legal and Administrative Requirements</p>
+                                </div>
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.13 · 项目需求</div>
+                                    <p class="vmodel-title">Project Requirements</p>
+                                </div>
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.14 · 提案请求</div>
+                                    <p class="vmodel-title">Request for Proposals</p>
+                                </div>
+                                <div class="vmodel-box acq-box">
+                                    <div class="vmodel-code">ACQ.15 · 供应商评估</div>
+                                    <p class="vmodel-title">Supplier Qualification</p>
+                                </div>
+                            </div>
                         </div>
                         
-                        <!-- SYS.3 和 SYS.4-Do -->
-                        <div class="v-row sys-row">
-                            <% if(dp[2]){ %>
+                        <!-- 系统工程过程组 (SYS) - V模型核心 -->
+                        <div class="system-boundary">
+                            <!-- SYS.1 需求获取 -->
+                            <div class="v-row sys-row">
                                 <div class="vmodel-box v-left">
-                                    <div class="vmodel-code">步骤 <%= dp[2].step %> · <%= (dp[2].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[2].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    <div class="vmodel-code">SYS.1 · 需求获取</div>
+                                    <p class="vmodel-title">Requirements Elicitation</p>
                                 </div>
-                            <% } %>
-                            <% if(dp[10]){ %>
+                            </div>
+                            
+                            <!-- SYS.2 系统需求分析 和 SYS.5 系统确认测试 -->
+                            <div class="v-row sys-row">
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">SYS.2 · 系统需求分析</div>
+                                    <p class="vmodel-title">System Requirements Analysis</p>
+                                </div>
                                 <div class="vmodel-box v-right">
-                                    <div class="vmodel-code">步骤 <%= dp[10].step %> · <%= (dp[10].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[10].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    <div class="vmodel-code">SYS.5 · 系统确认测试</div>
+                                    <p class="vmodel-title">System Qualification Test</p>
                                 </div>
-                            <% } %>
+                            </div>
+                            
+                            <!-- SYS.3 系统架构设计 和 SYS.4 系统集成测试 -->
+                            <div class="v-row sys-row">
+                                <div class="vmodel-box v-left">
+                                    <div class="vmodel-code">SYS.3 · 系统架构设计</div>
+                                    <p class="vmodel-title">System Architectural Design</p>
+                                </div>
+                                <div class="vmodel-box v-right">
+                                    <div class="vmodel-code">SYS.4 · 系统集成测试</div>
+                                    <p class="vmodel-title">System Integration and Integration Test</p>
+                                </div>
+                            </div>
                         </div>
                         
-                        <!-- SYS.4-Plan 和 SWE.6 -->
-                        <div class="v-row sys-row">
-                            <% if(dp[3]){ %>
+                        <!-- 软件工程过程组 (SWE) - V模型核心 -->
+                        <div class="software-boundary">
+                            <!-- SWE.1 软件需求分析 和 SWE.6 软件确认测试 -->
+                            <div class="v-row swe-row">
                                 <div class="vmodel-box v-left">
-                                    <div class="vmodel-code">步骤 <%= dp[3].step %> · <%= (dp[3].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[3].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    <div class="vmodel-code">SWE.1 · 软件需求分析</div>
+                                    <p class="vmodel-title">Software Requirements Analysis</p>
                                 </div>
-                            <% } %>
-                            <% if(dp[9]){ %>
                                 <div class="vmodel-box v-right">
-                                    <div class="vmodel-code">步骤 <%= dp[9].step %> · <%= (dp[9].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[9].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    <div class="vmodel-code">SWE.6 · 软件确认测试</div>
+                                    <p class="vmodel-title">Software Qualification Test</p>
                                 </div>
-                            <% } %>
-                        </div>
-                    </div>
-                    
-                    <!-- 软件工程过程组 (SWE) -->
-                    <div class="software-boundary">
-                        <!-- SWE.1 和 SWE.5 -->
-                        <div class="v-row swe-row">
-                            <% if(dp[4]){ %>
+                            </div>
+                            
+                            <!-- SWE.2 软件架构设计 和 SWE.5 软件集成测试 -->
+                            <div class="v-row swe-row">
                                 <div class="vmodel-box v-left">
-                                    <div class="vmodel-code">步骤 <%= dp[4].step %> · <%= (dp[4].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[4].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    <div class="vmodel-code">SWE.2 · 软件架构设计</div>
+                                    <p class="vmodel-title">Software Architectural Design</p>
                                 </div>
-                            <% } %>
-                            <% if(dp[8]){ %>
                                 <div class="vmodel-box v-right">
-                                    <div class="vmodel-code">步骤 <%= dp[8].step %> · <%= (dp[8].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[8].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                    <div class="vmodel-code">SWE.5 · 软件集成测试</div>
+                                    <p class="vmodel-title">Software Integration and Integration Test</p>
                                 </div>
-                            <% } %>
-                        </div>
-                        
-                        <!-- SWE.2 在左侧 -->
-                        <div class="v-row swe-row">
-                            <% if(dp[5]){ %>
-                                <div class="vmodel-box v-left">
-                                    <div class="vmodel-code">步骤 <%= dp[5].step %> · <%= (dp[5].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                    <p class="vmodel-title"><%= dp[5].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                                </div>
-                            <% } %>
-                        </div>
-                        
-                        <!-- SWE.3 和 SWE.4 并排在底部 -->
-                        <div class="v-row swe-row">
-                            <div class="v-bottom-pair">
-                                <% if(dp[6]){ %>
+                            </div>
+                            
+                            <!-- SWE.3 软件详细设计 和 SWE.4 软件单元验证 -->
+                            <div class="v-row swe-row">
+                                <div class="v-bottom-pair">
                                     <div class="vmodel-box">
-                                        <div class="vmodel-code">步骤 <%= dp[6].step %> · <%= (dp[6].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                        <p class="vmodel-title"><%= dp[6].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                        <div class="vmodel-code">SWE.3 · 软件详细设计</div>
+                                        <p class="vmodel-title">Software Detailed Design and Unit Construction</p>
                                     </div>
-                                <% } %>
-                                <% if(dp[7]){ %>
                                     <div class="vmodel-box">
-                                        <div class="vmodel-code">步骤 <%= dp[7].step %> · <%= (dp[7].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                        <p class="vmodel-title"><%= dp[7].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                        <div class="vmodel-code">SWE.4 · 软件单元验证</div>
+                                        <p class="vmodel-title">Software Unit Verification</p>
                                     </div>
-                                <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 供应过程组 (SPL) -->
+                        <div class="spl-boundary">
+                            <div class="spl-processes">
+                                <div class="vmodel-box spl-box">
+                                    <div class="vmodel-code">SPL.1 · 供应商招标</div>
+                                    <p class="vmodel-title">Supplier Tendering</p>
+                                </div>
+                                <div class="vmodel-box spl-box">
+                                    <div class="vmodel-code">SPL.2 · 产品发布</div>
+                                    <p class="vmodel-title">Product Release</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 质量保证过程组 (SQA) -->
-                    <div class="quality-boundary">
-                        <div class="v-row quality-row">
-                            <div class="quality-processes">
-                                <div class="vmodel-box quality-box">
-                                    <div class="vmodel-code">SQA.1 · 质量保证</div>
-                                    <p class="vmodel-title">质量保证策略与实施</p>
+                    <!-- 支持生命周期过程组 (Supporting Life Cycle Processes) -->
+                    <div class="supporting-lifecycle-section">
+                        <h4 class="process-section-title">支持生命周期过程组 (Supporting Life Cycle Processes)</h4>
+                        
+                        <!-- 支持过程组 (SUP) -->
+                        <div class="support-boundary">
+                            <div class="support-processes">
+                                <div class="vmodel-box support-box">
+                                    <div class="vmodel-code">SUP.1 · 质量保证</div>
+                                    <p class="vmodel-title">Quality Assurance</p>
                                 </div>
-                                <div class="vmodel-box quality-box">
+                                <div class="vmodel-box support-box">
+                                    <div class="vmodel-code">SUP.2 · 验证</div>
+                                    <p class="vmodel-title">Verification</p>
+                                </div>
+                                <div class="vmodel-box support-box">
+                                    <div class="vmodel-code">SUP.4 · 联合评审</div>
+                                    <p class="vmodel-title">Joint Review</p>
+                                </div>
+                                <div class="vmodel-box support-box">
+                                    <div class="vmodel-code">SUP.7 · 文档管理</div>
+                                    <p class="vmodel-title">Documentation</p>
+                                </div>
+                                <div class="vmodel-box support-box">
                                     <div class="vmodel-code">SUP.8 · 配置管理</div>
-                                    <p class="vmodel-title">配置项管理与版本控制</p>
+                                    <p class="vmodel-title">Configuration Management</p>
                                 </div>
-                                <div class="vmodel-box quality-box">
-                                    <div class="vmodel-code">SUP.9 · 变更管理</div>
-                                    <p class="vmodel-title">变更请求与影响分析</p>
+                                <div class="vmodel-box support-box">
+                                    <div class="vmodel-code">SUP.9 · 问题解决管理</div>
+                                    <p class="vmodel-title">Problem Resolution Management</p>
                                 </div>
-                                <div class="vmodel-box quality-box">
-                                    <div class="vmodel-code">SUP.10 · 联合评审</div>
-                                    <p class="vmodel-title">里程碑评审与决策</p>
+                                <div class="vmodel-box support-box">
+                                    <div class="vmodel-code">SUP.10 · 变更请求管理</div>
+                                    <p class="vmodel-title">Change Request Management</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 复用过程组 (REU) -->
+                        <div class="reu-boundary">
+                            <div class="reu-processes">
+                                <div class="vmodel-box reu-box">
+                                    <div class="vmodel-code">REU.2 · 复用程序管理</div>
+                                    <p class="vmodel-title">Reuse Program Management</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 组织过程组 (ORG) -->
-                    <div class="organization-boundary">
-                        <div class="v-row org-row">
-                            <div class="org-processes">
-                                <div class="vmodel-box org-box">
-                                    <div class="vmodel-code">ORG.2 · 改进管理</div>
-                                    <p class="vmodel-title">过程改进与度量</p>
+                    <!-- 组织生命周期过程组 (Organizational Life Cycle Processes) -->
+                    <div class="organizational-lifecycle-section">
+                        <h4 class="process-section-title">组织生命周期过程组 (Organizational Life Cycle Processes)</h4>
+                        
+                        <!-- 管理过程组 (MAN) -->
+                        <div class="man-boundary">
+                            <div class="man-processes">
+                                <div class="vmodel-box man-box">
+                                    <div class="vmodel-code">MAN.3 · 项目管理</div>
+                                    <p class="vmodel-title">Project Management</p>
                                 </div>
-                                <div class="vmodel-box org-box">
-                                    <div class="vmodel-code">ORG.3 · 人力资源</div>
-                                    <p class="vmodel-title">培训与能力建设</p>
+                                <div class="vmodel-box man-box">
+                                    <div class="vmodel-code">MAN.5 · 风险管理</div>
+                                    <p class="vmodel-title">Risk Management</p>
                                 </div>
-                                <div class="vmodel-box org-box">
-                                    <div class="vmodel-code">ORG.4 · 基础设施</div>
-                                    <p class="vmodel-title">工具链与环境管理</p>
+                                <div class="vmodel-box man-box">
+                                    <div class="vmodel-code">MAN.6 · 度量</div>
+                                    <p class="vmodel-title">Measurement</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 过程改进过程组 (PIM) -->
+                        <div class="pim-boundary">
+                            <div class="pim-processes">
+                                <div class="vmodel-box pim-box">
+                                    <div class="vmodel-code">PIM.3 · 过程改进</div>
+                                    <p class="vmodel-title">Process Improvement</p>
                                 </div>
                             </div>
                         </div>
