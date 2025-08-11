@@ -173,36 +173,64 @@
 
             <% const dp = serviceData.developmentProcess || []; %>
             <div class="vmodel-diagram position-relative">
-                <!-- 左侧V：定义与设计 -->
-                <div class="vmodel-arrow"></div>
-                <div class="vmodel-arrow-r"></div>
-                <div class="vmodel-columns">
-                    <div class="vmodel-col">
-                        <% [0,1,2,3,4,5].forEach(function(i){ if(dp[i]){ %>
-                            <div class="vmodel-box mb-3">
-                                <div class="vmodel-code">步骤 <%= dp[i].step %> · <%= (dp[i].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[i].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% }}); %>
+                <% const leftIdx = [1,2,3,4,5]; const rightIdx = [11,10,9,8,7]; %>
+                <style>
+                    /* 使用7列网格，让左右两侧逐步向中线(第4列)靠拢，形成清晰V字形 */
+                    .vmodel-grid{display:grid; grid-template-columns: repeat(7, minmax(0,1fr)); grid-auto-rows: 88px; gap:22px; align-items:start; max-width:1100px; margin:0 auto}
+                    .vmodel-grid .c{grid-column:4}
+                    .v-head{grid-row:1}
+                    .v-core{grid-row:12}
+                    /* 左侧(定义/设计)：2/4/6/8/10 行，列从1->2->3->3->4 向中线靠拢 */
+                    .v-l-1{grid-row:2; grid-column:1}
+                    .v-l-2{grid-row:4; grid-column:2}
+                    .v-l-3{grid-row:6; grid-column:3}
+                    .v-l-4{grid-row:8; grid-column:3}
+                    .v-l-5{grid-row:10; grid-column:4}
+                    /* 右侧(集成/验证/确认)：2/4/6/8/10 行，列从7->6->5->5->4 对称靠拢 */
+                    .v-r-1{grid-row:2; grid-column:7}
+                    .v-r-2{grid-row:4; grid-column:6}
+                    .v-r-3{grid-row:6; grid-column:5}
+                    .v-r-4{grid-row:8; grid-column:5}
+                    .v-r-5{grid-row:10; grid-column:4}
+                    /* 斜向虚线，仅用于视觉引导 */
+                    .vline-left,.vline-right{position:absolute; width:2px; top:40px; bottom:70px; left:calc(50% - 140px); background:linear-gradient(to bottom right, transparent 48%, #e9ecef 50%, transparent 52%) repeat-y; background-size:26px 26px; transform:translateX(-50%) rotate(35deg); opacity:.5; pointer-events:none}
+                    .vline-right{left:calc(50% + 140px); transform:translateX(-50%) rotate(-35deg)}
+                    @media (max-width: 992px){
+                        .vline-left,.vline-right{display:none}
+                        .vmodel-grid{grid-template-columns:1fr}
+                        .vmodel-grid .c{grid-column:auto}
+                    }
+                </style>
+                <div class="vline-left"></div>
+                <div class="vline-right"></div>
+                <div class="vmodel-grid">
+                    <!-- 顶部：项目策划（放中间，保证左右完全镜像） -->
+                    <div class="vmodel-box c v-head">
+                        <div class="vmodel-code">步骤 <%= dp[0].step %> · <%= (dp[0].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                        <p class="vmodel-title"><%= dp[0].title.replace(/\s*\(.*?\)\s*/,'') %></p>
                     </div>
 
-                    <!-- 中部底部：实现/编码 -->
-                    <div class="vmodel-center">
-                        <div class="vmodel-box">
-                            <div class="vmodel-code">步骤 <%= dp[6] ? dp[6].step : 7 %> · SWE.3</div>
-                            <p class="vmodel-title"><%= dp[6] ? dp[6].title.replace(/\s*\(.*?\)\s*/,'') : '详细设计与单元实现' %></p>
+                    <!-- 左：定义/设计（5项） -->
+                    <% leftIdx.forEach(function(idx, i){ if(dp[idx]){ %>
+                        <div class="vmodel-box l v-l-<%= (i+1) %>">
+                            <div class="vmodel-code">步骤 <%= dp[idx].step %> · <%= (dp[idx].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                            <p class="vmodel-title"><%= dp[idx].title.replace(/\s*\(.*?\)\s*/,'') %></p>
                         </div>
+                    <% }}); %>
+
+                    <!-- 中部底部：实现/编码（SWE.3） -->
+                    <div class="vmodel-box c v-core">
+                        <div class="vmodel-code">步骤 <%= dp[6].step %> · SWE.3</div>
+                        <p class="vmodel-title"><%= dp[6].title.replace(/\s*\(.*?\)\s*/,'') %></p>
                     </div>
 
-                    <!-- 右侧V：集成与验证/确认（自上而下与左侧对应） -->
-                    <div class="vmodel-col">
-                        <% [11,10,9,8,7].forEach(function(i){ if(dp[i]){ %>
-                            <div class="vmodel-box mb-3">
-                                <div class="vmodel-code">步骤 <%= dp[i].step %> · <%= (dp[i].title.match(/\((.*?)\)/) || [,''])[1] %></div>
-                                <p class="vmodel-title"><%= dp[i].title.replace(/\s*\(.*?\)\s*/,'') %></p>
-                            </div>
-                        <% }}); %>
-                    </div>
+                    <!-- 右：集成/验证/确认（5项，与左边行号镜像一致） -->
+                    <% rightIdx.forEach(function(idx, i){ if(dp[idx]){ %>
+                        <div class="vmodel-box r v-r-<%= (i+1) %>">
+                            <div class="vmodel-code">步骤 <%= dp[idx].step %> · <%= (dp[idx].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                            <p class="vmodel-title"><%= dp[idx].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                        </div>
+                    <% }}); %>
                 </div>
             </div>
 
