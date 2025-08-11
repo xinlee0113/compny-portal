@@ -226,6 +226,96 @@
                         font-size: 12px;
                     }
                     
+                    /* 支持过程组边界 */
+                    .support-boundary {
+                        border: 2px solid #6c757d;
+                        border-radius: 10px;
+                        padding: 15px;
+                        margin-bottom: 20px;
+                        background: rgba(108, 117, 125, 0.05);
+                        position: relative;
+                    }
+                    
+                    .support-boundary::before {
+                        content: "支持过程组";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #6c757d;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* 质量保证过程组边界 */
+                    .quality-boundary {
+                        border: 2px solid #ffc107;
+                        border-radius: 10px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        background: rgba(255, 193, 7, 0.05);
+                        position: relative;
+                    }
+                    
+                    .quality-boundary::before {
+                        content: "质量保证过程组";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #ffc107;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* 组织过程组边界 */
+                    .organization-boundary {
+                        border: 2px solid #6f42c1;
+                        border-radius: 10px;
+                        padding: 20px;
+                        background: rgba(111, 66, 193, 0.05);
+                        position: relative;
+                    }
+                    
+                    .organization-boundary::before {
+                        content: "组织过程组";
+                        position: absolute;
+                        top: -12px;
+                        left: 20px;
+                        background: white;
+                        padding: 0 10px;
+                        color: #6f42c1;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    /* 质量保证过程和组织过程的布局 */
+                    .quality-processes, .org-processes {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 10px;
+                        flex-wrap: wrap;
+                    }
+                    
+                    .quality-box, .org-box {
+                        flex: 1;
+                        min-width: 200px;
+                        max-width: 250px;
+                        background: white;
+                        border: 1px solid #e9ecef;
+                        border-radius: 6px;
+                        padding: 12px;
+                        text-align: center;
+                    }
+                    
+                    /* 支持过程组行 */
+                    .sup-row { margin-bottom: 15px; justify-content: center; }
+                    
+                    /* 质量和组织过程行 */
+                    .quality-row, .org-row { margin-bottom: 15px; }
+                    
                     /* V字形行布局 */
                     .v-row {
                         display: flex;
@@ -287,7 +377,20 @@
                     }
                 </style>
                 <div class="vmodel-grid" aria-label="ASPICE V-Model">
-                    <!-- 系统工程过程组 -->
+                    <!-- 支持过程组 (SUP) -->
+                    <div class="support-boundary">
+                        <!-- SUP.1 项目策划与立项 -->
+                        <div class="v-row sup-row">
+                            <% if(dp[0]){ %>
+                                <div class="vmodel-box v-center">
+                                    <div class="vmodel-code">步骤 <%= dp[0].step %> · <%= (dp[0].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                    <p class="vmodel-title"><%= dp[0].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <!-- 系统工程过程组 (SYS) -->
                     <div class="system-boundary">
                         <!-- SYS.2 和 SYS.5 -->
                         <div class="v-row sys-row">
@@ -338,7 +441,7 @@
                         </div>
                     </div>
                     
-                    <!-- 软件工程过程组 -->
+                    <!-- 软件工程过程组 (SWE) -->
                     <div class="software-boundary">
                         <!-- SWE.1 和 SWE.5 -->
                         <div class="v-row swe-row">
@@ -381,6 +484,50 @@
                                         <p class="vmodel-title"><%= dp[7].title.replace(/\s*\(.*?\)\s*/,'') %></p>
                                     </div>
                                 <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 质量保证过程组 (SQA) -->
+                    <div class="quality-boundary">
+                        <div class="v-row quality-row">
+                            <div class="quality-processes">
+                                <div class="vmodel-box quality-box">
+                                    <div class="vmodel-code">SQA.1 · 质量保证</div>
+                                    <p class="vmodel-title">质量保证策略与实施</p>
+                                </div>
+                                <div class="vmodel-box quality-box">
+                                    <div class="vmodel-code">SUP.8 · 配置管理</div>
+                                    <p class="vmodel-title">配置项管理与版本控制</p>
+                                </div>
+                                <div class="vmodel-box quality-box">
+                                    <div class="vmodel-code">SUP.9 · 变更管理</div>
+                                    <p class="vmodel-title">变更请求与影响分析</p>
+                                </div>
+                                <div class="vmodel-box quality-box">
+                                    <div class="vmodel-code">SUP.10 · 联合评审</div>
+                                    <p class="vmodel-title">里程碑评审与决策</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 组织过程组 (ORG) -->
+                    <div class="organization-boundary">
+                        <div class="v-row org-row">
+                            <div class="org-processes">
+                                <div class="vmodel-box org-box">
+                                    <div class="vmodel-code">ORG.2 · 改进管理</div>
+                                    <p class="vmodel-title">过程改进与度量</p>
+                                </div>
+                                <div class="vmodel-box org-box">
+                                    <div class="vmodel-code">ORG.3 · 人力资源</div>
+                                    <p class="vmodel-title">培训与能力建设</p>
+                                </div>
+                                <div class="vmodel-box org-box">
+                                    <div class="vmodel-code">ORG.4 · 基础设施</div>
+                                    <p class="vmodel-title">工具链与环境管理</p>
+                                </div>
                             </div>
                         </div>
                     </div>
