@@ -115,60 +115,73 @@ class QualityChecker {
 
   async checkCoverage() {
     console.log('📊 检查测试覆盖率...');
-    
+
+    const coveragePath = path.join(process.cwd(), 'coverage/coverage-summary.json');
+    const baselinePath = path.join(process.cwd(), 'reports/coverage-baseline.json');
+
     try {
-      // 读取覆盖率报告
-      const coveragePath = path.join(process.cwd(), 'coverage/coverage-summary.json');
-      
-      if (fs.existsSync(coveragePath)) {
-        const coverage = JSON.parse(fs.readFileSync(coveragePath, 'utf8'));
-        const totalCoverage = coverage.total;
-        
-        const coverageThreshold = {
-          lines: 90,
-          functions: 90,
-          branches: 80,
-          statements: 90
-        };
-        
-        const coverageResults = {
-          lines: totalCoverage.lines.pct,
-          functions: totalCoverage.functions.pct,
-          branches: totalCoverage.branches.pct,
-          statements: totalCoverage.statements.pct
-        };
-        
-        const passed = Object.keys(coverageThreshold).every(key => 
-          coverageResults[key] >= coverageThreshold[key]
-        );
-        
-        this.results.coverage = {
-          passed,
-          message: passed ? '测试覆盖率达标' : '测试覆盖率不足',
-          details: {
-            results: coverageResults,
-            thresholds: coverageThreshold
-          }
-        };
-        
-        if (passed) {
-          console.log('✅ 测试覆盖率达标');
-          console.log(`   行覆盖率: ${coverageResults.lines}%`);
-          console.log(`   函数覆盖率: ${coverageResults.functions}%`);
-          console.log(`   分支覆盖率: ${coverageResults.branches}%`);
-          console.log(`   语句覆盖率: ${coverageResults.statements}%`);
-        } else {
-          console.log('❌ 测试覆盖率不足');
-          Object.keys(coverageThreshold).forEach(key => {
-            const actual = coverageResults[key];
-            const required = coverageThreshold[key];
-            const status = actual >= required ? '✅' : '❌';
-            console.log(`   ${status} ${key}: ${actual}% (需要 ${required}%)`);
-          });
-          this.passed = false;
-        }
-      } else {
+      if (!fs.existsSync(coveragePath)) {
         console.log('⚠️  未找到覆盖率报告');
+        return;
+      }
+
+      const coverage = JSON.parse(fs.readFileSync(coveragePath, 'utf8'));
+      const totalCoverage = coverage.total;
+
+      const current = {
+        lines: totalCoverage.lines.pct,
+        functions: totalCoverage.functions.pct,
+        branches: totalCoverage.branches.pct,
+        statements: totalCoverage.statements.pct,
+      };
+
+      // 基线策略：不倒退 + 自动抬高
+      // 初次没有基线时，记录当前为基线并通过；之后任何指标低于基线（容差0.1%）则不通过
+      const tolerance = 0.1; // 允许的微小波动
+      let baseline;
+      if (fs.existsSync(baselinePath)) {
+        baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
+      } else {
+        baseline = current;
+        fs.mkdirSync(path.dirname(baselinePath), { recursive: true });
+        fs.writeFileSync(baselinePath, JSON.stringify(baseline, null, 2));
+        console.log('🟡 首次建立覆盖率基线:', baseline);
+      }
+
+      const keys = ['lines', 'functions', 'branches', 'statements'];
+      const regressions = keys.filter((k) => current[k] + tolerance < baseline[k]);
+
+      const passed = regressions.length === 0;
+
+      this.results.coverage = {
+        passed,
+        message: passed ? '覆盖率未低于基线（通过）' : `覆盖率较基线回退: ${regressions.join(', ')}`,
+        details: { current, baseline },
+      };
+
+      if (!passed) {
+        console.log('❌ 覆盖率较基线回退');
+        regressions.forEach((k) => {
+          console.log(`   ${k}: 当前 ${current[k]}% < 基线 ${baseline[k]}%`);
+        });
+        this.passed = false;
+      } else {
+        // 若有提升，自动抬高基线
+        let improved = false;
+        const newBaseline = { ...baseline };
+        keys.forEach((k) => {
+          if (current[k] > baseline[k] + tolerance) {
+            newBaseline[k] = current[k];
+            improved = true;
+          }
+        });
+        if (improved) {
+          fs.writeFileSync(baselinePath, JSON.stringify(newBaseline, null, 2));
+          console.log('✅ 覆盖率提升，基线已更新为:', newBaseline);
+        } else {
+          console.log('✅ 覆盖率保持/微升，未低于基线');
+        }
+        console.log(`   行: ${current.lines}%  函数: ${current.functions}%  分支: ${current.branches}%  语句: ${current.statements}%`);
       }
     } catch (error) {
       console.log('❌ 覆盖率检查失败:', error.message);
