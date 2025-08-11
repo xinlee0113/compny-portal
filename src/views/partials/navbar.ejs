@@ -3,7 +3,7 @@
     <div class="container">
         <a class="navbar-brand automotive-brand" href="/">
             <i class="fas fa-car me-2"></i><%= texts.site.name %>
-            <small class="brand-tagline d-none d-sm-block">智能车载专家</small>
+            <small class="brand-tagline d-none d-sm-block"><%= texts.site.subtitle %></small>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,12 +12,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'active' : '' %>" href="/">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'active' : '' %>" href="/" <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-home me-1"></i><%= texts.nav.home %>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'active' : '' %>" href="/about">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'active' : '' %>" href="/about" <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-users me-1"></i><%= texts.nav.about %>
                     </a>
                 </li>
@@ -39,27 +39,27 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'active' : '' %>" href="/case-studies">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'active' : '' %>" href="/case-studies" <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-trophy me-1"></i><%= texts.nav.portfolio %>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'active' : '' %>" href="/products">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'active' : '' %>" href="/products" <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-cube me-1"></i><%= texts.nav.products %>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'active' : '' %>" href="/contact">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'active' : '' %>" href="/contact" <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-phone me-1"></i><%= texts.nav.contact %>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'active' : '' %>" href="/video-tutorials">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'active' : '' %>" href="/video-tutorials" <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'active' : '' %>" href="/downloads">
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'active' : '' %>" href="/downloads" <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
                     </a>
                 </li>
