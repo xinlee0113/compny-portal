@@ -43,13 +43,13 @@ const apiRateLimit = rateLimit({
   message: {
     success: false,
     message: '请求过于频繁，请稍后再试',
-    retryAfter: Math.ceil(15 * 60 * 1000 / 1000),
+    retryAfter: Math.ceil((15 * 60 * 1000) / 1000),
   },
   handler: (req, res) => {
     res.status(429).json({
       success: false,
       message: '请求过于频繁，请稍后再试',
-      retryAfter: Math.ceil(15 * 60 * 1000 / 1000),
+      retryAfter: Math.ceil((15 * 60 * 1000) / 1000),
     });
   },
   skip: (req) => {

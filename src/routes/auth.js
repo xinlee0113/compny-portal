@@ -49,19 +49,27 @@ const registerRateLimit = require('express-rate-limit')({
  * User registration
  */
 // 开发环境跳过限流，确保无数据库时能返回503
-router.post('/register', (req, res, next) => {
-  if (process.env.NODE_ENV !== 'production') return authController.register(req, res);
-  return registerRateLimit(req, res, next);
-}, authController.register);
+router.post(
+  '/register',
+  (req, res, next) => {
+    if (process.env.NODE_ENV !== 'production') return authController.register(req, res);
+    return registerRateLimit(req, res, next);
+  },
+  authController.register
+);
 
 /**
  * POST /api/auth/login
  * User login
  */
-router.post('/login', (req, res, next) => {
-  if (process.env.NODE_ENV !== 'production') return authController.login(req, res);
-  return authRateLimit(req, res, next);
-}, authController.login);
+router.post(
+  '/login',
+  (req, res, next) => {
+    if (process.env.NODE_ENV !== 'production') return authController.login(req, res);
+    return authRateLimit(req, res, next);
+  },
+  authController.login
+);
 
 /**
  * POST /api/auth/logout

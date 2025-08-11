@@ -9,7 +9,7 @@ const performanceMetrics = {
   alerts: [],
   systemHealth: {
     cpu: { usage: 0, threshold: 80 },
-    memory: { usage: 0, threshold: 90 },
+    memory: { usage: 0, threshold: 95 },
     disk: { usage: 0, threshold: 85 },
     uptime: process.uptime(),
   },
@@ -200,13 +200,25 @@ const checkSystemResourceThresholds = () => {
 
   // 内存使用率告警
   if (health.memory.usage > health.memory.threshold) {
-    createAlert('high_memory', 'critical', {
-      message: `内存使用率过高: ${health.memory.usage}%`,
-      usage: health.memory.usage,
-      threshold: health.memory.threshold,
-      heapUsed: health.memory.heapUsed,
-      heapTotal: health.memory.heapTotal,
-    });
+    // 告警去抖：仅当连续3次超过阈值才告警
+    const recent = performanceMetrics.alerts.slice(-5).filter(a => a.type === 'high_memory');
+    const lastExceeds = recent.length > 0 ? recent[recent.length - 1].details.usage : 0;
+    if (lastExceeds > health.memory.threshold) {
+      createAlert('high_memory', 'critical', {
+        message: `内存使用率过高: ${health.memory.usage}%`,
+        usage: health.memory.usage,
+        threshold: health.memory.threshold,
+        heapUsed: health.memory.heapUsed,
+        heapTotal: health.memory.heapTotal,
+      });
+    } else {
+      // 记录一次warning而不是critical，避免刷屏
+      createAlert('high_memory', 'warning', {
+        message: `内存使用率接近阈值: ${health.memory.usage}%`,
+        usage: health.memory.usage,
+        threshold: health.memory.threshold,
+      });
+    }
   }
 
   // 磁盘使用率告警

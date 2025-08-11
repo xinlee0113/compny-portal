@@ -207,8 +207,9 @@ class ServicesController {
       },
     };
 
+    const pageTitle = (texts && texts.services && texts.services.automotiveDevelopment && texts.services.automotiveDevelopment.title) || '车载应用开发';
     res.render('services/automotive-development', {
-      title: texts.services.automotiveDevelopment.title,
+      title: pageTitle,
       texts,
       serviceData,
       currentPage: 'services',
