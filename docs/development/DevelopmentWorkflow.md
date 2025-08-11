@@ -2,72 +2,85 @@
 
 ## 概述
 
-本文档描述了公司门户网站项目的标准开发流程，包括从需求分析到代码提交的完整过程。
+本文档定义公司门户项目的标准开发流程，覆盖从“需求→实现→测试→提交→发布→复盘”的全周期，并对文档管理、质量门禁和安全（含 Push Protection）进行统一规范。
 
-## 完整开发流程
+## 开发工作流（与项目要求对齐）
 
-### 1. 文档分析
+1. 功能清单 → 工作拆解（WBS） → 技术方案（含选型与边界）
+2. 实施计划/跟踪（里程碑/看板/负责人/验收标准）
+3. MVP 开发（最小可行版本）
+4. 测试通过（包含功能与非功能：性能/安全/兼容）
+5. 生成报告（测试报告、质量报告、工作汇报）
+6. 规范符合性检查（代码/接口/安全/可观测性）
+7. 文档管理整洁规范（所有文档统一在 `docs/`，版本化与唯一性）
+8. 工程结构整洁，去掉冗余内容
+9. 合入代码并更新状态，输出下一步工作建议
 
-在开始编码之前，首先需要仔细阅读和分析相关文档：
+## 开发前准备
 
-- 产品需求文档 (PRD)
-- 系统架构文档
-- 部署架构文档
-- 用户体验设计规范
-- 用户界面设计规范
+- Node.js 环境与锁定依赖：优先使用 `npm ci` 安装依赖，确保锁定版本可复现
+- 统一格式与换行：仓库已配置 `.prettierrc.json`、`.editorconfig`、`.gitattributes`（统一为 LF）
+- 文本与多语言：避免在模板硬编码文案，集中在 `src/config/i18n.js` 维护
 
-### 2. 编码实现 (MVP)
+## 文档分析
 
-基于文档分析结果，实现最小可行产品 (MVP)：
+开始实现前，仔细阅读并确认：
 
-1. 创建必要的文件和目录结构
-2. 实现核心功能代码
-3. 遵循项目技术栈要求
-4. 使用MVC模式组织代码
-5. 遵循代码规范和最佳实践
+- `docs/product/PRD.md` 产品需求文档
+- `docs/architecture/SystemArchitecture.md` 系统架构
+- `docs/deployment/DeploymentArchitecture.md` 部署架构
+- `docs/product/UE.md` 用户体验规范、`docs/product/UI.md` 界面规范
+- 功能清单与优先级、实施计划与检查表
 
-### 3. 测试
+## 编码实现（MVP）
 
-#### 3.1 单元测试
+遵循 MVC 结构与现有技术栈（Node.js + Express + EJS），实现核心路径：
 
-- 使用Jest测试框架
-- 覆盖核心业务逻辑
-- 确保测试覆盖率至少达到80%
+1. 建立目录与骨架，严格遵循代码规范与命名规则
+2. 统一配置/常量/文案来源，禁止散落硬编码
+3. 引入必要的可观测性（`src/utils/monitor.js`）与安全中间件
 
-#### 3.2 集成测试
+## 测试策略
 
-- 测试API接口
-- 测试数据库操作
-- 测试页面渲染
-
-#### 3.3 运行测试
+1. 单元测试（Jest）
+   - 覆盖核心业务逻辑；建议覆盖率阈值≥80%
+2. 集成测试
+   - API、数据库、视图渲染
+3. 非功能测试
+   - 性能基准（`tests/performance/benchmark.test.js`）
+   - 安全与限流（中间件维度）
+4. 常用命令
 
 ```bash
 # 运行所有测试
 npm test
 
-# 运行测试并生成覆盖率报告
+# CI覆盖率模式
+npm run test:ci
+
+# 生成覆盖率报告
 npm run test:coverage
 
-# 监听模式运行测试
+# 监听模式
 npm run test:watch
 ```
 
-### 4. 代码质量检查
+## 代码质量与格式
+
+优先执行自动修复，再做检查：
 
 ```bash
-# 运行代码检查
-npm run lint
-
-# 自动修复代码格式问题
 npm run lint:fix
+npm run lint
 ```
 
-### 5. 代码提交
+Husky 钩子（已配置）：
+- pre-commit：先 `lint:fix` 再 `lint`，然后跑 `test:ci`
+- pre-push：`npm run quality-check`（风格、测试与安全检查）
 
-#### 5.1 提交规范
+## 提交与消息规范
 
-遵循Angular Commit Message规范：
+遵循 Angular Commit Message 规范，参考：[Git提交规范](GitCommitGuidelines.md)
 
 ```
 <type>(<scope>): <subject>
@@ -77,101 +90,56 @@ npm run lint:fix
 <footer>
 ```
 
-详细规范请参考：[Git提交规范](GitCommitGuidelines.md)
-
-#### 5.2 提交步骤
-
-1. 添加变更文件到暂存区
-2. 编写符合规范的提交信息
-3. 提交代码
+示例：
 
 ```bash
-# 添加所有变更
 git add .
-
-# 使用模板提交
-git commit -t .gitmessage
-
-# 或者直接提交
-git commit -m "feat(homepage): implement company introduction page"
-```
-
-### 6. 流水线验证
-
-项目配置了GitHub Actions CI/CD流水线，每次推送代码都会自动触发：
-
-- 依赖安装
-- 代码检查
-- 运行测试
-- 构建项目
-- 构建Docker镜像
-
-可以通过GitHub仓库的Actions页面查看流水线执行状态。
-
-### 7. 反馈完成情况
-
-每次任务完成后，需要提供以下信息：
-
-- 已完成的功能列表
-- 代码质量和测试覆盖率
-- 部署状态
-- 遇到的问题和解决方案
-
-### 8. 下一步计划
-
-根据当前进度提出下一步建议：
-
-- 待开发的功能
-- 需要优化的部分
-- 可能的风险和解决方案
-
-## 自动化工具
-
-### Git Hooks
-
-项目使用Husky配置了Git Hooks，在提交代码时会自动运行：
-
-- 代码检查
-- 测试运行
-
-### 提交模板
-
-可以使用以下命令使用提交模板：
-
-```bash
+git commit -m "feat(api): add search endpoint with validation"
+# 或使用模板
 git commit -t .gitmessage
 ```
 
-## 最佳实践
+## 推送与安全门禁（Push Protection）
 
-1. **小步提交**：每次提交只包含一个功能或修复
-2. **频繁提交**：每天至少提交一次代码
-3. **测试驱动**：先写测试，再写实现代码
-4. **代码审查**：所有代码变更都需要经过审查
-5. **持续集成**：确保所有测试在提交前通过
+GitHub 会阻止包含密钥/Token 的推送。处理流程：
 
-## 常见问题
+1. 识别位置：根据 GitHub 返回的路径/提交号定位泄露位置（含历史提交）
+2. 清理内容：将文档中的真实 Token 改为环境变量占位（如 `${FIGMA_API_TOKEN}`），并在示例中说明从环境加载
+3. 清理历史：
+   - 若刚产生：`git commit --amend` 覆盖本地提交
+   - 若已多次提交：`git reset --soft origin/master`，保留改动为未提交，重新生成“干净提交”
+4. 以 `--force-with-lease` 推送（防误覆盖）
 
-### 1. 提交被拒绝怎么办？
+严禁将密钥写入仓库；示例/模板一律使用占位符，真实值通过 CI/CD 或本地环境变量注入。
 
-如果提交信息不符合规范，提交会被拒绝。请检查提交信息是否符合[Git提交规范](GitCommitGuidelines.md)。
+## CI/CD 与发布
 
-### 2. 测试失败怎么办？
+- 每次推送触发：依赖安装 → Lint → Test → Build →（可选）Docker 镜像
+- 质量检查脚本：`npm run quality-check` 会输出报告至 `reports/`
+- Actions 页面可查看执行状态与日志
 
-确保所有测试都通过后再提交代码。可以使用以下命令调试测试：
+## 报告与文档管理
 
-```bash
-npm run test:watch
-```
+- 测试报告：`docs/test-report/` 使用模板 `template_test_report.md` 衍生版本化报告
+- 工作汇报：`docs/work-reports/WorkReport_YYYY-MM-DD_HH-mm-ss.md`
+- 所有文档统一位于 `docs/`，保持“唯一同质文档”，避免重复与过时
 
-### 3. 代码检查失败怎么办？
+## 常见问题（FAQ）
 
-运行以下命令查看和修复代码问题：
+1) 提交被拒（格式）
+- 检查提交信息是否符合[Git提交规范](GitCommitGuidelines.md)；使用模板或 `commitizen`
 
-```bash
-# 查看问题
-npm run lint
+2) 测试失败
+- 使用 `npm run test:watch` 定位并修复；严禁为“测试通过”而降低测试质量
 
-# 自动修复
-npm run lint:fix
-```
+3) Lint 失败
+- 先 `npm run lint:fix` 再 `npm run lint`；必要时按规则修正缩进、引号、换行
+
+4) Push Protection 拦截
+- 按“推送与安全门禁”一节清理内容与历史；确保示例改为占位符
+
+## 附录
+
+- 主要脚本：`package.json` → `lint/lint:fix/test/test:ci/quality-check`
+- 主要中间件：`src/middleware/`（安全、性能、国际化、限流）
+- 文案/i18n：`src/config/i18n.js`（集中管理）
