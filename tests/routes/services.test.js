@@ -39,9 +39,13 @@ describe('服务页渲染', () => {
   });
 
   test('系统集成与测试验证页应返回200', async () => {
-    await expect(request(app).get('/services/system-integration')).resolves.toHaveProperty('status', 200);
-    await expect(request(app).get('/services/testing-validation')).resolves.toHaveProperty('status', 200);
+    await expect(request(app).get('/services/system-integration')).resolves.toHaveProperty(
+      'status',
+      200
+    );
+    await expect(request(app).get('/services/testing-validation')).resolves.toHaveProperty(
+      'status',
+      200
+    );
   });
 });
-
-

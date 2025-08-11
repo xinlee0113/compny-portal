@@ -113,8 +113,7 @@ class ServicesController {
         {
           step: 1,
           title: '项目策划与立项 (SUP.1)',
-          description:
-            '定义范围、干系人、里程碑与资源，识别风险并制定应对策略',
+          description: '定义范围、干系人、里程碑与资源，识别风险并制定应对策略',
           deliverables: ['项目计划/里程碑', '角色职责矩阵', '风险清单与应对'],
         },
         {
