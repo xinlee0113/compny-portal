@@ -26,10 +26,10 @@
                         <p class="lead text-white-80 mb-4 fs-5"><%= (texts.home && texts.home.hero && texts.home.hero.subtitle) || '坚持ASPICE与ISO 26262的工程方法，重视架构设计、编码规范与自动化测试' %></p>
                         <div class="hero-buttons d-flex flex-wrap gap-3">
                             <a href="/services/automotive-development" class="btn btn-automotive-primary btn-lg px-4 py-3">
-                                <i class="fas fa-car me-2"></i><%= texts.home.hero.primaryCta %>
+                                <i class="fas fa-car me-2"></i><%= (texts.home && texts.home.hero && texts.home.hero.primaryCta) || '车载应用方案' %>
                             </a>
                             <a href="/services/testing-validation" class="btn btn-outline-light btn-lg px-4 py-3">
-                                <i class="fas fa-shield-alt me-2"></i><%= texts.home.hero.secondaryCta %>
+                                <i class="fas fa-shield-alt me-2"></i><%= (texts.home && texts.home.hero && texts.home.hero.secondaryCta) || '质量体系' %>
                             </a>
                         </div>
                         <div class="hero-stats mt-5">
