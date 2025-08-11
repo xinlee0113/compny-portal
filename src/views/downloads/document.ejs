@@ -130,7 +130,7 @@
     <%- include('../partials/navbar', { currentPage: 'downloads', texts: texts }) %>
 
     <!-- 文档头部 -->
-    <header class="document-header">
+    <header class="automotive-hero automotive-hero--short document-header" style="background:none;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">
@@ -147,12 +147,12 @@
                             </li>
                         </ol>
                     </nav>
-                    <h1 class="display-5 fw-bold mb-3">
+                    <div class="hero-content">
+                      <h1 class="display-3 fw-bold text-white mb-3">
                         <i class="fas fa-file-alt me-3"></i><%= document.title %>
-                    </h1>
-                    <p class="lead mb-0">
-                        专业技术文档 · 在线阅读
-                    </p>
+                      </h1>
+                      <p class="lead text-white-80 mb-0">专业技术文档 · 在线阅读</p>
+                    </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="action-buttons">

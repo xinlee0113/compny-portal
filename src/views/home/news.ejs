@@ -11,6 +11,15 @@
 <body>
     <!-- 统一导航栏 -->
     <%- include('../partials/navbar', { currentPage: 'news', texts: texts }) %>
+    
+    <section class="automotive-hero automotive-hero--short">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="display-3 fw-bold text-white mb-3"><%= texts.news.title %></h1>
+          <p class="lead text-white-80 mb-0">最新行业趋势与公司动态</p>
+        </div>
+      </div>
+    </section>
 
     <main class="container my-5">
         <nav aria-label="breadcrumb">

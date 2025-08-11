@@ -6,13 +6,8 @@
     <title><%= texts.nav.videoTutorials %> - <%= texts.site.name %></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="/css/style.css">
     <style>
-        .hero-section {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            color: white;
-            padding: 100px 0;
-        }
 
         .video-card {
             border: none;
@@ -68,27 +63,32 @@
 </head>
 <body>
     <!-- 统一导航栏 -->
-    <%- include('./partials/navbar', { currentPage: 'video-tutorials', texts: texts }) %>
+    <%- include('partials/navbar', { currentPage: 'video-tutorials', texts: texts }) %>
 
-    <!-- 英雄区域 -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">车载开发视频教程</h1>
-                    <p class="lead mb-4">从零基础到专家级别，全面掌握Android Automotive、QNX、Linux车载系统开发技术</p>
-                    <a href="#courses" class="btn btn-light btn-lg">
-                        <i class="fas fa-play me-2"></i>开始学习
-                    </a>
-                </div>
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        <div class="fs-1 fw-bold">50+</div>
-                        <div>视频课程</div>
-                    </div>
-                </div>
+    <!-- 英雄区域（统一风格） -->
+    <section class="automotive-hero automotive-hero--short">
+      <div class="container">
+        <div class="row align-items-center min-vh-0">
+          <div class="col-lg-8">
+            <div class="hero-content">
+              <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🎬 系统化学习</span>
+              <h1 class="display-3 fw-bold text-white mb-3">车载开发视频教程</h1>
+              <p class="lead text-white-80 mb-4">从零基础到进阶，覆盖 Android Automotive、QNX、Linux 等核心技术</p>
+              <a href="#courses" class="btn btn-automotive-primary btn-lg">
+                <i class="fas fa-play me-2"></i>开始学习
+              </a>
             </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="text-center text-white">
+              <div class="stat-item">
+                <h3 class="text-white fw-bold mb-1">50+</h3>
+                <p class="text-white-70 small mb-0">视频课程</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- 视频课程列表 -->

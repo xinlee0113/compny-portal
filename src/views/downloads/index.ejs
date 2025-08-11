@@ -56,34 +56,40 @@
     <%- include('../partials/navbar', { currentPage: 'downloads', texts: texts }) %>
 
     <!-- 英雄区 -->
-    <section class="hero-section">
+    <section class="automotive-hero automotive-hero--short">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">
+                    <div class="hero-content">
+                    <h1 class="display-3 fw-bold text-white mb-3">
                         <i class="fas fa-download me-3"></i>技术资源下载中心
                     </h1>
-                    <p class="lead mb-4">
+                    <p class="lead text-white-80 mb-4">
                         获取<%= company.name %>最新的车载应用开发技术白皮书、开发指南和最佳实践文档
                     </p>
                     <div class="d-flex flex-wrap gap-3">
-                        <span class="badge bg-light text-dark py-2 px-3">
+                        <span class="badge bg-warning text-dark py-2 px-3">
                             <i class="fas fa-file-pdf me-2"></i>免费下载
                         </span>
-                        <span class="badge bg-light text-dark py-2 px-3">
+                        <span class="badge bg-warning text-dark py-2 px-3">
                             <i class="fas fa-star me-2"></i>专业内容
                         </span>
-                        <span class="badge bg-light text-dark py-2 px-3">
+                        <span class="badge bg-warning text-dark py-2 px-3">
                             <i class="fas fa-clock me-2"></i>定期更新
                         </span>
                     </div>
+                    </div>
                 </div>
                 <div class="col-lg-4 text-center">
-                    <div class="bg-white bg-opacity-10 rounded-3 p-4">
-                        <h3 class="h2 mb-2">4+</h3>
-                        <p class="mb-2">技术文档</p>
-                        <h3 class="h2 mb-2">200+</h3>
-                        <p class="mb-0">页专业内容</p>
+                    <div class="text-white">
+                        <div class="stat-item">
+                          <h3 class="text-white fw-bold mb-1">4+</h3>
+                          <p class="text-white-70 small mb-0">技术文档</p>
+                        </div>
+                        <div class="stat-item mt-3">
+                          <h3 class="text-white fw-bold mb-1">200+</h3>
+                          <p class="text-white-70 small mb-0">页专业内容</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -80,15 +80,17 @@
     <%- include('../partials/navbar', { currentPage: 'dev-center', texts: texts }) %>
 
     <!-- 英雄区域 -->
-    <section class="hero-section">
+    <section class="automotive-hero automotive-hero--short">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">
+                    <div class="hero-content">
+                      <h1 class="display-3 fw-bold text-white mb-3">
                         <i class="fas fa-rocket me-3"></i><%= texts.devCenter.title %>
-                    </h1>
-                    <p class="lead mb-4"><%= texts.devCenter.subtitle %></p>
-                    <p class="mb-4"><%= texts.devCenter.description %></p>
+                      </h1>
+                      <p class="lead text-white-80 mb-2"><%= texts.devCenter.subtitle %></p>
+                      <p class="text-white-70 mb-0"><%= texts.devCenter.description %></p>
+                    </div>
                 </div>
                 <div class="col-lg-4 text-center">
                     <div class="stats-card">
