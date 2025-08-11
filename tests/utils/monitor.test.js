@@ -123,7 +123,7 @@ describe('Monitor', () => {
       expect(middleware.length).toBe(3); // req, res, next
     });
 
-    test('应该正确处理请求和响应', done => {
+    test('应该正确处理请求和响应', (done) => {
       const middleware = monitor.requestMiddleware();
 
       const mockReq = {
@@ -177,7 +177,7 @@ describe('Monitor', () => {
       consoleSpy.mockRestore();
     });
 
-    test('应该记录错误状态码', done => {
+    test('应该记录错误状态码', (done) => {
       const middleware = monitor.requestMiddleware();
 
       // 模拟错误日志

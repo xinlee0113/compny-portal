@@ -166,7 +166,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // 钩子函数
       hooks: {
-        beforeCreate: async session => {
+        beforeCreate: async (session) => {
           // 设置默认过期时间（7天）
           if (!session.expires_at) {
             session.expires_at = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -178,7 +178,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
 
-        beforeUpdate: async session => {
+        beforeUpdate: async (session) => {
           // 活动时更新最后活动时间
           if (session.changed('data') || session.changed('last_activity')) {
             session.last_activity = new Date();
@@ -349,10 +349,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Session.revokeUserSessions = async function (
-    userId,
-    excludeSessionId = null
-  ) {
+  Session.revokeUserSessions = async function (userId, excludeSessionId = null) {
     const where = { user_id: userId };
 
     if (excludeSessionId) {
@@ -369,18 +366,12 @@ module.exports = (sequelize, DataTypes) => {
       this.count(),
       this.scope('active').count(),
       this.findAll({
-        attributes: [
-          'device_type',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
-        ],
+        attributes: ['device_type', [sequelize.fn('COUNT', sequelize.col('id')), 'count']],
         group: ['device_type'],
         raw: true,
       }),
       this.findAll({
-        attributes: [
-          'browser',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
-        ],
+        attributes: ['browser', [sequelize.fn('COUNT', sequelize.col('id')), 'count']],
         group: ['browser'],
         raw: true,
       }),

@@ -63,12 +63,7 @@ exports.getProductById = (req, res) => {
  */
 exports.searchProducts = (req, res) => {
   try {
-    const {
-      q: query = '',
-      category = '',
-      sort = 'relevance',
-      limit = 50,
-    } = req.query;
+    const { q: query = '', category = '', sort = 'relevance', limit = 50 } = req.query;
 
     // 参数验证
     const validSortOptions = ['name', 'relevance', 'date'];
@@ -146,10 +141,7 @@ exports.getSearchSuggestions = (req, res) => {
     }
 
     const limitNumber = Math.min(Math.max(parseInt(limit) || 5, 1), 10);
-    const suggestions = productModel.getSearchSuggestions(
-      query.trim(),
-      limitNumber
-    );
+    const suggestions = productModel.getSearchSuggestions(query.trim(), limitNumber);
 
     res.json({
       success: true,
@@ -187,7 +179,7 @@ exports.renderProductsPage = (req, res) => {
         limit: 50,
       });
     } else {
-      products = productModel.getAllProducts().map(product => ({
+      products = productModel.getAllProducts().map((product) => ({
         ...product,
         relevanceScore: 1,
       }));

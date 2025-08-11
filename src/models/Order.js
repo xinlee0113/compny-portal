@@ -148,7 +148,7 @@ module.exports = (sequelize, DataTypes) => {
       ],
 
       hooks: {
-        beforeCreate: async order => {
+        beforeCreate: async (order) => {
           if (!order.order_number) {
             order.order_number = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
           }

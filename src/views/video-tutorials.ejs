@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= texts.nav.videoTutorials %> - <%= texts.site.name %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 100px 0;
+        }
+
+        .video-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .video-thumbnail {
+            height: 200px;
+            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-size: 24px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .category-android { background: #dbeafe; color: #1e40af; }
+        .category-qnx { background: #f3e8ff; color: #7c3aed; }
+        .category-linux { background: #dcfce7; color: #059669; }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'video-tutorials' ? 'active' : '' %>" href="/video-tutorials">
+                            <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'downloads' ? 'active' : '' %>" href="/downloads">
+                            <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <%= page === 'dev-center' ? 'active' : '' %>" href="#" id="devCenterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-laptop-code me-1"></i><%= texts.nav.devCenter %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="devCenterDropdown">
+                            <li><a class="dropdown-item" href="/dev-center">
+                                <i class="fas fa-home text-primary me-2"></i>开发中心首页
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/dev-center/confluence">
+                                <i class="fas fa-file-alt text-info me-2"></i><%= texts.nav.confluence %>
+                            </a></li>
+                            <li><a class="dropdown-item" href="/dev-center/jira">
+                                <i class="fas fa-tasks text-success me-2"></i><%= texts.nav.jira %>
+                            </a></li>
+                            <li><a class="dropdown-item" href="/dev-center/gerrit">
+                                <i class="fas fa-code-branch text-warning me-2"></i><%= texts.nav.gerrit %>
+                            </a></li>
+                            <li><a class="dropdown-item" href="/dev-center/jenkins">
+                                <i class="fas fa-cogs text-danger me-2"></i><%= texts.nav.jenkins %>
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/api-docs" target="_blank">
+                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin">
+                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">车载开发视频教程</h1>
+                    <p class="lead mb-4">从零基础到专家级别，全面掌握Android Automotive、QNX、Linux车载系统开发技术</p>
+                    <a href="#courses" class="btn btn-light btn-lg">
+                        <i class="fas fa-play me-2"></i>开始学习
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="fs-1 fw-bold">50+</div>
+                        <div>视频课程</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 视频课程列表 -->
+    <section id="courses" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">精选课程</h2>
+                <p class="lead text-muted">系统化学习车载应用开发</p>
+            </div>
+
+            <div class="row">
+                <!-- Android Automotive 课程 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card video-card h-100">
+                        <div class="video-thumbnail">
+                            <i class="fas fa-android fa-3x text-success"></i>
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <span class="category-badge category-android">Android Automotive</span>
+                            <h5 class="card-title">Android Automotive开发入门</h5>
+                            <p class="card-text">学习Android Automotive OS的基础架构和开发环境搭建</p>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-success">
+                                    <i class="fas fa-signal"></i> 初级
+                                </small>
+                                <small class="text-muted">45分钟</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QNX 课程 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card video-card h-100">
+                        <div class="video-thumbnail">
+                            <i class="fas fa-microchip fa-3x text-info"></i>
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <span class="category-badge category-qnx">QNX系统</span>
+                            <h5 class="card-title">QNX实时系统基础</h5>
+                            <p class="card-text">了解QNX实时操作系统的核心概念和开发环境</p>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-success">
+                                    <i class="fas fa-signal"></i> 初级
+                                </small>
+                                <small class="text-muted">38分钟</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linux 课程 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card video-card h-100">
+                        <div class="video-thumbnail">
+                            <i class="fab fa-linux fa-3x text-dark"></i>
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <span class="category-badge category-linux">Linux嵌入式</span>
+                            <h5 class="card-title">嵌入式Linux开发</h5>
+                            <p class="card-text">构建车载嵌入式Linux系统和应用程序开发</p>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-danger">
+                                    <i class="fas fa-signal"></i> 高级
+                                </small>
+                                <small class="text-muted">41分钟</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="text-center">
+                <p><%= company.copyright.text %></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 视频播放演示
+        document.querySelectorAll('.play-button, .video-card').forEach(element => {
+            element.addEventListener('click', function() {
+                const title = this.closest('.video-card').querySelector('.card-title').textContent;
+                alert(`准备播放视频：${title}\n（演示版本）`);
+            });
+        });
+    </script>
+</body>
+</html> 

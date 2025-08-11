@@ -1,5 +1,4 @@
 // 控制器：处理主页相关请求
-// const path = require('path'); // 暂时不需要
 
 // 渲染主页
 exports.getIndex = (req, res) => {

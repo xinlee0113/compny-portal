@@ -38,15 +38,69 @@ app.use(cookieParser());
 
 // 国际化中间件
 const { i18nMiddleware } = require('./config/i18n');
+const companyInfo = require('./config/company');
 app.use(i18nMiddleware);
+
+// 公司信息中间件 - 为所有模板提供公司信息
+app.use((req, res, next) => {
+  res.locals.company = companyInfo;
+  next();
+});
+
+// 社交媒体分享中间件
+const { generateShareData, socialMetaTags } = require('./middleware/social');
+app.use(generateShareData);
+app.use(socialMetaTags);
+
+// 多语言支持中间件
+const { detectLanguage, translate, generateLanguageUrls } = require('./middleware/multilingual');
+app.use(detectLanguage);
+app.use(translate);
+app.use(generateLanguageUrls);
+
+// 在线客服聊天中间件
+const { initializeChatConfig } = require('./middleware/livechat');
+app.use(initializeChatConfig);
+
+// 性能监控中间件
+const {
+  requestPerformanceMonitor,
+  errorMonitor,
+  startSystemMonitoring,
+} = require('./middleware/performance');
+app.use(requestPerformanceMonitor);
+
+// 启动系统监控
+startSystemMonitoring();
 
 // 路由
 app.use('/', require('./routes/home'));
 app.use('/auth', require('./routes/auth-pages'));
 app.use('/admin', require('./routes/admin')); // 管理员路由
 app.use('/api', require('./routes/api'));
+app.use('/services', require('./routes/services')); // 车载应用服务路由
+app.use('/tools', require('./routes/tools')); // 开发工具路由
+app.use('/video-tutorials', require('./routes/video-tutorials')); // 视频教程路由
+app.use('/case-studies', require('./routes/case-studies')); // 案例研究路由
+app.use('/downloads', require('./routes/downloads')); // 下载中心路由
+app.use('/dev-center', require('./routes/dev-center')); // 开发中心路由
+app.use('/contact', require('./routes/contact')); // 联系我们路由
+app.use('/blog', require('./routes/blog')); // 技术博客路由
+app.use('/search', require('./routes/search')); // 全站搜索路由
+app.use('/company', require('./routes/company')); // 公司页面路由
+app.use('/newsletter', require('./routes/newsletter')); // Newsletter订阅路由
+app.use('/feedback', require('./routes/feedback')); // 用户反馈路由
+app.use('/kb', require('./routes/kb')); // 知识库路由
+app.use('/testimonials', require('./routes/testimonials')); // 客户推荐路由
+app.use('/portfolio', require('./routes/portfolio')); // 项目作品集路由
+app.use('/examples', require('./routes/examples')); // 在线代码示例路由
+app.use('/monitoring', require('./routes/monitoring')); // 性能监控路由
 
-// 错误处理中间件
+// SEO路由 (注册在根路径)
+app.use('/', require('./routes/seo'));
+
+// 错误处理中间件（包含性能监控）
+app.use(errorMonitor);
 app.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
   console.error(err.stack);

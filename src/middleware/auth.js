@@ -7,8 +7,7 @@ const jwt = require('jsonwebtoken');
 const { cache } = require('../config/database');
 
 // JWT配置
-const JWT_SECRET =
-  process.env.JWT_SECRET || 'company-portal-jwt-secret-key-2025';
+const JWT_SECRET = process.env.JWT_SECRET || 'company-portal-jwt-secret-key-2025';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '30d';
 

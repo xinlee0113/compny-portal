@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageData.title %> - <%= texts.site.name %></title>
+    <meta name="description" content="<%= pageData.description %>">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .contact-form {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .contact-info-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .office-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        
+        .office-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .office-card.headquarters {
+            border-left-color: #ffd700;
+            background: linear-gradient(45deg, #fff9e6, #ffffff);
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: #667eea;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .map-container {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner {
+            display: none;
+        }
+        
+        .loading-spinner.show {
+            display: inline-block;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .urgency-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .urgency-badge.normal {
+            background: #e7f3ff;
+            color: #0066cc;
+        }
+        
+        .urgency-badge.high {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .urgency-badge.urgent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .urgency-badge.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <%- include('../partials/navbar') %>
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">联系我们</h1>
+                    <p class="lead mb-4"><%= texts.contact.subtitle %></p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-phone-alt me-2"></i>
+                            <span><%= pageData.contactInfo.phone %></span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope me-2"></i>
+                            <span><%= pageData.contactInfo.email %></span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock me-2"></i>
+                            <span><%= pageData.contactInfo.businessHours %></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <i class="fas fa-headset fa-8x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 联系表单 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="contact-form">
+                        <h3 class="mb-4">立即联系我们</h3>
+                        <p class="text-muted mb-4">请填写以下表单，我们会在24小时内回复您</p>
+                        
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">姓名 *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">邮箱 *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">电话号码</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="company" class="form-label">公司名称</label>
+                                    <input type="text" class="form-control" id="company" name="company">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="service" class="form-label">感兴趣的服务</label>
+                                <select class="form-control" id="service" name="service">
+                                    <option value="">请选择...</option>
+                                    <% pageData.services.forEach(service => { %>
+                                    <option value="<%= service.name %>"><%= service.name %></option>
+                                    <% }) %>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">紧急程度</label>
+                                <div class="mt-2">
+                                    <input type="radio" name="urgency" value="normal" id="urgency-normal" checked hidden>
+                                    <input type="radio" name="urgency" value="high" id="urgency-high" hidden>
+                                    <input type="radio" name="urgency" value="urgent" id="urgency-urgent" hidden>
+                                    
+                                    <span class="urgency-badge normal selected" data-urgency="normal">普通</span>
+                                    <span class="urgency-badge high" data-urgency="high">紧急</span>
+                                    <span class="urgency-badge urgent" data-urgency="urgent">非常紧急</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label">留言内容 *</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" 
+                                          placeholder="请详细描述您的需求..." required></textarea>
+                            </div>
+                            
+                            <div class="d-flex align-items-center justify-content-between">
+                                <button type="submit" class="btn btn-submit btn-lg">
+                                    <span class="loading-spinner spinner-border spinner-border-sm me-2" role="status"></span>
+                                    <span class="btn-text">发送留言</span>
+                                </button>
+                                <small class="text-muted">* 为必填字段</small>
+                            </div>
+                        </form>
+                        
+                        <div id="formAlert" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="contact-info-card">
+                        <h4 class="mb-4">联系信息</h4>
+                        
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">公司地址</h6>
+                            <p class="mb-1"><%= pageData.contactInfo.address %></p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">联系电话</h6>
+                            <p class="mb-1"><%= pageData.contactInfo.phone %></p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">邮箱地址</h6>
+                            <p class="mb-1"><%= pageData.contactInfo.email %></p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">工作时间</h6>
+                            <p class="mb-1"><%= pageData.contactInfo.businessHours %></p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">社交媒体</h6>
+                            <div class="social-links">
+                                <a href="#" title="微信"><i class="fab fa-weixin"></i></a>
+                                <a href="#" title="QQ"><i class="fab fa-qq"></i></a>
+                                <a href="#" title="微博"><i class="fab fa-weibo"></i></a>
+                                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 地图占位 -->
+                    <div class="map-container mt-4">
+                        <div class="text-center text-muted">
+                            <i class="fas fa-map-marker-alt fa-3x mb-3"></i>
+                            <p>地图加载中...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 我们的服务 -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">我们的专业服务</h2>
+                <p class="lead text-muted"><%= texts.contact.solutions %></p>
+            </div>
+            
+            <div class="row g-4">
+                <% pageData.services.forEach(service => { %>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-info-card text-center">
+                        <div class="service-icon mx-auto">
+                            <i class="<%= service.icon %>"></i>
+                        </div>
+                        <h5 class="mb-3"><%= service.name %></h5>
+                        <p class="text-muted"><%= service.description %></p>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 办公地点 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">办公地点</h2>
+                <p class="lead text-muted">我们在多个城市设有办公室，为您提供就近服务</p>
+            </div>
+            
+            <div class="row">
+                <% pageData.offices.forEach(office => { %>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="office-card <%= office.isHeadquarters ? 'headquarters' : '' %>">
+                        <div class="d-flex align-items-center mb-3">
+                            <h5 class="mb-0"><%= office.city %>办公室</h5>
+                            <% if (office.isHeadquarters) { %>
+                            <span class="badge bg-warning text-dark ms-2">总部</span>
+                            <% } %>
+                        </div>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i><%= office.address %>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-phone me-2"></i><%= office.phone %>
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-envelope me-2"></i><%= office.email %>
+                        </p>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <%- include('../partials/footer') %>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 紧急程度选择
+        document.querySelectorAll('.urgency-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                const urgency = this.getAttribute('data-urgency');
+                
+                // 清除所有选中状态
+                document.querySelectorAll('.urgency-badge').forEach(b => b.classList.remove('selected'));
+                
+                // 设置当前选中
+                this.classList.add('selected');
+                
+                // 更新radio按钮
+                document.getElementById(`urgency-${urgency}`).checked = true;
+            });
+        });
+        
+        // 表单提交处理
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('.btn-submit');
+            const spinner = submitBtn.querySelector('.loading-spinner');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const alertDiv = document.getElementById('formAlert');
+            
+            // 显示加载状态
+            spinner.classList.add('show');
+            btnText.textContent = '发送中...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+                
+                const response = await fetch('/contact/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alertDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>提交成功！</strong> ${result.message}
+                            <br><small class="mt-1 d-block">联系记录ID: ${result.contactId}</small>
+                        </div>
+                    `;
+                    
+                    // 重置表单
+                    this.reset();
+                    
+                    // 重置紧急程度选择
+                    document.querySelectorAll('.urgency-badge').forEach(b => b.classList.remove('selected'));
+                    document.querySelector('.urgency-badge[data-urgency="normal"]').classList.add('selected');
+                    document.getElementById('urgency-normal').checked = true;
+                    
+                } else {
+                    alertDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>提交失败！</strong> ${result.message}
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alertDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>网络错误！</strong> 请检查网络连接后重试。
+                    </div>
+                `;
+            } finally {
+                // 恢复按钮状态
+                spinner.classList.remove('show');
+                btnText.textContent = '发送留言';
+                submitBtn.disabled = false;
+                
+                // 显示提示信息
+                alertDiv.style.display = 'block';
+                alertDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // 5秒后自动隐藏提示
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, 5000);
+            }
+        });
+        
+        // 表单验证
+        document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(field => {
+            field.addEventListener('blur', function() {
+                validateField(this);
+            });
+        });
+        
+        function validateField(field) {
+            const isValid = field.checkValidity();
+            
+            if (isValid) {
+                field.classList.remove('is-invalid');
+                field.classList.add('is-valid');
+            } else {
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+            }
+        }
+    </script>
+</body>
+</html> 

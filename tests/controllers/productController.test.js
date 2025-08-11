@@ -44,9 +44,7 @@ describe('Product Controller', () => {
 
   describe('GET /api/products/:id', () => {
     test('应该返回指定ID的产品', async () => {
-      const response = await request(app)
-        .get('/api/products/product-001')
-        .expect(200);
+      const response = await request(app).get('/api/products/product-001').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.data.id).toBe('product-001');
@@ -54,9 +52,7 @@ describe('Product Controller', () => {
     });
 
     test('产品不存在时应该返回404', async () => {
-      const response = await request(app)
-        .get('/api/products/non-existing-id')
-        .expect(404);
+      const response = await request(app).get('/api/products/non-existing-id').expect(404);
 
       expect(response.body.success).toBe(false);
       expect(response.body.message).toBe('产品未找到');
@@ -65,9 +61,7 @@ describe('Product Controller', () => {
 
   describe('GET /api/products/search', () => {
     test('无参数时应该返回所有产品', async () => {
-      const response = await request(app)
-        .get('/api/products/search')
-        .expect(200);
+      const response = await request(app).get('/api/products/search').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(Array.isArray(response.body.data)).toBe(true);
@@ -75,48 +69,40 @@ describe('Product Controller', () => {
     });
 
     test('应该支持关键词搜索', async () => {
-      const response = await request(app)
-        .get('/api/products/search?q=创新')
-        .expect(200);
+      const response = await request(app).get('/api/products/search?q=创新').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.keyword).toBe('创新');
 
       if (response.body.data.length > 0) {
-        response.body.data.forEach(product => {
+        response.body.data.forEach((product) => {
           expect(product.relevanceScore).toBeGreaterThan(0);
         });
       }
     });
 
     test('应该支持分类筛选', async () => {
-      const response = await request(app)
-        .get('/api/products/search?category=核心产品')
-        .expect(200);
+      const response = await request(app).get('/api/products/search?category=核心产品').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.category).toBe('核心产品');
 
       if (response.body.data.length > 0) {
-        response.body.data.forEach(product => {
+        response.body.data.forEach((product) => {
           expect(product.category).toBe('核心产品');
         });
       }
     });
 
     test('应该支持排序参数', async () => {
-      const response = await request(app)
-        .get('/api/products/search?sort=name')
-        .expect(200);
+      const response = await request(app).get('/api/products/search?sort=name').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.sort).toBe('name');
     });
 
     test('应该支持限制结果数量', async () => {
-      const response = await request(app)
-        .get('/api/products/search?limit=3')
-        .expect(200);
+      const response = await request(app).get('/api/products/search?limit=3').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.data.length).toBeLessThanOrEqual(3);
@@ -124,9 +110,7 @@ describe('Product Controller', () => {
 
     test('应该支持组合查询', async () => {
       const response = await request(app)
-        .get(
-          '/api/products/search?q=数字化&category=行业解决方案&sort=name&limit=5'
-        )
+        .get('/api/products/search?q=数字化&category=行业解决方案&sort=name&limit=5')
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -137,18 +121,14 @@ describe('Product Controller', () => {
     });
 
     test('无效的排序参数应该使用默认值', async () => {
-      const response = await request(app)
-        .get('/api/products/search?sort=invalid')
-        .expect(200);
+      const response = await request(app).get('/api/products/search?sort=invalid').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.sort).toBe('relevance');
     });
 
     test('超出范围的limit应该被限制', async () => {
-      const response = await request(app)
-        .get('/api/products/search?limit=200')
-        .expect(200);
+      const response = await request(app).get('/api/products/search?limit=200').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.query.limit).toBe(100);
@@ -157,9 +137,7 @@ describe('Product Controller', () => {
 
   describe('GET /api/products/categories', () => {
     test('应该返回所有产品分类', async () => {
-      const response = await request(app)
-        .get('/api/products/categories')
-        .expect(200);
+      const response = await request(app).get('/api/products/categories').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(Array.isArray(response.body.data)).toBe(true);
@@ -167,9 +145,7 @@ describe('Product Controller', () => {
     });
 
     test('返回的分类应该包含预期的类别', async () => {
-      const response = await request(app)
-        .get('/api/products/categories')
-        .expect(200);
+      const response = await request(app).get('/api/products/categories').expect(200);
 
       const categories = response.body.data;
       expect(categories).toContain('核心产品');
@@ -180,18 +156,14 @@ describe('Product Controller', () => {
 
   describe('GET /api/products/suggestions', () => {
     test('查询参数过短时应该返回空数组', async () => {
-      const response = await request(app)
-        .get('/api/products/suggestions?q=a')
-        .expect(200);
+      const response = await request(app).get('/api/products/suggestions?q=a').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.data).toEqual([]);
     });
 
     test('应该返回相关的搜索建议', async () => {
-      const response = await request(app)
-        .get('/api/products/suggestions?q=智能')
-        .expect(200);
+      const response = await request(app).get('/api/products/suggestions?q=智能').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(Array.isArray(response.body.data)).toBe(true);
@@ -259,9 +231,7 @@ describe('Product Controller', () => {
         }
       });
 
-      const response = await request(mockApp)
-        .get('/api/products/test-id')
-        .expect(500);
+      const response = await request(mockApp).get('/api/products/test-id').expect(500);
 
       expect(response.body.success).toBe(false);
       expect(response.body.message).toBe('获取产品详情失败');
@@ -284,9 +254,7 @@ describe('Product Controller', () => {
         }
       });
 
-      const response = await request(mockApp)
-        .get('/api/products/search?q=test')
-        .expect(500);
+      const response = await request(mockApp).get('/api/products/search?q=test').expect(500);
 
       expect(response.body.success).toBe(false);
       expect(response.body.message).toBe('产品搜索失败');

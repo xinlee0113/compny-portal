@@ -68,7 +68,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(20),
         allowNull: true,
         validate: {
-          is: /^[\+]?[1-9][\d]{0,15}$/,
+          // 可选的国际电话格式（E.164简单校验）
+          is: /^\+?[1-9]\d{0,15}$/,
         },
         comment: '电话号码',
       },
@@ -201,13 +202,13 @@ module.exports = (sequelize, DataTypes) => {
 
       // 钩子函数
       hooks: {
-        beforeCreate: async user => {
+        beforeCreate: async (user) => {
           if (user.password_hash) {
             user.password_hash = await bcrypt.hash(user.password_hash, 12);
           }
         },
 
-        beforeUpdate: async user => {
+        beforeUpdate: async (user) => {
           if (user.changed('password_hash')) {
             user.password_hash = await bcrypt.hash(user.password_hash, 12);
           }
@@ -230,11 +231,7 @@ module.exports = (sequelize, DataTypes) => {
 
         public: {
           attributes: {
-            exclude: [
-              'password_hash',
-              'email_verification_token',
-              'password_reset_token',
-            ],
+            exclude: ['password_hash', 'email_verification_token', 'password_reset_token'],
           },
         },
       },

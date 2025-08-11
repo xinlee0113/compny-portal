@@ -37,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(20),
         allowNull: true,
         validate: {
-          is: /^[\+]?[1-9][\d]{0,15}$/,
+          // 可选的国际电话格式（E.164简单校验）
+          is: /^\+?[1-9]\d{0,15}$/,
         },
         comment: '电话号码',
       },
@@ -69,13 +70,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // 分类和状态
       category: {
-        type: DataTypes.ENUM(
-          'general',
-          'sales',
-          'support',
-          'technical',
-          'partnership'
-        ),
+        type: DataTypes.ENUM('general', 'sales', 'support', 'technical', 'partnership'),
         defaultValue: 'general',
         comment: '咨询类别',
       },
@@ -217,7 +212,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // 钩子函数
       hooks: {
-        beforeUpdate: async contact => {
+        beforeUpdate: async (contact) => {
           // 状态变更时自动设置时间戳
           if (contact.changed('status')) {
             if (contact.status === 'resolved' && !contact.resolved_at) {
@@ -226,11 +221,7 @@ module.exports = (sequelize, DataTypes) => {
           }
 
           // 设置回复时间
-          if (
-            contact.changed('response') &&
-            contact.response &&
-            !contact.response_at
-          ) {
+          if (contact.changed('response') && contact.response && !contact.response_at) {
             contact.response_at = new Date();
           }
         },
@@ -296,7 +287,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Contact.prototype.removeTag = async function (tag) {
-    this.tags = this.tags.filter(t => t !== tag);
+    this.tags = this.tags.filter((t) => t !== tag);
     await this.save();
   };
 
@@ -324,28 +315,19 @@ module.exports = (sequelize, DataTypes) => {
       this.count({ where }),
       this.findAll({
         where,
-        attributes: [
-          'status',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
-        ],
+        attributes: ['status', [sequelize.fn('COUNT', sequelize.col('id')), 'count']],
         group: ['status'],
         raw: true,
       }),
       this.findAll({
         where,
-        attributes: [
-          'category',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
-        ],
+        attributes: ['category', [sequelize.fn('COUNT', sequelize.col('id')), 'count']],
         group: ['category'],
         raw: true,
       }),
       this.findAll({
         where,
-        attributes: [
-          'priority',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
-        ],
+        attributes: ['priority', [sequelize.fn('COUNT', sequelize.col('id')), 'count']],
         group: ['priority'],
         raw: true,
       }),

@@ -9,11 +9,7 @@ const {
   logout,
   checkUserStatus,
 } = require('../middleware/auth');
-const {
-  contactRateLimit,
-  searchRateLimit,
-  apiRateLimit,
-} = require('../middleware/security');
+const { contactRateLimit, searchRateLimit, apiRateLimit } = require('../middleware/security');
 
 // Authentication related rate limits
 const authRateLimit = require('express-rate-limit')({
@@ -26,7 +22,7 @@ const authRateLimit = require('express-rate-limit')({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: req => {
+  skip: (req) => {
     // Skip health check and monitoring requests
     return req.path === '/health' || req.path === '/api/health';
   },

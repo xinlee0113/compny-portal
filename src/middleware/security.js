@@ -65,35 +65,31 @@ const helmetConfig = helmet({
   // 内容安全策略
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
+      defaultSrc: ['\'self\''],
       styleSrc: [
-        "'self'",
-        "'unsafe-inline'",
+        '\'self\'',
+        '\'unsafe-inline\'',
         'https://cdn.jsdelivr.net',
         'https://cdnjs.cloudflare.com',
       ],
       scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
+        '\'self\'',
+        '\'unsafe-inline\'',
         'https://cdn.jsdelivr.net',
         'https://cdnjs.cloudflare.com',
       ],
-      imgSrc: ["'self'", 'data:', 'https:'],
-      fontSrc: [
-        "'self'",
-        'https://cdn.jsdelivr.net',
-        'https://cdnjs.cloudflare.com',
-      ],
-      connectSrc: ["'self'"],
-      frameSrc: ["'none'"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      workerSrc: ["'none'"],
-      childSrc: ["'none'"],
-      formAction: ["'self'"],
-      frameAncestors: ["'none'"],
-      baseUri: ["'self'"],
-      manifestSrc: ["'self'"],
+      imgSrc: ['\'self\'', 'data:', 'https:'],
+      fontSrc: ['\'self\'', 'https://cdn.jsdelivr.net', 'https://cdnjs.cloudflare.com'],
+      connectSrc: ['\'self\''],
+      frameSrc: ['\'none\''],
+      objectSrc: ['\'none\''],
+      mediaSrc: ['\'self\''],
+      workerSrc: ['\'none\''],
+      childSrc: ['\'none\''],
+      formAction: ['\'self\''],
+      frameAncestors: ['\'none\''],
+      baseUri: ['\'self\''],
+      manifestSrc: ['\'self\''],
     },
   },
 
@@ -148,13 +144,7 @@ const corsConfig = cors({
   optionsSuccessStatus: 200,
   preflightContinue: false, // 确保预检请求被正确处理
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'X-Requested-With',
-    'Accept',
-    'Origin',
-  ],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   exposedHeaders: ['X-Total-Count'],
 });
 
@@ -272,9 +262,7 @@ const requestLogger = (req, res, next) => {
   req.startTime = Date.now();
 
   // 记录请求信息
-  console.log(
-    `[${new Date().toISOString()}] ${req.method} ${req.url} - ${req.ip}`
-  );
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - ${req.ip}`);
 
   // 记录响应完成
   res.on('finish', () => {

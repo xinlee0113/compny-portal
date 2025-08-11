@@ -50,9 +50,7 @@ describe('性能基准测试', () => {
       const startTime = Date.now();
 
       await request(app)
-        .get(
-          '/api/products/search?q=智能&category=核心产品&sort=relevance&limit=10'
-        )
+        .get('/api/products/search?q=智能&category=核心产品&sort=relevance&limit=10')
         .expect(200);
 
       const responseTime = Date.now() - startTime;
@@ -86,7 +84,7 @@ describe('性能基准测试', () => {
       const totalTime = Date.now() - startTime;
 
       // 验证所有请求都成功
-      responses.forEach(response => {
+      responses.forEach((response) => {
         expect(response.status).toBe(200);
       });
 
@@ -114,7 +112,7 @@ describe('性能基准测试', () => {
       const totalTime = Date.now() - startTime;
 
       // 验证所有请求都成功
-      responses.forEach(response => {
+      responses.forEach((response) => {
         expect(response.status).toBe(200);
       });
 
@@ -150,7 +148,7 @@ describe('性能基准测试', () => {
           batchRequests.push(
             request(app)
               .get('/api/products')
-              .then(response => {
+              .then((response) => {
                 const requestTime = Date.now() - requestStartTime;
                 results.responseTimes.push(requestTime);
                 return response;
@@ -160,7 +158,7 @@ describe('性能基准测试', () => {
 
         try {
           const responses = await Promise.all(batchRequests);
-          responses.forEach(response => {
+          responses.forEach((response) => {
             if (response.status === 200) {
               results.successCount++;
             } else {
@@ -172,15 +170,14 @@ describe('性能基准测试', () => {
         }
 
         // 批次间短暂休息
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await new Promise((resolve) => setTimeout(resolve, 10));
       }
 
       results.totalTime = Date.now() - overallStartTime;
 
       // 计算统计数据
       const averageResponseTime =
-        results.responseTimes.reduce((a, b) => a + b, 0) /
-        results.responseTimes.length;
+        results.responseTimes.reduce((a, b) => a + b, 0) / results.responseTimes.length;
       const minResponseTime = Math.min(...results.responseTimes);
       const maxResponseTime = Math.max(...results.responseTimes);
       const successRate = (results.successCount / totalRequests) * 100;
@@ -199,9 +196,7 @@ describe('性能基准测试', () => {
       console.log(`平均响应时间: ${averageResponseTime.toFixed(2)}ms`);
       console.log(`最小响应时间: ${minResponseTime}ms`);
       console.log(`最大响应时间: ${maxResponseTime}ms`);
-      console.log(
-        `吞吐量: ${((totalRequests / results.totalTime) * 1000).toFixed(2)} 请求/秒`
-      );
+      console.log(`吞吐量: ${((totalRequests / results.totalTime) * 1000).toFixed(2)} 请求/秒`);
     });
   });
 
@@ -226,12 +221,8 @@ describe('性能基准测试', () => {
       expect(memoryIncrease).toBeLessThan(20 * 1024 * 1024);
 
       console.log('=== 内存使用情况 ===');
-      console.log(
-        `初始堆内存: ${(initialMemory.heapUsed / 1024 / 1024).toFixed(2)}MB`
-      );
-      console.log(
-        `最终堆内存: ${(finalMemory.heapUsed / 1024 / 1024).toFixed(2)}MB`
-      );
+      console.log(`初始堆内存: ${(initialMemory.heapUsed / 1024 / 1024).toFixed(2)}MB`);
+      console.log(`最终堆内存: ${(finalMemory.heapUsed / 1024 / 1024).toFixed(2)}MB`);
       console.log(`内存增长: ${(memoryIncrease / 1024 / 1024).toFixed(2)}MB`);
     });
   });
@@ -242,16 +233,7 @@ describe('性能基准测试', () => {
       const product = new Product();
 
       // 测试搜索性能
-      const searchTerms = [
-        '智能',
-        '创新',
-        '数字化',
-        '平台',
-        '解决方案',
-        '技术',
-        '服务',
-        '系统',
-      ];
+      const searchTerms = ['智能', '创新', '数字化', '平台', '解决方案', '技术', '服务', '系统'];
       const iterations = 1000;
 
       const startTime = Date.now();
@@ -281,12 +263,7 @@ describe('性能基准测试', () => {
       const product = new Product();
       const products = product.getAllProducts();
 
-      const testQueries = [
-        '智能平台',
-        '创新解决方案',
-        '数字化转型',
-        '核心技术',
-      ];
+      const testQueries = ['智能平台', '创新解决方案', '数字化转型', '核心技术'];
       const iterations = 5000;
 
       const startTime = Date.now();

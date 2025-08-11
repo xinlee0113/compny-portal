@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       ],
 
       hooks: {
-        beforeSave: async orderItem => {
+        beforeSave: async (orderItem) => {
           orderItem.total_price = orderItem.quantity * orderItem.unit_price;
         },
       },

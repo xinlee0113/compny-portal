@@ -12,15 +12,7 @@ const { cache } = require('../config/database');
  */
 const register = async (req, res) => {
   try {
-    const {
-      username,
-      email,
-      password,
-      confirmPassword,
-      firstName,
-      lastName,
-      phone,
-    } = req.body;
+    const { username, email, password, confirmPassword, firstName, lastName, phone } = req.body;
 
     // 输入验证
     if (!username || !email || !password) {
@@ -240,12 +232,8 @@ const login = async (req, res) => {
       const tokens = generateTokens(user);
 
       // 设置cookies
-      const accessTokenMaxAge = rememberMe
-        ? 30 * 24 * 60 * 60 * 1000
-        : 24 * 60 * 60 * 1000;
-      const refreshTokenMaxAge = rememberMe
-        ? 90 * 24 * 60 * 60 * 1000
-        : 7 * 24 * 60 * 60 * 1000;
+      const accessTokenMaxAge = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+      const refreshTokenMaxAge = rememberMe ? 90 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000;
 
       const cookieOptions = {
         httpOnly: true,
@@ -536,8 +524,7 @@ const changePassword = async (req, res) => {
       }
 
       // 验证当前密码
-      const isCurrentPasswordValid =
-        await fullUser.checkPassword(currentPassword);
+      const isCurrentPasswordValid = await fullUser.checkPassword(currentPassword);
       if (!isCurrentPasswordValid) {
         return res.status(401).json({
           success: false,

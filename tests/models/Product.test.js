@@ -72,7 +72,7 @@ describe('Product Model', () => {
     test('应该支持关键词搜索', () => {
       const results = productModel.searchProducts({ query: '创新' });
       expect(results.length).toBeGreaterThan(0);
-      results.forEach(product => {
+      results.forEach((product) => {
         expect(product.relevanceScore).toBeGreaterThan(0);
       });
     });
@@ -80,7 +80,7 @@ describe('Product Model', () => {
     test('应该支持分类筛选', () => {
       const results = productModel.searchProducts({ category: '核心产品' });
       expect(results.length).toBeGreaterThan(0);
-      results.forEach(product => {
+      results.forEach((product) => {
         expect(product.category).toBe('核心产品');
       });
     });
@@ -90,9 +90,7 @@ describe('Product Model', () => {
       expect(results.length).toBeGreaterThan(1);
 
       for (let i = 1; i < results.length; i++) {
-        expect(
-          results[i - 1].name.localeCompare(results[i].name, 'zh-CN')
-        ).toBeLessThanOrEqual(0);
+        expect(results[i - 1].name.localeCompare(results[i].name, 'zh-CN')).toBeLessThanOrEqual(0);
       }
     });
 
@@ -124,7 +122,7 @@ describe('Product Model', () => {
       expect(results.length).toBeLessThanOrEqual(5);
 
       if (results.length > 0) {
-        results.forEach(product => {
+        results.forEach((product) => {
           expect(product.category).toBe('行业解决方案');
           expect(product.relevanceScore).toBeGreaterThan(0);
         });
@@ -192,7 +190,7 @@ describe('Product Model', () => {
 
     test('建议应该包含查询关键词', () => {
       const suggestions = productModel.getSearchSuggestions('智能');
-      suggestions.forEach(suggestion => {
+      suggestions.forEach((suggestion) => {
         expect(suggestion.toLowerCase()).toContain('智能');
       });
     });

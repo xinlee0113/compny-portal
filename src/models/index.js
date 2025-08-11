@@ -27,7 +27,7 @@ const models = {
 };
 
 // 设置模型关联关系
-Object.keys(models).forEach(modelName => {
+Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }

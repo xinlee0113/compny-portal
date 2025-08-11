@@ -50,9 +50,9 @@ const postgresConfig = {
   dialectOptions: {
     ssl: DB_SSL
       ? {
-          require: true,
-          rejectUnauthorized: false,
-        }
+        require: true,
+        rejectUnauthorized: false,
+      }
       : false,
 
     // 连接超时
@@ -113,7 +113,7 @@ const redisConfig = {
     commandTimeout: 5000,
 
     // 重连配置
-    reconnectStrategy: retries => {
+    reconnectStrategy: (retries) => {
       const delay = Math.min(retries * 50, 2000);
       return delay;
     },
@@ -150,7 +150,7 @@ async function createRedisClient() {
       console.log('📦 Redis已准备就绪');
     });
 
-    redisClient.on('error', err => {
+    redisClient.on('error', (err) => {
       console.error('❌ Redis连接错误:', err.message);
       redisConnected = false;
     });
@@ -240,7 +240,7 @@ async function closeConnections() {
         .then(() => {
           console.log('✅ PostgreSQL连接已关闭');
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('❌ PostgreSQL关闭失败:', err.message);
         })
     );
@@ -254,7 +254,7 @@ async function closeConnections() {
         .then(() => {
           console.log('✅ Redis连接已关闭');
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('❌ Redis关闭失败:', err.message);
         })
     );

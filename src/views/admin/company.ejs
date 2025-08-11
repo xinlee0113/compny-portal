@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公司信息管理 - <%= texts.site.name %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .admin-sidebar {
+            background: #2c3e50;
+            color: white;
+            min-height: 100vh;
+        }
+        .admin-sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            border-radius: 0.25rem;
+            margin: 0.25rem 0;
+        }
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #007bff;
+        }
+        .save-indicator {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="d-flex align-items-center mb-3 pb-3 border-bottom border-light">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong>管理后台</strong>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">
+                                <i class="fas fa-tachometer-alt"></i>控制台
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">
+                                <i class="fas fa-users"></i>用户管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/monitor">
+                                <i class="fas fa-chart-line"></i>系统监控
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/backup">
+                                <i class="fas fa-database"></i>数据管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/admin/company">
+                                <i class="fas fa-building"></i>公司信息
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/logs">
+                                <i class="fas fa-file-alt"></i>日志管理
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-4 pt-3 border-top border-light">
+                        <div class="d-flex justify-content-between">
+                            <a href="/" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-home me-1"></i>返回网站
+                            </a>
+                            <a href="/admin/logout" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-sign-out-alt me-1"></i>退出
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 主内容区 -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">
+                        <i class="fas fa-building me-2"></i>公司信息管理
+                    </h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button class="btn btn-success" onclick="saveCompanyInfo()">
+                            <i class="fas fa-save me-1"></i>保存所有更改
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 保存提示 -->
+                <div class="save-indicator alert alert-success" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>公司信息已保存成功！
+                </div>
+
+                <form id="companyForm">
+                    <!-- 基本信息 -->
+                    <div class="form-section">
+                        <h4 class="mb-3">
+                            <i class="fas fa-info-circle me-2"></i>基本信息
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">公司简称</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="<%= company.name %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="fullName" class="form-label">公司全称</label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" value="<%= company.fullName %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="englishName" class="form-label">英文名称</label>
+                                    <input type="text" class="form-control" id="englishName" name="englishName" value="<%= company.englishName %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="slogan" class="form-label">公司口号</label>
+                                    <input type="text" class="form-control" id="slogan" name="slogan" value="<%= company.slogan %>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 联系信息 -->
+                    <div class="form-section">
+                        <h4 class="mb-3">
+                            <i class="fas fa-phone me-2"></i>联系信息
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">联系电话</label>
+                                    <input type="text" class="form-control" id="phone" name="contact.phone" value="<%= company.contact.phone %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">主要邮箱</label>
+                                    <input type="email" class="form-control" id="email" name="contact.email" value="<%= company.contact.email %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="supportEmail" class="form-label">技术支持邮箱</label>
+                                    <input type="email" class="form-control" id="supportEmail" name="contact.supportEmail" value="<%= company.contact.supportEmail %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="salesEmail" class="form-label">销售邮箱</label>
+                                    <input type="email" class="form-control" id="salesEmail" name="contact.salesEmail" value="<%= company.contact.salesEmail %>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 地址信息 -->
+                    <div class="form-section">
+                        <h4 class="mb-3">
+                            <i class="fas fa-map-marker-alt me-2"></i>地址信息
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="province" class="form-label">省份</label>
+                                    <input type="text" class="form-control" id="province" name="address.headquarters.province" value="<%= company.address.headquarters.province %>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="city" class="form-label">城市</label>
+                                    <input type="text" class="form-control" id="city" name="address.headquarters.city" value="<%= company.address.headquarters.city %>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="district" class="form-label">区域</label>
+                                    <input type="text" class="form-control" id="district" name="address.headquarters.district" value="<%= company.address.headquarters.district %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="street" class="form-label">详细地址</label>
+                                    <input type="text" class="form-control" id="street" name="address.headquarters.street" value="<%= company.address.headquarters.street %>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="zipCode" class="form-label">邮政编码</label>
+                                    <input type="text" class="form-control" id="zipCode" name="address.headquarters.zipCode" value="<%= company.address.headquarters.zipCode %>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 网站信息 -->
+                    <div class="form-section">
+                        <h4 class="mb-3">
+                            <i class="fas fa-globe me-2"></i>网站信息
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="domain" class="form-label">网站域名</label>
+                                    <input type="text" class="form-control" id="domain" name="website.domain" value="<%= company.website.domain %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="url" class="form-label">网站URL</label>
+                                    <input type="url" class="form-control" id="url" name="website.url" value="<%= company.website.url %>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function saveCompanyInfo() {
+            const form = document.getElementById('companyForm');
+            const formData = new FormData(form);
+            
+            // 将FormData转换为JSON
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                setNestedProperty(data, key, value);
+            }
+            
+            try {
+                const response = await fetch('/admin/api/company', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    showSaveIndicator();
+                } else {
+                    alert('保存失败，请重试');
+                }
+            } catch (error) {
+                console.error('保存错误:', error);
+                alert('保存失败，请重试');
+            }
+        }
+        
+        function setNestedProperty(obj, path, value) {
+            const keys = path.split('.');
+            let current = obj;
+            
+            for (let i = 0; i < keys.length - 1; i++) {
+                if (!current[keys[i]]) {
+                    current[keys[i]] = {};
+                }
+                current = current[keys[i]];
+            }
+            
+            current[keys[keys.length - 1]] = value;
+        }
+        
+        function showSaveIndicator() {
+            const indicator = document.querySelector('.save-indicator');
+            indicator.style.display = 'block';
+            
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 监听表单变化，提示用户有未保存的修改
+        let hasUnsavedChanges = false;
+        document.getElementById('companyForm').addEventListener('input', () => {
+            hasUnsavedChanges = true;
+        });
+        
+        window.addEventListener('beforeunload', (e) => {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+        
+        // 保存后重置未保存状态
+        const originalSave = saveCompanyInfo;
+        saveCompanyInfo = async function() {
+            await originalSave();
+            hasUnsavedChanges = false;
+        };
+    </script>
+</body>
+</html>

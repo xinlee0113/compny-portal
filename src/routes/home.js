@@ -13,11 +13,6 @@ router.get('/news', homeController.getNews);
 router.get('/contact', homeController.getContact);
 
 // 处理联系表单提交 (带速率限制)
-router.post(
-  '/contact',
-  security.contactRateLimit,
-  validateContactForm,
-  homeController.postContact
-);
+router.post('/contact', security.contactRateLimit, validateContactForm, homeController.postContact);
 
 module.exports = router;

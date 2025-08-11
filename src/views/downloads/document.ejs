@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= document.title %> - <%= texts.site.name %></title>
+    <meta name="description" content="<%= document.title %> - <%= company.name %>技术文档在线阅读">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .document-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+        .document-header h1 {
+            color: white !important;
+        }
+        .document-header .lead {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .document-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .document-content h1,
+        .document-content h2,
+        .document-content h3,
+        .document-content h4,
+        .document-content h5,
+        .document-content h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        .document-content h1 {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        .document-content h2 {
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+            background: #f8f9fa;
+            padding: 0.75rem 1rem;
+            margin: 2rem 0 1rem;
+            border-radius: 4px;
+        }
+        .document-content blockquote {
+            border-left: 4px solid #28a745;
+            background: #f8fff9;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .document-content code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e83e8c;
+            font-size: 0.9em;
+        }
+        .document-content pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        .document-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        .document-content table {
+            margin: 1.5rem 0;
+        }
+        .document-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+        .action-buttons {
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+        }
+        .toc {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+        }
+        .toc a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 阅读进度条 -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'video-tutorials' ? 'active' : '' %>" href="/video-tutorials">
+                            <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'downloads' ? 'active' : '' %>" href="/downloads">
+                            <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/api-docs" target="_blank">
+                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin">
+                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 文档头部 -->
+    <header class="document-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <nav aria-label="breadcrumb" class="mb-3">
+                        <ol class="breadcrumb text-white-50">
+                            <li class="breadcrumb-item">
+                                <a href="/" class="text-white-50">首页</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/downloads" class="text-white-50">下载中心</a>
+                            </li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">
+                                <%= document.title %>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-file-alt me-3"></i><%= document.title %>
+                    </h1>
+                    <p class="lead mb-0">
+                        专业技术文档 · 在线阅读
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="action-buttons">
+                        <div class="d-grid gap-2">
+                            <a href="/downloads/<%= document.filename %>?download=true" 
+                               class="btn btn-light btn-lg">
+                                <i class="fas fa-download me-2"></i>下载文档
+                            </a>
+                            <button class="btn btn-outline-light" onclick="printDocument()">
+                                <i class="fas fa-print me-2"></i>打印文档
+                            </button>
+                            <button class="btn btn-outline-light" onclick="shareDocument()">
+                                <i class="fas fa-share me-2"></i>分享文档
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文档内容 -->
+    <main class="container my-5">
+        <div class="row">
+            <!-- 侧边栏目录 -->
+            <div class="col-lg-3 mb-4">
+                <div class="toc" id="documentToc">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-list me-2"></i>文档目录
+                    </h6>
+                    <div id="tocContent">
+                        <!-- 目录将通过JavaScript生成 -->
+                    </div>
+                </div>
+                
+                <!-- 文档信息 -->
+                <div class="card border-0 bg-light mt-4">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <i class="fas fa-info-circle me-2"></i>文档信息
+                        </h6>
+                        <div class="mb-2">
+                            <small class="text-muted">发布者：</small>
+                            <br><%= company.name %>技术团队
+                        </div>
+                        <div class="mb-2">
+                            <small class="text-muted">更新时间：</small>
+                            <br>2024年7月
+                        </div>
+                        <div class="mb-2">
+                            <small class="text-muted">文档格式：</small>
+                            <br>Markdown / PDF
+                        </div>
+                        <div>
+                            <small class="text-muted">版权声明：</small>
+                            <br><small>本文档版权归<%= company.name %>所有</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 主要内容 -->
+            <div class="col-lg-9">
+                <div class="document-content" id="documentContent">
+                    <!-- Markdown内容将在这里渲染 -->
+                    <div id="markdownContent"></div>
+                </div>
+
+                <!-- 文档底部操作 -->
+                <div class="mt-5 pt-4 border-top">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h6>觉得这个文档有用？</h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-success btn-sm" onclick="likeDocument()">
+                                    <i class="fas fa-thumbs-up me-1"></i>有用 (156)
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="shareDocument()">
+                                    <i class="fas fa-share me-1"></i>分享
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <a href="/downloads" class="btn btn-primary">
+                                <i class="fas fa-arrow-left me-2"></i>返回下载中心
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 相关文档推荐 -->
+                <div class="mt-5">
+                    <h5 class="mb-4">
+                        <i class="fas fa-book me-2"></i>相关文档推荐
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fab fa-android text-success me-2"></i>
+                                        Android Automotive 开发指南
+                                    </h6>
+                                    <p class="card-text text-muted small">
+                                        完整的AAOS开发教程和最佳实践
+                                    </p>
+                                    <a href="/downloads/android-automotive-development-guide" 
+                                       class="btn btn-sm btn-outline-primary">查看文档</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-tachometer-alt text-warning me-2"></i>
+                                        性能优化白皮书
+                                    </h6>
+                                    <p class="card-text text-muted small">
+                                        车载应用性能优化技术详解
+                                    </p>
+                                    <a href="/downloads/automotive-performance-optimization-whitepaper" 
+                                       class="btn btn-sm btn-outline-primary">查看文档</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><%= company.name %></h5>
+                    <p class="text-muted"><%= texts.site.description %></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; <%= new Date().getFullYear() %> <%= company.name %>. 保留所有权利.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 隐藏的原始Markdown内容 -->
+    <script type="text/plain" id="rawMarkdown"><%- document.content %></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-xml.min.js"></script>
+    <script>
+        // 配置marked
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return code;
+            },
+            breaks: true,
+            gfm: true
+        });
+
+        // 渲染Markdown内容
+        function renderMarkdown() {
+            const rawContent = document.getElementById('rawMarkdown').textContent;
+            const htmlContent = marked.parse(rawContent);
+            document.getElementById('markdownContent').innerHTML = htmlContent;
+            
+            // 重新高亮代码
+            Prism.highlightAll();
+            
+            // 生成目录
+            generateToc();
+        }
+
+        // 生成目录
+        function generateToc() {
+            const content = document.getElementById('markdownContent');
+            const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            const tocContent = document.getElementById('tocContent');
+            
+            if (headings.length === 0) {
+                tocContent.innerHTML = '<p class="text-muted small">此文档没有标题结构</p>';
+                return;
+            }
+            
+            let tocHTML = '<ul>';
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = `heading-${index}`;
+                heading.id = id;
+                
+                const indent = (level - 1) * 15;
+                tocHTML += `
+                    <li style="margin-left: ${indent}px;">
+                        <a href="#${id}" onclick="scrollToHeading('${id}')">
+                            ${heading.textContent}
+                        </a>
+                    </li>
+                `;
+            });
+            tocHTML += '</ul>';
+            
+            tocContent.innerHTML = tocHTML;
+        }
+
+        // 滚动到指定标题
+        function scrollToHeading(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // 阅读进度
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // 打印文档
+        function printDocument() {
+            window.print();
+        }
+
+        // 分享文档
+        function shareDocument() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '<%= document.title %>',
+                    url: window.location.href
+                });
+            } else {
+                // 复制链接到剪贴板
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('文档链接已复制到剪贴板');
+                });
+            }
+        }
+
+        // 点赞文档
+        function likeDocument() {
+            // 发送点赞请求
+            fetch('/api/documents/like', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ document: '<%= document.filename %>' })
+            }).then(() => {
+                alert('感谢您的反馈！');
+            });
+        }
+
+        // 页面加载完成后渲染内容
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMarkdown();
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', updateReadingProgress);
+            
+            // 初始化阅读进度
+            updateReadingProgress();
+        });
+    </script>
+</body>
+</html>

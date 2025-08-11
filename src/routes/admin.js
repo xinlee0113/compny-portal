@@ -6,12 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
-const {
-  requireAdmin,
-  requireManager,
-  extractToken,
-  verifyToken,
-} = require('../middleware/auth');
+const { requireAdmin, requireManager, extractToken, verifyToken } = require('../middleware/auth');
 const { apiRateLimit } = require('../middleware/security');
 
 /**
@@ -79,25 +74,21 @@ router.get('/logs', requireAdmin, adminController.renderLogManagement);
 // 系统设置页面
 router.get('/settings', requireAdmin, adminController.renderSystemSettings);
 
+// 数据管理页面
+router.get('/backup', requireAdmin, adminController.renderBackupManagement);
+
+// 公司信息管理页面
+router.get('/company', requireAdmin, adminController.renderCompanyManagement);
+
 /**
  * API路由 - 需要相应权限
  */
 
 // 获取实时系统状态
-router.get(
-  '/api/system/status',
-  requireManager,
-  apiRateLimit,
-  adminController.getSystemStatus
-);
+router.get('/api/system/status', requireManager, apiRateLimit, adminController.getSystemStatus);
 
 // 用户管理API
-router.post(
-  '/api/users/:userId/manage',
-  requireAdmin,
-  apiRateLimit,
-  adminController.manageUser
-);
+router.post('/api/users/:userId/manage', requireAdmin, apiRateLimit, adminController.manageUser);
 
 // 系统设置API
 router.post(
@@ -108,12 +99,38 @@ router.post(
 );
 
 // 日志清理API
-router.post(
-  '/api/logs/clear',
+router.post('/api/logs/clear', requireAdmin, apiRateLimit, adminController.clearLogs);
+
+// 数据备份API
+router.post('/api/backup', requireAdmin, apiRateLimit, adminController.performBackup);
+
+// 数据恢复API
+router.post('/api/restore', requireAdmin, apiRateLimit, adminController.performRestore);
+
+// 获取备份历史API
+router.get('/api/backup/history', requireAdmin, apiRateLimit, adminController.getBackupHistory);
+
+// 删除备份文件API
+router.delete(
+  '/api/backup/delete/:filename',
   requireAdmin,
   apiRateLimit,
-  adminController.clearLogs
+  adminController.deleteBackup
 );
+
+// 下载备份文件API
+router.get(
+  '/api/backup/download/:filename',
+  requireAdmin,
+  apiRateLimit,
+  adminController.downloadBackup
+);
+
+// 获取公司信息API
+router.get('/api/company', requireAdmin, apiRateLimit, adminController.getCompanyInfo);
+
+// 更新公司信息API
+router.post('/api/company', requireAdmin, apiRateLimit, adminController.updateCompanyInfo);
 
 /**
  * 错误处理中间件

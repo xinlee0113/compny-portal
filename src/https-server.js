@@ -24,11 +24,9 @@ const FORCE_HTTPS = process.env.FORCE_HTTPS === 'true';
 
 // SSL证书路径
 const SSL_KEY_PATH =
-  process.env.SSL_KEY_PATH ||
-  path.join(__dirname, '..', 'ssl', 'private-key.pem');
+  process.env.SSL_KEY_PATH || path.join(__dirname, '..', 'ssl', 'private-key.pem');
 const SSL_CERT_PATH =
-  process.env.SSL_CERT_PATH ||
-  path.join(__dirname, '..', 'ssl', 'certificate.pem');
+  process.env.SSL_CERT_PATH || path.join(__dirname, '..', 'ssl', 'certificate.pem');
 
 // 创建Express应用
 const app = express();
@@ -71,20 +69,17 @@ app.use(security.requestLogger);
 app.use((req, res, next) => {
   if (req.secure || req.header('x-forwarded-proto') === 'https') {
     // 强制HTTPS传输安全（HSTS）
-    res.setHeader(
-      'Strict-Transport-Security',
-      'max-age=31536000; includeSubDomains; preload'
-    );
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
 
     // 升级不安全请求
     res.setHeader(
       'Content-Security-Policy',
-      "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net; " +
-        "style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; " +
-        "img-src 'self' data: https:; " +
-        "font-src 'self' cdn.jsdelivr.net; " +
-        "connect-src 'self'; " +
+      'default-src \'self\'; ' +
+        'script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' cdn.jsdelivr.net; ' +
+        'style-src \'self\' \'unsafe-inline\' cdn.jsdelivr.net; ' +
+        'img-src \'self\' data: https:; ' +
+        'font-src \'self\' cdn.jsdelivr.net; ' +
+        'connect-src \'self\'; ' +
         'upgrade-insecure-requests'
     );
   }
@@ -125,8 +120,7 @@ app.get('/ssl-status', (req, res) => {
     environment: NODE_ENV,
     certificates: {
       development: fs.existsSync(SSL_CERT_PATH),
-      production:
-        NODE_ENV === 'production' ? 'check-letsencrypt' : 'not-applicable',
+      production: NODE_ENV === 'production' ? 'check-letsencrypt' : 'not-applicable',
     },
     timestamp: new Date().toISOString(),
   };
@@ -216,7 +210,7 @@ function startServers() {
         console.log(`🔧 配置: ${FORCE_HTTPS ? '强制HTTPS' : 'HTTP/HTTPS并存'}`);
       });
 
-      httpsServer.on('error', err => {
+      httpsServer.on('error', (err) => {
         console.error('❌ HTTPS服务器启动失败:', err.message);
       });
     } catch (err) {

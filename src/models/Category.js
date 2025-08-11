@@ -199,7 +199,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // 钩子函数
       hooks: {
-        beforeCreate: async category => {
+        beforeCreate: async (category) => {
           if (!category.slug && category.name) {
             category.slug = category.name
               .toLowerCase()
@@ -211,7 +211,7 @@ module.exports = (sequelize, DataTypes) => {
           await category.updatePath();
         },
 
-        beforeUpdate: async category => {
+        beforeUpdate: async (category) => {
           if (category.changed('name') && !category.changed('slug')) {
             category.slug = category.name
               .toLowerCase()
@@ -362,11 +362,11 @@ module.exports = (sequelize, DataTypes) => {
     const categoryMap = new Map();
 
     // 构建树形结构
-    categories.forEach(category => {
+    categories.forEach((category) => {
       categoryMap.set(category.id, { ...category.toJSON(), children: [] });
     });
 
-    categories.forEach(category => {
+    categories.forEach((category) => {
       const categoryNode = categoryMap.get(category.id);
       if (category.parent_id) {
         const parent = categoryMap.get(category.parent_id);

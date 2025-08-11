@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= texts.apiDocs.detailed.pageTitle %></title>
+    <meta name="description" content="<%= texts.apiDocs.detailed.description %>">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <style>
+        .api-sidebar {
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            height: 100vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+        }
+        
+        .api-content {
+            padding: 0;
+        }
+        
+        .endpoint-card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        
+        .method-badge {
+            font-weight: bold;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .method-get { background: #28a745; color: white; }
+        .method-post { background: #007bff; color: white; }
+        .method-put { background: #ffc107; color: black; }
+        .method-delete { background: #dc3545; color: white; }
+        
+        .param-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .response-example {
+            background: #f8f9fa;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        
+        .nav-link {
+            color: #495057;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 0.1rem 0;
+        }
+        
+        .nav-link:hover {
+            background: #e9ecef;
+            color: #212529;
+        }
+        
+        .nav-link.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .section-title {
+            color: #495057;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #007bff;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            border-radius: 6px;
+            padding: 1rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+        }
+        
+        .try-button {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .try-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+            color: white;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-200 { background: #d4edda; color: #155724; }
+        .status-400 { background: #f8d7da; color: #721c24; }
+        .status-500 { background: #f5c6cb; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏导航 -->
+            <div class="col-md-3 api-sidebar p-0">
+                <div class="p-3">
+                    <h5 class="mb-3">
+                        <i class="fas fa-code text-primary"></i>
+                        API 文档导航
+                    </h5>
+                    
+                    <div class="nav flex-column">
+                        <div class="section-title">概述</div>
+                        <a class="nav-link" href="#overview">API 概述</a>
+                        <a class="nav-link" href="#authentication">认证说明</a>
+                        <a class="nav-link" href="#rate-limiting">频率限制</a>
+                        
+                        <div class="section-title">产品 API</div>
+                        <a class="nav-link" href="#get-products">获取产品列表</a>
+                        <a class="nav-link" href="#search-products">搜索产品</a>
+                        <a class="nav-link" href="#get-categories">获取分类</a>
+                        <a class="nav-link" href="#get-suggestions">搜索建议</a>
+                        <a class="nav-link" href="#get-product">获取单个产品</a>
+                        
+                        <div class="section-title">系统 API</div>
+                        <a class="nav-link" href="#api-status">API 状态</a>
+                        <a class="nav-link" href="#health-check">健康检查</a>
+                        <a class="nav-link" href="#metrics">监控指标</a>
+                        
+                        <div class="section-title">错误处理</div>
+                        <a class="nav-link" href="#error-codes">错误代码</a>
+                        <a class="nav-link" href="#examples">示例代码</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 主要内容区域 -->
+            <div class="col-md-9 api-content">
+                <div class="p-4">
+                    <div class="mb-4">
+                        <h1 class="display-5"><%= texts.apiDocs.detailed.content %></h1>
+                        <p class="lead text-muted"><%= texts.apiDocs.detailed.subtitle %></p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="badge bg-primary">版本 v1.0.0</span>
+                            <span class="badge bg-success">稳定版本</span>
+                            <span class="badge bg-info">RESTful</span>
+                        </div>
+                    </div>
+                    
+                    <!-- API 概述 -->
+                    <section id="overview" class="mb-5">
+                        <h2><i class="fas fa-info-circle text-primary"></i> API 概述</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-body">
+                                <h5>基础信息</h5>
+                                <table class="table table-sm">
+                                    <tr><th>Base URL</th><td><code><%= company.website.apiUrl %>/api</code></td></tr>
+                                    <tr><th>协议</th><td>HTTPS</td></tr>
+                                    <tr><th>数据格式</th><td>JSON</td></tr>
+                                    <tr><th>字符编码</th><td>UTF-8</td></tr>
+                                    <tr><th>时区</th><td><%= company.workingHours.timezone %></td></tr>
+                                </table>
+                                
+                                <h5 class="mt-4">响应格式</h5>
+                                <p>所有API响应都遵循统一格式：</p>
+                                <div class="code-example">
+<pre><code class="language-json">{
+  "success": true,
+  "data": { ... },
+  "message": "操作成功",
+  "timestamp": "2024-07-30T10:30:00.000Z"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 认证说明 -->
+                    <section id="authentication" class="mb-5">
+                        <h2><i class="fas fa-shield-alt text-warning"></i> 认证说明</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-body">
+                                <p>部分API需要认证，支持以下认证方式：</p>
+                                <ul>
+                                    <li><strong>API Key</strong>: 在请求头添加 <code>X-API-Key</code></li>
+                                    <li><strong>JWT Token</strong>: 在请求头添加 <code>Authorization: Bearer &lt;token&gt;</code></li>
+                                </ul>
+                                
+                                <h5>获取API Key</h5>
+                                <p>请联系技术支持获取API Key：<a href="mailto:api@zhiyun-tech.com">api@zhiyun-tech.com</a></p>
+                                
+                                <div class="code-example">
+<pre><code class="language-bash"># 使用 API Key
+curl -H "X-API-Key: YOUR_API_KEY" \
+     https://api.zhiyun-tech.com/api/products
+
+# 使用 JWT Token
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+     https://api.zhiyun-tech.com/api/products</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 频率限制 -->
+                    <section id="rate-limiting" class="mb-5">
+                        <h2><i class="fas fa-tachometer-alt text-info"></i> 频率限制</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>API类型</th>
+                                            <th>限制</th>
+                                            <th>窗口期</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>通用API</td>
+                                            <td>1000次/小时</td>
+                                            <td>1小时</td>
+                                            <td>大部分读取操作</td>
+                                        </tr>
+                                        <tr>
+                                            <td>搜索API</td>
+                                            <td>100次/分钟</td>
+                                            <td>1分钟</td>
+                                            <td>搜索相关操作</td>
+                                        </tr>
+                                        <tr>
+                                            <td>写入API</td>
+                                            <td>50次/小时</td>
+                                            <td>1小时</td>
+                                            <td>创建、更新操作</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <h5>响应头信息</h5>
+                                <ul>
+                                    <li><code>X-RateLimit-Limit</code>: 限制总数</li>
+                                    <li><code>X-RateLimit-Remaining</code>: 剩余次数</li>
+                                    <li><code>X-RateLimit-Reset</code>: 重置时间</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 产品API - 获取产品列表 -->
+                    <section id="get-products" class="mb-5">
+                        <h2><i class="fas fa-box text-success"></i> 获取产品列表</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code class="ms-2">/api/products</code>
+                                </div>
+                                <button class="try-button" onclick="tryApi('/api/products')">
+                                    <i class="fas fa-play"></i> 试用
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <p>获取所有可用产品的列表信息。</p>
+                                
+                                <h5>查询参数</h5>
+                                <table class="table param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>参数名</th>
+                                            <th>类型</th>
+                                            <th>必需</th>
+                                            <th>默认值</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>limit</code></td>
+                                            <td>integer</td>
+                                            <td>否</td>
+                                            <td>10</td>
+                                            <td>返回记录数量限制 (1-100)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>offset</code></td>
+                                            <td>integer</td>
+                                            <td>否</td>
+                                            <td>0</td>
+                                            <td>跳过记录数量</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>category</code></td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>按分类筛选</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <h5>响应示例</h5>
+                                <div class="response-example">
+<pre><code class="language-json">{
+  "success": true,
+  "data": [
+    {
+      "id": "product-001",
+      "name": "Android Automotive 开发框架",
+      "category": "核心产品",
+      "description": "专为车载环境优化的Android应用开发框架",
+      "version": "2.1.0",
+      "platforms": ["Android Automotive", "Android"],
+      "features": [
+        "CAN总线集成",
+        "车载UI组件",
+        "性能优化工具"
+      ],
+      "status": "stable",
+      "lastUpdated": "2024-07-15T08:30:00Z"
+    }
+  ],
+  "total": 25,
+  "limit": 10,
+  "offset": 0
+}</code></pre>
+                                </div>
+                                
+                                <h5>状态码</h5>
+                                <div class="d-flex gap-2 mb-3">
+                                    <span class="status-badge status-200">200 成功</span>
+                                    <span class="status-badge status-400">400 参数错误</span>
+                                    <span class="status-badge status-500">500 服务器错误</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 产品搜索API -->
+                    <section id="search-products" class="mb-5">
+                        <h2><i class="fas fa-search text-primary"></i> 搜索产品</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code class="ms-2">/api/products/search</code>
+                                </div>
+                                <button class="try-button" onclick="tryApi('/api/products/search?q=框架')">
+                                    <i class="fas fa-play"></i> 试用
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <p>根据关键词搜索产品，支持全文检索和筛选功能。</p>
+                                
+                                <h5>查询参数</h5>
+                                <table class="table param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>参数名</th>
+                                            <th>类型</th>
+                                            <th>必需</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>q</code></td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>搜索关键词</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>category</code></td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>产品分类筛选</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>sort</code></td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>排序方式: relevance, name, date</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>limit</code></td>
+                                            <td>integer</td>
+                                            <td>否</td>
+                                            <td>返回结果数量 (1-50)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <h5>示例请求</h5>
+                                <div class="code-example">
+<pre><code class="language-bash">curl "https://api.zhiyun-tech.com/api/products/search?q=Android&category=核心产品&sort=relevance&limit=10"</code></pre>
+                                </div>
+                                
+                                <h5>响应示例</h5>
+                                <div class="response-example">
+<pre><code class="language-json">{
+  "success": true,
+  "data": [
+    {
+      "id": "product-001",
+      "name": "Android Automotive 开发框架",
+      "category": "核心产品",
+      "relevance": 0.95,
+      "highlights": [
+        "<mark>Android</mark> Automotive 开发框架"
+      ]
+    }
+  ],
+  "query": "Android",
+  "total": 8,
+  "executionTime": "45ms"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 系统健康检查 -->
+                    <section id="health-check" class="mb-5">
+                        <h2><i class="fas fa-heartbeat text-danger"></i> 系统健康检查</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code class="ms-2">/api/health</code>
+                                </div>
+                                <button class="try-button" onclick="tryApi('/api/health')">
+                                    <i class="fas fa-play"></i> 试用
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <p>检查API服务和相关组件的健康状态。</p>
+                                
+                                <h5>响应示例</h5>
+                                <div class="response-example">
+<pre><code class="language-json">{
+  "success": true,
+  "status": "healthy",
+  "timestamp": "2024-07-30T10:30:00.000Z",
+  "services": {
+    "database": "healthy",
+    "redis": "healthy",
+    "storage": "healthy"
+  },
+  "metrics": {
+    "uptime": 86400,
+    "memory": {
+      "used": "128MB",
+      "total": "512MB"
+    },
+    "responseTime": "12ms"
+  }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 错误代码 -->
+                    <section id="error-codes" class="mb-5">
+                        <h2><i class="fas fa-exclamation-triangle text-warning"></i> 错误代码</h2>
+                        <div class="card endpoint-card">
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>状态码</th>
+                                            <th>错误代码</th>
+                                            <th>说明</th>
+                                            <th>解决方案</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>400</td>
+                                            <td>INVALID_PARAMS</td>
+                                            <td>请求参数无效</td>
+                                            <td>检查参数类型和格式</td>
+                                        </tr>
+                                        <tr>
+                                            <td>401</td>
+                                            <td>UNAUTHORIZED</td>
+                                            <td>未授权访问</td>
+                                            <td>检查API Key或JWT Token</td>
+                                        </tr>
+                                        <tr>
+                                            <td>429</td>
+                                            <td>RATE_LIMIT_EXCEEDED</td>
+                                            <td>超过频率限制</td>
+                                            <td>减少请求频率或升级配额</td>
+                                        </tr>
+                                        <tr>
+                                            <td>500</td>
+                                            <td>INTERNAL_ERROR</td>
+                                            <td>服务器内部错误</td>
+                                            <td>稍后重试或联系技术支持</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 示例代码 -->
+                    <section id="examples" class="mb-5">
+                        <h2><i class="fas fa-code text-info"></i> SDK 和示例代码</h2>
+                        
+                        <!-- JavaScript 示例 -->
+                        <div class="card endpoint-card">
+                            <div class="card-header">
+                                <h5><i class="fab fa-js-square text-warning"></i> JavaScript / Node.js</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="code-example">
+<pre><code class="language-javascript">// 使用 fetch API
+const apiKey = 'YOUR_API_KEY';
+
+async function getProducts() {
+  try {
+    const response = await fetch('https://api.zhiyun-tech.com/api/products', {
+      headers: {
+        'X-API-Key': apiKey,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('Products:', data.data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}
+
+// 搜索产品
+async function searchProducts(query) {
+  const url = new URL('https://api.zhiyun-tech.com/api/products/search');
+  url.searchParams.append('q', query);
+  url.searchParams.append('limit', '10');
+  
+  const response = await fetch(url, {
+    headers: { 'X-API-Key': apiKey }
+  });
+  
+  return await response.json();
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Python 示例 -->
+                        <div class="card endpoint-card">
+                            <div class="card-header">
+                                <h5><i class="fab fa-python text-primary"></i> Python</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="code-example">
+<pre><code class="language-python">import requests
+import json
+
+class ZhiyunAPI:
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.base_url = 'https://api.zhiyun-tech.com/api'
+        self.headers = {
+            'X-API-Key': api_key,
+            'Content-Type': 'application/json'
+        }
+    
+    def get_products(self, limit=10, category=None):
+        """获取产品列表"""
+        params = {'limit': limit}
+        if category:
+            params['category'] = category
+            
+        response = requests.get(
+            f'{self.base_url}/products',
+            headers=self.headers,
+            params=params
+        )
+        response.raise_for_status()
+        return response.json()
+    
+    def search_products(self, query, **kwargs):
+        """搜索产品"""
+        params = {'q': query, **kwargs}
+        response = requests.get(
+            f'{self.base_url}/products/search',
+            headers=self.headers,
+            params=params
+        )
+        response.raise_for_status()
+        return response.json()
+
+# 使用示例
+api = ZhiyunAPI('YOUR_API_KEY')
+products = api.get_products(limit=5)
+search_results = api.search_products('Android框架')</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <script>
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // 更新导航状态
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // 试用API功能
+        async function tryApi(endpoint) {
+            try {
+                const fullUrl = `${window.location.origin}${endpoint}`;
+                const response = await fetch(fullUrl, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                // 创建模态框显示结果
+                showApiResult(endpoint, response.status, data);
+            } catch (error) {
+                console.error('API试用失败:', error);
+                alert('API试用失败: ' + error.message);
+            }
+        }
+        
+        function showApiResult(endpoint, status, data) {
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">API 测试结果</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>端点:</strong> <code>${endpoint}</code></p>
+                            <p><strong>状态码:</strong> <span class="badge ${status === 200 ? 'bg-success' : 'bg-danger'}">${status}</span></p>
+                            <p><strong>响应数据:</strong></p>
+                            <pre class="code-example"><code class="language-json">${JSON.stringify(data, null, 2)}</code></pre>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // 清理模态框
+            modal.addEventListener('hidden.bs.modal', () => {
+                document.body.removeChild(modal);
+            });
+        }
+        
+        // 监听滚动，更新导航状态
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

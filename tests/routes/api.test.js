@@ -61,9 +61,7 @@ describe('API Routes', () => {
     test('应该正确报告健康状态', async () => {
       const response = await request(app).get('/api/health').expect(200);
 
-      expect(['healthy', 'warning', 'unhealthy']).toContain(
-        response.body.status
-      );
+      expect(['healthy', 'warning', 'unhealthy']).toContain(response.body.status);
     });
   });
 
@@ -149,9 +147,7 @@ describe('API Routes', () => {
       await request(app).get('/api/nonexistent').expect(404);
 
       // 验证这被记录为错误
-      const metricsResponse = await request(app)
-        .get('/api/metrics')
-        .expect(200);
+      const metricsResponse = await request(app).get('/api/metrics').expect(200);
 
       expect(metricsResponse.body.metrics.totalErrors).toBeGreaterThan(0);
     });

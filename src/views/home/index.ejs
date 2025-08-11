@@ -9,104 +9,233 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/api/docs" target="_blank">
-                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/admin">
-                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
-                            </a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- 使用统一导航栏组件 -->
+    <%- include('partials/navbar', { currentPage: 'home', texts: texts }) %>
 
-    <header class="bg-primary text-white text-center py-5">
+    <!-- Hero Section - 智能车载应用开发专家 -->
+    <section class="automotive-hero">
         <div class="container">
-            <h1 class="display-4"><%= texts.site.welcome %></h1>
-            <p class="lead"><%= texts.site.subtitle %></p>
-        </div>
-    </header>
-
-    <main class="container my-5">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= texts.home.aboutCard.title %></h5>
-                        <p class="card-text"><%= texts.home.aboutCard.content %></p>
-                        <a href="/about" class="btn btn-primary"><%= texts.home.aboutCard.button %></a>
+            <div class="row align-items-center min-vh-75">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🚗 车载应用开发领军企业</span>
+                        <h1 class="display-3 fw-bold text-white mb-4">
+                            智能驱动未来<br>
+                            <span class="text-automotive-accent">科技成就梦想</span>
+                        </h1>
+                        <p class="lead text-white-80 mb-4 fs-5">
+                            专注Android Automotive OS、QNX车载系统开发，为全球汽车制造商提供智能座舱、ADAS、车联网等完整解决方案
+                        </p>
+                        <div class="hero-buttons d-flex flex-wrap gap-3">
+                            <a href="/services/automotive-development" class="btn btn-automotive-primary btn-lg px-4 py-3">
+                                <i class="fas fa-car me-2"></i>车载应用方案
+                            </a>
+                            <a href="/case-studies" class="btn btn-outline-light btn-lg px-4 py-3">
+                                <i class="fas fa-eye me-2"></i>成功案例
+                            </a>
+                        </div>
+                        <div class="hero-stats mt-5">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <h3 class="text-white fw-bold mb-1">200+</h3>
+                                        <p class="text-white-70 small mb-0">车载项目</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <h3 class="text-white fw-bold mb-1">50+</h3>
+                                        <p class="text-white-70 small mb-0">合作伙伴</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <h3 class="text-white fw-bold mb-1">7年</h3>
+                                        <p class="text-white-70 small mb-0">专业经验</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= texts.home.productsCard.title %></h5>
-                        <p class="card-text"><%= texts.home.productsCard.content %></p>
-                        <a href="/products" class="btn btn-primary"><%= texts.home.productsCard.button %></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= texts.home.newsCard.title %></h5>
-                        <p class="card-text"><%= texts.home.newsCard.content %></p>
-                        <a href="/news" class="btn btn-primary"><%= texts.home.newsCard.button %></a>
+                <div class="col-lg-6">
+                    <div class="hero-visual text-center">
+                        <div class="automotive-dashboard">
+                            <div class="dashboard-screen">
+                                <div class="screen-content">
+                                    <div class="app-icons">
+                                        <div class="app-icon"><i class="fas fa-map-marked-alt"></i></div>
+                                        <div class="app-icon"><i class="fas fa-music"></i></div>
+                                        <div class="app-icon"><i class="fas fa-phone"></i></div>
+                                        <div class="app-icon"><i class="fas fa-cog"></i></div>
+                                    </div>
+                                    <div class="system-info">
+                                        <small class="text-muted">Android Automotive OS</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2><%= texts.home.whyChooseUs %></h2>
-                <p><%= texts.home.whyContent %></p>
-                <ul>
-                    <% texts.home.advantages.forEach(advantage => { %>
-                        <li><%= advantage %></li>
-                    <% }) %>
-                </ul>
+    <!-- 核心技术栈展示 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="h1 fw-bold mb-3">核心技术栈</h2>
+                    <p class="lead text-muted">掌握前沿车载开发技术，为客户提供完整解决方案</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="tech-card h-100">
+                        <div class="tech-icon">
+                            <i class="fab fa-android text-success"></i>
+                        </div>
+                        <h5>Android Automotive OS</h5>
+                        <p class="text-muted">原生车载系统开发，深度定制智能座舱应用</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="tech-card h-100">
+                        <div class="tech-icon">
+                            <i class="fas fa-microchip text-primary"></i>
+                        </div>
+                        <h5>QNX Neutrino</h5>
+                        <p class="text-muted">实时操作系统开发，确保车载应用高可靠性</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="tech-card h-100">
+                        <div class="tech-icon">
+                            <i class="fas fa-network-wired text-warning"></i>
+                        </div>
+                        <h5>CAN总线集成</h5>
+                        <p class="text-muted">车载网络通信协议，实现ECU间数据交换</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="tech-card h-100">
+                        <div class="tech-icon">
+                            <i class="fab fa-linux text-dark"></i>
+                        </div>
+                        <h5>Linux嵌入式</h5>
+                        <p class="text-muted">深度定制Linux内核，优化车载性能</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="bg-dark text-white text-center py-4">
+    <!-- 解决方案展示 -->
+    <section class="py-5">
         <div class="container">
-            <p><%= texts.site.copyright %></p>
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="h1 fw-bold mb-3">智能汽车解决方案</h2>
+                    <p class="lead text-muted">从智能座舱到自动驾驶，提供全方位车载解决方案</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="solution-card">
+                        <div class="solution-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h4>智能座舱系统</h4>
+                        <p>集成导航、娱乐、通信的一体化座舱解决方案，提升驾乘体验</p>
+                        <a href="/services/automotive-development#cockpit" class="btn btn-outline-primary">了解详情</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="solution-card">
+                        <div class="solution-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>ADAS智能驾驶</h4>
+                        <p>高级驾驶辅助系统，包含自适应巡航、车道保持、自动泊车等功能</p>
+                        <a href="/services/automotive-development#adas" class="btn btn-outline-primary">了解详情</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="solution-card">
+                        <div class="solution-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h4>车联网T-Box</h4>
+                        <p>车载通信终端开发，实现远程监控、OTA升级、紧急救援等服务</p>
+                        <a href="/services/automotive-development#tbox" class="btn btn-outline-primary">了解详情</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </section>
+
+    <!-- 客户信任 -->
+    <section class="py-5 bg-automotive-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="h1 fw-bold mb-3">值得信赖的合作伙伴</h2>
+                    <p class="lead opacity-75">获得国际认证，服务全球知名汽车制造商</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="certification-item">
+                        <i class="fas fa-certificate text-warning fs-1 mb-3"></i>
+                        <h5>ISO 26262</h5>
+                        <p class="opacity-75">功能安全认证</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="certification-item">
+                        <i class="fas fa-award text-success fs-1 mb-3"></i>
+                        <h5>ASPICE</h5>
+                        <p class="opacity-75">汽车软件过程改进</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="certification-item">
+                        <i class="fas fa-shield-alt text-info fs-1 mb-3"></i>
+                        <h5>ISO 9001</h5>
+                        <p class="opacity-75">质量管理体系</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="certification-item">
+                        <i class="fas fa-star text-warning fs-1 mb-3"></i>
+                        <h5>CMMI L3</h5>
+                        <p class="opacity-75">软件能力成熟度</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="fw-bold mb-2">准备开始您的智能车载项目？</h3>
+                    <p class="mb-0 opacity-90">让我们的专家团队为您提供定制化的车载应用解决方案</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="/contact" class="btn btn-light btn-lg px-4 py-3">
+                        <i class="fas fa-phone me-2"></i>立即咨询
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用统一页脚组件 -->
+    <%- include('partials/footer', { texts: texts }) %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     

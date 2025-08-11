@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= texts.nav.downloads %> - <%= texts.site.name %></title>
+    <meta name="description" content="<%= company.name %>车载应用开发技术白皮书、开发指南、最佳实践文档免费下载">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 0 3rem;
+        }
+        .download-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .download-stats {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+        }
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        .file-size {
+            background: #e9ecef;
+            color: #6c757d;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .download-count {
+            color: #28a745;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'video-tutorials' ? 'active' : '' %>" href="/video-tutorials">
+                            <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'downloads' ? 'active' : '' %>" href="/downloads">
+                            <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/api-docs" target="_blank">
+                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin">
+                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">
+                        <i class="fas fa-download me-3"></i>技术资源下载中心
+                    </h1>
+                    <p class="lead mb-4">
+                        获取<%= company.name %>最新的车载应用开发技术白皮书、开发指南和最佳实践文档
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <span class="badge bg-light text-dark py-2 px-3">
+                            <i class="fas fa-file-pdf me-2"></i>免费下载
+                        </span>
+                        <span class="badge bg-light text-dark py-2 px-3">
+                            <i class="fas fa-star me-2"></i>专业内容
+                        </span>
+                        <span class="badge bg-light text-dark py-2 px-3">
+                            <i class="fas fa-clock me-2"></i>定期更新
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="bg-white bg-opacity-10 rounded-3 p-4">
+                        <h3 class="h2 mb-2">4+</h3>
+                        <p class="mb-2">技术文档</p>
+                        <h3 class="h2 mb-2">200+</h3>
+                        <p class="mb-0">页专业内容</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要内容 -->
+    <main class="container my-5">
+        <!-- 下载统计 -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="download-stats p-4 rounded">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3">
+                            <h4 class="text-primary mb-1">15,420</h4>
+                            <small class="text-muted">总下载量</small>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <h4 class="text-success mb-1">4</h4>
+                            <small class="text-muted">技术文档</small>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <h4 class="text-info mb-1">232</h4>
+                            <small class="text-muted">总页数</small>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <h4 class="text-warning mb-1">本月</h4>
+                            <small class="text-muted">最新更新</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技术白皮书分类 -->
+        <div class="row">
+            <!-- Android Automotive 开发指南 -->
+            <div class="col-lg-6 mb-4">
+                <div class="card download-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="category-icon me-3">
+                                <i class="fab fa-android"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="card-title mb-2">Android Automotive 开发完整指南</h5>
+                                <div class="d-flex gap-2 mb-2">
+                                    <span class="file-size">49KB</span>
+                                    <span class="file-size">160页</span>
+                                    <span class="download-count">
+                                        <i class="fas fa-download me-1"></i>4,521次
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted mb-3">
+                            Google Android Automotive OS (AAOS) 完整开发指南，包含环境搭建、核心组件、用户界面设计、系统集成等全方位内容。
+                        </p>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">包含内容：</small>
+                            <div class="mt-2">
+                                <span class="badge bg-primary me-1">开发环境</span>
+                                <span class="badge bg-primary me-1">UI设计</span>
+                                <span class="badge bg-primary me-1">系统集成</span>
+                                <span class="badge bg-primary me-1">最佳实践</span>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <a href="/downloads/android-automotive-development-guide" class="btn btn-primary">
+                                <i class="fas fa-download me-2"></i>下载指南
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 车载性能优化白皮书 -->
+            <div class="col-lg-6 mb-4">
+                <div class="card download-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="category-icon me-3">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="card-title mb-2">车载应用性能优化白皮书</h5>
+                                <div class="d-flex gap-2 mb-2">
+                                    <span class="file-size">66KB</span>
+                                    <span class="file-size">207页</span>
+                                    <span class="download-count">
+                                        <i class="fas fa-download me-1"></i>3,892次
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted mb-3">
+                            深入探讨车载应用性能优化技术，涵盖内存管理、CPU优化、图形渲染、网络优化等核心技术领域。
+                        </p>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">包含内容：</small>
+                            <div class="mt-2">
+                                <span class="badge bg-success me-1">性能监控</span>
+                                <span class="badge bg-success me-1">内存优化</span>
+                                <span class="badge bg-success me-1">渲染优化</span>
+                                <span class="badge bg-success me-1">电池优化</span>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <a href="/downloads/automotive-performance-optimization-whitepaper" class="btn btn-success">
+                                <i class="fas fa-download me-2"></i>下载白皮书
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAN总线集成最佳实践 -->
+            <div class="col-lg-6 mb-4">
+                <div class="card download-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="category-icon me-3">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="card-title mb-2">CAN总线集成最佳实践</h5>
+                                <div class="d-flex gap-2 mb-2">
+                                    <span class="file-size">50KB</span>
+                                    <span class="file-size">153页</span>
+                                    <span class="download-count">
+                                        <i class="fas fa-download me-1"></i>3,156次
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted mb-3">
+                            CAN总线在车载系统中的应用指南，包含协议详解、硬件集成、软件开发和故障诊断等实践经验。
+                        </p>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">包含内容：</small>
+                            <div class="mt-2">
+                                <span class="badge bg-info me-1">协议详解</span>
+                                <span class="badge bg-info me-1">硬件集成</span>
+                                <span class="badge bg-info me-1">软件开发</span>
+                                <span class="badge bg-info me-1">故障诊断</span>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <a href="/downloads/can-bus-integration-best-practices" class="btn btn-info">
+                                <i class="fas fa-download me-2"></i>下载实践指南
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 智能导航应用案例研究 -->
+            <div class="col-lg-6 mb-4">
+                <div class="card download-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="category-icon me-3">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="card-title mb-2">智能导航应用案例研究</h5>
+                                <div class="d-flex gap-2 mb-2">
+                                    <span class="file-size">67KB</span>
+                                    <span class="file-size">207页</span>
+                                    <span class="download-count">
+                                        <i class="fas fa-download me-1"></i>3,851次
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted mb-3">
+                            详细分析智能导航应用的设计思路、技术架构、用户体验优化和商业模式，提供完整的产品开发参考。
+                        </p>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">包含内容：</small>
+                            <div class="mt-2">
+                                <span class="badge bg-warning me-1">产品设计</span>
+                                <span class="badge bg-warning me-1">技术架构</span>
+                                <span class="badge bg-warning me-1">用户体验</span>
+                                <span class="badge bg-warning me-1">商业模式</span>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <a href="/downloads/smart-navigation-app-case-study" class="btn btn-warning">
+                                <i class="fas fa-download me-2"></i>下载案例研究
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 下载说明 -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card border-0 bg-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <i class="fas fa-info-circle text-primary me-2"></i>下载说明
+                        </h5>
+                        <p class="card-text text-muted mb-3">
+                            所有技术文档均为PDF格式，可在线阅读或下载到本地。内容持续更新，建议关注最新版本。
+                        </p>
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-file-pdf text-danger me-1"></i>
+                                    PDF格式，支持所有设备
+                                </small>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-sync text-primary me-1"></i>
+                                    内容定期更新维护
+                                </small>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-lock text-success me-1"></i>
+                                    免费获取，无需注册
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系我们 -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h5>需要更多技术支持？</h5>
+                <p class="text-muted mb-3">我们的技术团队随时为您提供专业咨询服务</p>
+                <a href="/contact" class="btn btn-outline-primary">
+                    <i class="fas fa-envelope me-2"></i>联系我们
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><%= company.name %></h5>
+                    <p class="text-muted"><%= texts.site.description %></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; <%= new Date().getFullYear() %> <%= company.name %>. 保留所有权利.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 下载统计
+        function trackDownload(filename) {
+            // 发送下载统计
+            fetch('/api/downloads/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: filename })
+            });
+        }
+
+        // 为所有下载链接添加统计
+        document.querySelectorAll('a[href^="/downloads/"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const filename = this.href.split('/').pop();
+                trackDownload(filename);
+            });
+        });
+    </script>
+</body>
+</html>

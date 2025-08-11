@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - <%= texts.site.title %></title>
+    <meta name="description" content="专业的车载应用测试验证服务，功能测试、性能测试、安全测试和合规验证">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        .testing-card {
+            transition: all 0.3s ease;
+            border: none;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .testing-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+        }
+        .method-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin: 2px;
+            display: inline-block;
+        }
+        .standard-badge {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 4px 2px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <%- include('../partials/navbar') %>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4"><%= serviceData.hero.title %></h1>
+                    <p class="lead mb-4"><%= serviceData.hero.subtitle %></p>
+                    <div class="row">
+                        <% serviceData.hero.features.forEach(feature => { %>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-warning me-2"></i>
+                                <span><%= feature %></span>
+                            </div>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <i class="fas fa-clipboard-check text-warning" style="font-size: 8rem; opacity: 0.8;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 测试服务 -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">测试验证服务</h2>
+                <p class="lead text-muted">全面的车载应用测试验证解决方案</p>
+            </div>
+            
+            <div class="row">
+                <% serviceData.testingServices.forEach((service, index) => { %>
+                <div class="col-lg-4 mb-4">
+                    <div class="card testing-card shadow">
+                        <div class="card-body p-4 text-center">
+                            <div class="service-icon">
+                                <i class="<%= service.icon %>"></i>
+                            </div>
+                            <h4 class="card-title fw-bold mb-3"><%= service.title %></h4>
+                            <p class="card-text text-muted mb-4"><%= service.description %></p>
+                            
+                            <% if (service.methods) { %>
+                            <h6 class="fw-bold mb-3">测试方法：</h6>
+                            <div class="mb-4">
+                                <% service.methods.forEach(method => { %>
+                                <span class="method-badge"><%= method %></span>
+                                <% }) %>
+                            </div>
+                            <% } %>
+                            
+                            <% if (service.metrics) { %>
+                            <h6 class="fw-bold mb-2">性能指标：</h6>
+                            <ul class="list-unstyled text-start">
+                                <% service.metrics.forEach(metric => { %>
+                                <li class="mb-2">
+                                    <i class="fas fa-chart-line text-info me-2"></i><%= metric %>
+                                </li>
+                                <% }) %>
+                            </ul>
+                            <% } %>
+                            
+                            <% if (service.standards) { %>
+                            <h6 class="fw-bold mb-3">合规标准：</h6>
+                            <div>
+                                <% service.standards.forEach(standard => { %>
+                                <span class="standard-badge"><%= standard %></span>
+                                <% }) %>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+
+    <!-- 测试流程 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">测试验证流程</h2>
+                <p class="lead text-muted">系统化的测试验证流程，确保产品质量</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="text-center">
+                        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h5 class="mt-3 fw-bold">测试计划</h5>
+                        <p class="text-muted">制定详细的测试计划和测试用例</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="text-center">
+                        <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <h5 class="mt-3 fw-bold">执行测试</h5>
+                        <p class="text-muted">自动化和手动测试相结合执行</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="text-center">
+                        <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h5 class="mt-3 fw-bold">缺陷跟踪</h5>
+                        <p class="text-muted">发现问题并跟踪修复进度</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="text-center">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h5 class="mt-3 fw-bold">质量认证</h5>
+                        <p class="text-muted">出具专业的测试报告和认证</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="fw-bold mb-2">确保您的车载应用质量？</h3>
+                    <p class="mb-0">联系我们的测试专家，获取专业的测试验证服务</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="/contact" class="btn btn-warning btn-lg">
+                        <i class="fas fa-vial me-2"></i>测试咨询
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <%- include('../partials/footer') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
