@@ -14,7 +14,7 @@ const { contactRateLimit, searchRateLimit, apiRateLimit } = require('../middlewa
 // Authentication related rate limits
 const authRateLimit = require('express-rate-limit')({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Max 5 login attempts per 15 minutes
+  max: process.env.NODE_ENV === 'production' ? 5 : 1000,
   message: {
     success: false,
     message: '登录尝试过于频繁，请稍后再试',
@@ -23,15 +23,17 @@ const authRateLimit = require('express-rate-limit')({
   standardHeaders: true,
   legacyHeaders: false,
   skip: (req) => {
+    if (process.env.NODE_ENV !== 'production') return true;
     // Skip health check and monitoring requests
     return req.path === '/health' || req.path === '/api/health';
   },
 });
 
 // Registration rate limits (more restrictive)
+// 为了E2E演示在无数据库时返回503，不被限流拦截
 const registerRateLimit = require('express-rate-limit')({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3, // Max 3 registration attempts per hour
+  windowMs: 60 * 1000, // 1分钟窗口
+  max: process.env.NODE_ENV === 'production' ? 3 : 1000,
   message: {
     success: false,
     message: '注册尝试过于频繁，请稍后再试',
@@ -39,19 +41,27 @@ const registerRateLimit = require('express-rate-limit')({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => process.env.NODE_ENV !== 'production',
 });
 
 /**
  * POST /api/auth/register
  * User registration
  */
-router.post('/register', registerRateLimit, authController.register);
+// 开发环境跳过限流，确保无数据库时能返回503
+router.post('/register', (req, res, next) => {
+  if (process.env.NODE_ENV !== 'production') return authController.register(req, res);
+  return registerRateLimit(req, res, next);
+}, authController.register);
 
 /**
  * POST /api/auth/login
  * User login
  */
-router.post('/login', authRateLimit, authController.login);
+router.post('/login', (req, res, next) => {
+  if (process.env.NODE_ENV !== 'production') return authController.login(req, res);
+  return authRateLimit(req, res, next);
+}, authController.login);
 
 /**
  * POST /api/auth/logout

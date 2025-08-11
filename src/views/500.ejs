@@ -10,48 +10,48 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
+            <a class="navbar-brand" href="/"><%= (typeof texts !== 'undefined' && texts.site) ? texts.site.name : '公司门户' %></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><%= texts.nav.home %></a>
+                        <a class="nav-link" href="/"><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.home : '首页' %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about"><%= texts.nav.about %></a>
+                        <a class="nav-link" href="/about"><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.about : '关于' %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/products"><%= texts.nav.products %></a>
+                        <a class="nav-link" href="/products"><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.products : '产品' %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/news"><%= texts.nav.news %></a>
+                        <a class="nav-link" href="/news"><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.news : '新闻' %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/contact"><%= texts.nav.contact %></a>
+                        <a class="nav-link" href="/contact"><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.contact : '联系' %></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/video-tutorials">
-                            <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
+                            <i class="fas fa-play-circle me-1"></i><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.videoTutorials : '视频教程' %>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/downloads">
-                            <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
+                            <i class="fas fa-download me-1"></i><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.downloads : '下载' %>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
+                            <i class="fas fa-cog"></i> <%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.systemTools : '系统工具' %>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/api-docs" target="_blank">
-                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
+                                <i class="fas fa-book-open text-info me-2"></i><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.apiDocs : 'API 文档' %>
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/admin">
-                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
+                                <i class="fas fa-user-shield text-warning me-2"></i><%= (typeof texts !== 'undefined' && texts.nav) ? texts.nav.adminPanel : '管理员' %>
                             </a></li>
                         </ul>
                     </li>
@@ -73,7 +73,7 @@
 
     <footer class="bg-dark text-white text-center py-4">
         <div class="container">
-            <p><%= texts.errors.copyright %></p>
+            <p><%= (typeof texts !== 'undefined' && texts.errors) ? texts.errors.copyright : '' %></p>
         </div>
     </footer>
 

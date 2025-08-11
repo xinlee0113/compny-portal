@@ -61,7 +61,7 @@ npm run build
 npm start
 ```
 
-## 部署
+## 部署与测试
 
 ### Docker 部署（推荐）
 
@@ -85,6 +85,19 @@ npm ci --only=production
 # 启动应用
 npm start
 ```
+
+### 测试
+
+#### 单元/集成
+- 运行所有测试：`npm test`
+- 生成覆盖率：`npm run test:coverage`
+- CI 模式：`npm run test:ci`
+
+#### UI 端到端（Playwright）
+- 安装依赖：`npm i -D @playwright/test`
+- 安装浏览器：`npx playwright install`
+- 运行：`npm run test:ui`
+- 查看报告：`npm run test:ui:report`
 
 ## 文档
 

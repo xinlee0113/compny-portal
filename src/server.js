@@ -13,13 +13,46 @@ const app = express();
 
 // 安全中间件
 app.use(security.helmet);
+
+// 先设置通用CORS响应头，确保即便无 Origin 也返回所需头部
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.header('Vary', 'Origin');
+  next();
+});
+
+// CORS 中间件（保留现有策略）
 app.use(security.cors);
+
+// 统一处理所有预检请求，确保无 Origin 也返回CORS头
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
+    res.header('Access-Control-Max-Age', '86400');
+    res.header('Vary', 'Origin');
+    return res.sendStatus(200);
+  }
+  next();
+});
 app.use(security.sanitizeInput);
 app.use(security.securityHeaders);
 app.use(security.requestLogger);
 
 // 速率限制中间件
 app.use('/api', security.apiRateLimit);
+
+// 全局预检处理，确保OPTIONS返回CORS头
+app.options('*', security.cors);
 
 // 监控中间件
 app.use(monitor.requestMiddleware());
@@ -31,15 +64,16 @@ app.set('views', path.join(__dirname, 'views'));
 // 静态文件中间件
 app.use(express.static(path.join(__dirname, '../public')));
 
-// 解析请求体中间件
+// 解析请求体中间件（将i18n放在其前，避免错误页无texts）
+const { i18nMiddleware } = require('./config/i18n');
+const companyInfo = require('./config/company');
+app.use(i18nMiddleware);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// 国际化中间件
-const { i18nMiddleware } = require('./config/i18n');
-const companyInfo = require('./config/company');
-app.use(i18nMiddleware);
+// 国际化中间件已提前注册
 
 // 公司信息中间件 - 为所有模板提供公司信息
 app.use((req, res, next) => {

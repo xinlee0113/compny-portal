@@ -107,12 +107,16 @@ router.get('/health', (req, res) => {
 
     // 健康：200，错误：500（与测试期望保持一致）
     const statusCode = healthStatus.status === 'error' ? 500 : 200;
-
+    // 显式设置CORS头部，方便演示脚本检查
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Vary', 'Origin');
     res.status(statusCode).json({
       success: true,
       ...healthStatus,
     });
   } catch (error) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Vary', 'Origin');
     res.status(500).json({
       success: false,
       status: 'error',

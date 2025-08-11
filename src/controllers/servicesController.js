@@ -208,7 +208,7 @@ class ServicesController {
     };
 
     res.render('services/automotive-development', {
-      title: texts.services.automotiveDev.title,
+      title: texts.services.automotiveDevelopment.title,
       texts,
       serviceData,
       currentPage: 'services',

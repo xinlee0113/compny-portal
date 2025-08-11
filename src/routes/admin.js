@@ -18,8 +18,8 @@ const requireAdminWithLogin = async (req, res, next) => {
     const token = extractToken(req);
 
     if (!token) {
-      // 未提供令牌，显示登录页面
-      return res.render('admin-login');
+      // 未提供令牌，返回401并显示登录页面
+      return res.status(401).render('admin-login');
     }
 
     // 验证令牌
@@ -27,8 +27,8 @@ const requireAdminWithLogin = async (req, res, next) => {
     try {
       decoded = verifyToken(token);
     } catch (error) {
-      // 令牌无效，显示登录页面
-      return res.render('admin-login');
+      // 令牌无效，返回401
+      return res.status(401).render('admin-login');
     }
 
     // 检查权限 - 修复JWT payload结构
@@ -51,7 +51,7 @@ const requireAdminWithLogin = async (req, res, next) => {
     next();
   } catch (error) {
     console.error('管理员认证错误:', error);
-    res.render('admin-login');
+    res.status(401).render('admin-login');
   }
 };
 
@@ -59,7 +59,7 @@ const requireAdminWithLogin = async (req, res, next) => {
  * 页面路由 - 需要管理员权限
  */
 
-// 管理员面板首页
+// 管理员面板首页：未认证渲染登录页（401 + 页面），已认证进入面板
 router.get('/', requireAdminWithLogin, adminController.renderDashboard);
 
 // 用户管理页面

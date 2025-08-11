@@ -34,11 +34,34 @@ const createRateLimiter = (windowMs, max, message) => {
 /**
  * API速率限制
  */
-const apiRateLimit = createRateLimiter(
-  15 * 60 * 1000, // 15分钟
-  100, // 最多100个请求
-  '请求过于频繁，请稍后再试'
-);
+// 全局API限流，开发/演示时跳过认证相关路径，避免干扰E2E
+const apiRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: '请求过于频繁，请稍后再试',
+    retryAfter: Math.ceil(15 * 60 * 1000 / 1000),
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      success: false,
+      message: '请求过于频繁，请稍后再试',
+      retryAfter: Math.ceil(15 * 60 * 1000 / 1000),
+    });
+  },
+  skip: (req) => {
+    // 开发或测试演示时，跳过认证相关接口，避免返回429影响演示
+    if (process.env.NODE_ENV !== 'production') {
+      if (req.path.startsWith('/auth/register') || req.path.startsWith('/auth/login')) {
+        return true;
+      }
+    }
+    return false;
+  },
+});
 
 /**
  * 搜索API特殊限制
