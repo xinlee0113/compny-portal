@@ -294,6 +294,8 @@ footer {
   --automotive-accent: #fbbf24;
   --automotive-dark: #1e2937;
   --automotive-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.18);
 }
 
 /* Hero Section - 车载主题 */
@@ -303,6 +305,45 @@ footer {
   position: relative;
   overflow: hidden;
 }
+
+/* === Hero V2 === */
+.hero-v2 {
+  background: linear-gradient(120deg, #0f172a 0%, #1e3a8a 50%, #0b2447 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero-v2::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 80vh;
+  background: radial-gradient(60% 60% at 30% 30%, rgba(59,130,246,0.35), transparent 60%),
+              radial-gradient(50% 50% at 70% 20%, rgba(251,191,36,0.2), transparent 60%);
+  filter: blur(40px);
+}
+.hero-v2__content { position: relative; z-index: 1; }
+.hero-v2__badge { background: var(--automotive-accent); color:#111827; border-radius:999px; padding:8px 14px; font-weight:700; }
+.hero-v2__headline { color:#fff; font-weight:800; font-size: clamp(2rem, 5vw, 3.5rem); line-height:1.1; margin: 14px 0; }
+.hero-v2__headline .accent { color: var(--automotive-accent); }
+.hero-v2__subtitle { color: rgba(255,255,255,0.85); font-size: 1.125rem; max-width: 44ch; }
+.hero-v2__cta { display:flex; gap:14px; margin-top:18px; }
+.btn-hero-primary { background: var(--automotive-accent); color:#111827; font-weight:700; border:none; padding:12px 18px; border-radius:12px; box-shadow: 0 10px 30px rgba(251,191,36,0.25); }
+.btn-hero-primary:hover { transform: translateY(-2px); background:#f59e0b; }
+.btn-hero-secondary { background: transparent; color:#fff; border:1px solid rgba(255,255,255,0.35); padding:12px 18px; border-radius:12px; backdrop-filter: blur(8px); }
+.btn-hero-secondary:hover { background: rgba(255,255,255,0.08); }
+
+.stat-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; max-width:420px; }
+.stat-card { padding:16px; border-radius:16px; text-align:center; }
+.stat-card--glass { background: var(--glass-bg); border:1px solid var(--glass-border); backdrop-filter: blur(10px); }
+.stat-card .value { color:#fff; font-weight:800; margin:0; font-size:1.75rem; }
+.stat-card .label { color: rgba(255,255,255,0.8); margin:0; font-size:0.9rem; }
+
+.hero-v2__visual { display:flex; justify-content:center; align-items:center; position: relative; z-index:1; }
+.device-mock { width: 440px; max-width:100%; padding:18px; border-radius:24px; background: linear-gradient(145deg, #0b132b, #1f2937); box-shadow: 0 25px 60px rgba(0,0,0,0.35); margin: 20px auto; }
+.device-screen { background:#0b1220; border-radius:16px; padding:24px; min-height:220px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.device-apps { display:grid; grid-template-columns: repeat(2,60px); gap:18px; }
+.device-app { width:60px; height:60px; display:flex; justify-content:center; align-items:center; color:#fff; border-radius:14px; background: linear-gradient(135deg,#2563eb,#1e3a8a); box-shadow: inset 0 0 20px rgba(255,255,255,0.06), 0 10px 25px rgba(37,99,235,0.35); font-size:22px; }
+.device-caption { color:#94a3b8; margin-top:14px; display:block; }
 
 /* 主页Hero标题与内容宽度与换行统一 */
 .automotive-hero .hero-content { max-width: 640px; }

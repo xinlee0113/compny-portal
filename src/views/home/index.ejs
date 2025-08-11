@@ -12,71 +12,60 @@
     <!-- 使用统一导航栏组件 -->
     <%- include('../partials/navbar', { currentPage: 'home', texts: texts }) %>
 
-    <!-- Hero Section - 强调质量与工程 -->
-    <section class="automotive-hero">
-        <div class="container">
-            <div class="row align-items-center min-vh-75">
-                <div class="col-lg-6">
-                    <div class="hero-content">
-                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">🚗 <%= (texts.home && texts.home.hero && texts.home.hero.badge) || '专注车载软件工程' %></span>
-                        <h1 class="display-3 fw-bold text-white mb-3">
-                            <span><%= (texts.home && texts.home.hero && texts.home.hero.title) || '一起打造可靠的车载软件' %></span>
-                            <span class="text-automotive-accent"> — <%= (texts.home && texts.home.hero && texts.home.hero.accent) || '以质量与工程为先' %></span>
-                        </h1>
-                        <p class="lead text-white-80 mb-4 fs-5"><%= (texts.home && texts.home.hero && texts.home.hero.subtitle) || '坚持ASPICE与ISO 26262的工程方法，重视架构设计、编码规范与自动化测试' %></p>
-                        <div class="hero-buttons d-flex flex-wrap gap-3">
-                            <a href="/services/automotive-development" class="btn btn-automotive-primary btn-lg px-4 py-3">
-                                <i class="fas fa-car me-2"></i><%= (texts.home && texts.home.hero && texts.home.hero.primaryCta) || '车载应用方案' %>
-                            </a>
-                            <a href="/services/testing-validation" class="btn btn-outline-light btn-lg px-4 py-3">
-                                <i class="fas fa-shield-alt me-2"></i><%= (texts.home && texts.home.hero && texts.home.hero.secondaryCta) || '质量体系' %>
-                            </a>
-                        </div>
-                        <div class="hero-stats mt-4">
-                            <div class="row text-center g-3">
-                                <div class="col-4">
-                                  <div class="stat-item">
-                                    <h3 class="text-white fw-bold mb-1">30+</h3>
-                                    <p class="text-white-70 small mb-0">专业工程师</p>
-                                  </div>
-                                </div>
-                                <div class="col-4">
-                                  <div class="stat-item">
-                                    <h3 class="text-white fw-bold mb-1">10+</h3>
-                                    <p class="text-white-70 small mb-0">车载项目</p>
-                                  </div>
-                                </div>
-                                <div class="col-4">
-                                  <div class="stat-item">
-                                    <h3 class="text-white fw-bold mb-1">5年</h3>
-                                    <p class="text-white-70 small mb-0">行业经验</p>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Hero Section V2 - 现代化设计 -->
+    <section class="hero-v2">
+      <div class="container">
+        <div class="row align-items-center min-vh-75">
+          <div class="col-lg-6">
+            <div class="hero-v2__content">
+              <span class="badge hero-v2__badge">🚗 <%= (texts.home && texts.home.hero && texts.home.hero.badge) || '专注车载软件工程' %></span>
+              <h1 class="hero-v2__headline">
+                <span><%= (texts.home && texts.home.hero && texts.home.hero.title) || '一起打造可靠的车载软件' %></span>
+                <span class="accent"> <%= (texts.home && texts.home.hero && texts.home.hero.accent) || '以质量与工程为先' %></span>
+              </h1>
+              <p class="hero-v2__subtitle"><%= (texts.home && texts.home.hero && texts.home.hero.subtitle) || '坚持ASPICE与ISO 26262的工程方法，重视架构设计、编码规范与自动化测试' %></p>
+              <div class="hero-v2__cta">
+                <a href="/services/automotive-development" class="btn btn-hero-primary">
+                  <i class="fas fa-car me-2"></i><%= (texts.home && texts.home.hero && texts.home.hero.primaryCta) || '车载应用方案' %>
+                </a>
+                <a href="/services/testing-validation" class="btn btn-hero-secondary">
+                  <i class="fas fa-shield-alt me-2"></i><%= (texts.home && texts.home.hero && texts.home.hero.secondaryCta) || '质量体系' %>
+                </a>
+              </div>
+
+              <div class="stat-grid mt-4">
+                <div class="stat-card stat-card--glass">
+                  <h3 class="value">30+</h3>
+                  <p class="label">专业工程师</p>
                 </div>
-                <div class="col-lg-6">
-                    <div class="hero-visual text-center">
-                        <div class="automotive-dashboard">
-                            <div class="dashboard-screen">
-                                <div class="screen-content">
-                                    <div class="app-icons">
-                                        <div class="app-icon"><i class="fas fa-map-marked-alt"></i></div>
-                                        <div class="app-icon"><i class="fas fa-music"></i></div>
-                                        <div class="app-icon"><i class="fas fa-phone"></i></div>
-                                        <div class="app-icon"><i class="fas fa-cog"></i></div>
-                                    </div>
-                                    <div class="system-info">
-                                        <small class="text-muted">Android Automotive OS</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="stat-card stat-card--glass">
+                  <h3 class="value">10+</h3>
+                  <p class="label">车载项目</p>
                 </div>
+                <div class="stat-card stat-card--glass">
+                  <h3 class="value">5年</h3>
+                  <p class="label">行业经验</p>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-v2__visual">
+              <div class="device-mock">
+                <div class="device-screen">
+                  <div class="device-apps">
+                    <div class="device-app"><i class="fas fa-map-marked-alt"></i></div>
+                    <div class="device-app"><i class="fas fa-music"></i></div>
+                    <div class="device-app"><i class="fas fa-phone"></i></div>
+                    <div class="device-app"><i class="fas fa-cog"></i></div>
+                  </div>
+                  <small class="device-caption">Android Automotive OS</small>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- 质量与工程实践 -->
