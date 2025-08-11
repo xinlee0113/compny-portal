@@ -407,6 +407,119 @@
                         box-shadow: 0 4px 8px rgba(0,0,0,0.15);
                     }
                     
+                    /* 交付物清单样式 */
+                    .deliverables-section {
+                        background: rgba(255, 255, 255, 0.9);
+                        border-radius: 15px;
+                        padding: 25px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        margin-bottom: 20px;
+                    }
+                    
+                    .deliverables-title {
+                        color: #495057;
+                        font-size: 18px;
+                        font-weight: bold;
+                        margin-bottom: 20px;
+                        border-bottom: 2px solid #dee2e6;
+                        padding-bottom: 10px;
+                    }
+                    
+                    .deliverable-group {
+                        margin-bottom: 25px;
+                        padding: 15px;
+                        border-radius: 10px;
+                        background: rgba(248, 249, 250, 0.8);
+                    }
+                    
+                    .process-group-title {
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-bottom: 15px;
+                        padding: 8px 12px;
+                        border-radius: 6px;
+                        background: rgba(255, 255, 255, 0.9);
+                        border-left: 4px solid;
+                    }
+                    
+                    .acq-title { border-left-color: #fd7e14; color: #fd7e14; }
+                    .sys-title { border-left-color: #28a745; color: #28a745; }
+                    .swe-title { border-left-color: #007bff; color: #007bff; }
+                    .spl-title { border-left-color: #e83e8c; color: #e83e8c; }
+                    .sup-title { border-left-color: #6c757d; color: #6c757d; }
+                    .reu-title { border-left-color: #20c997; color: #20c997; }
+                    .man-title { border-left-color: #6f42c1; color: #6f42c1; }
+                    .pim-title { border-left-color: #ffc107; color: #ffc107; }
+                    .template-title { border-left-color: #17a2b8; color: #17a2b8; }
+                    
+                    .deliverable-list {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+                    
+                    .deliverable-list li {
+                        padding: 8px 12px;
+                        margin-bottom: 8px;
+                        background: white;
+                        border-radius: 6px;
+                        border-left: 3px solid #e9ecef;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                    
+                    .deliverable-list li:hover {
+                        transform: translateX(5px);
+                        border-left-color: #007bff;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    
+                    .deliverable-list li i {
+                        color: #6c757d;
+                        min-width: 16px;
+                    }
+                    
+                    .template-list li {
+                        border-left-color: #17a2b8;
+                    }
+                    
+                    .template-list li:hover {
+                        border-left-color: #17a2b8;
+                    }
+                    
+                    .template-link {
+                        color: #495057;
+                        text-decoration: none;
+                        transition: color 0.2s ease;
+                    }
+                    
+                    .template-link:hover {
+                        color: #17a2b8;
+                        text-decoration: underline;
+                    }
+                    
+                    /* 响应式设计 */
+                    @media (max-width: 768px) {
+                        .deliverables-section {
+                            padding: 15px;
+                        }
+                        
+                        .deliverable-group {
+                            padding: 10px;
+                        }
+                        
+                        .process-group-title {
+                            font-size: 14px;
+                        }
+                        
+                        .deliverable-list li {
+                            padding: 6px 8px;
+                            font-size: 14px;
+                        }
+                    }
+                    
                     /* V字形行布局 */
                     .v-row {
                         display: flex;
@@ -679,8 +792,141 @@
                         </div>
                     </div>
                 </div>
+                <!-- 右侧：交付物和模板清单 -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h3 class="text-center mb-4">ASPICE过程组交付物与模板清单</h3>
+                    </div>
+                    
+                    <!-- 主要生命周期过程组交付物 -->
+                    <div class="col-md-6">
+                        <div class="deliverables-section">
+                            <h4 class="deliverables-title">主要生命周期过程组交付物</h4>
+                            
+                            <!-- ACQ交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title acq-title">采购过程组 (ACQ)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-file-contract"></i> 合同协议书 (Contract Agreement)</li>
+                                    <li><i class="fas fa-clipboard-check"></i> 供应商监控报告 (Supplier Monitoring Report)</li>
+                                    <li><i class="fas fa-cogs"></i> 技术需求规格书 (Technical Requirements Specification)</li>
+                                    <li><i class="fas fa-balance-scale"></i> 法律行政需求文档 (Legal Requirements Document)</li>
+                                    <li><i class="fas fa-project-diagram"></i> 项目需求基线 (Project Requirements Baseline)</li>
+                                    <li><i class="fas fa-paper-plane"></i> RFP文档 (Request for Proposals)</li>
+                                    <li><i class="fas fa-award"></i> 供应商评估矩阵 (Supplier Qualification Matrix)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- SYS交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title sys-title">系统工程过程组 (SYS)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-clipboard-list"></i> 需求获取计划 (Requirements Elicitation Plan)</li>
+                                    <li><i class="fas fa-file-alt"></i> 系统需求规格书 (System Requirements Specification)</li>
+                                    <li><i class="fas fa-sitemap"></i> 系统架构设计文档 (System Architecture Document)</li>
+                                    <li><i class="fas fa-puzzle-piece"></i> 系统集成计划 (System Integration Plan)</li>
+                                    <li><i class="fas fa-check-circle"></i> 系统确认测试计划 (System Qualification Test Plan)</li>
+                                    <li><i class="fas fa-chart-line"></i> 需求追踪矩阵 (Requirements Traceability Matrix)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- SWE交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title swe-title">软件工程过程组 (SWE)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-code"></i> 软件需求规格书 (Software Requirements Specification)</li>
+                                    <li><i class="fas fa-layer-group"></i> 软件架构设计文档 (Software Architecture Document)</li>
+                                    <li><i class="fas fa-file-code"></i> 软件详细设计文档 (Software Detailed Design)</li>
+                                    <li><i class="fas fa-cube"></i> 软件单元实现 (Software Unit Implementation)</li>
+                                    <li><i class="fas fa-vial"></i> 单元测试计划/报告 (Unit Test Plan/Report)</li>
+                                    <li><i class="fas fa-link"></i> 集成测试计划/报告 (Integration Test Plan/Report)</li>
+                                    <li><i class="fas fa-shield-alt"></i> 软件确认测试报告 (Software Qualification Test Report)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- SPL交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title spl-title">供应过程组 (SPL)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-handshake"></i> 招标文档 (Tender Documentation)</li>
+                                    <li><i class="fas fa-rocket"></i> 产品发布包 (Product Release Package)</li>
+                                    <li><i class="fas fa-shipping-fast"></i> 交付确认书 (Delivery Confirmation)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 支持和组织生命周期过程组交付物 -->
+                    <div class="col-md-6">
+                        <div class="deliverables-section">
+                            <h4 class="deliverables-title">支持与组织生命周期过程组交付物</h4>
+                            
+                            <!-- SUP交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title sup-title">支持过程组 (SUP)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-shield-alt"></i> 质量保证计划 (Quality Assurance Plan)</li>
+                                    <li><i class="fas fa-check-double"></i> 验证计划/报告 (Verification Plan/Report)</li>
+                                    <li><i class="fas fa-users"></i> 联合评审会议纪要 (Joint Review Minutes)</li>
+                                    <li><i class="fas fa-folder-open"></i> 文档管理规程 (Documentation Management Procedure)</li>
+                                    <li><i class="fas fa-code-branch"></i> 配置管理计划 (Configuration Management Plan)</li>
+                                    <li><i class="fas fa-bug"></i> 问题解决报告 (Problem Resolution Report)</li>
+                                    <li><i class="fas fa-exchange-alt"></i> 变更请求管理日志 (Change Request Management Log)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- REU交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title reu-title">复用过程组 (REU)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-recycle"></i> 复用程序管理计划 (Reuse Program Management Plan)</li>
+                                    <li><i class="fas fa-database"></i> 复用资产库 (Reuse Asset Library)</li>
+                                    <li><i class="fas fa-tags"></i> 复用资产分类目录 (Reuse Asset Classification)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- MAN交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title man-title">管理过程组 (MAN)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-tasks"></i> 项目管理计划 (Project Management Plan)</li>
+                                    <li><i class="fas fa-exclamation-triangle"></i> 风险管理计划/报告 (Risk Management Plan/Report)</li>
+                                    <li><i class="fas fa-chart-bar"></i> 度量计划/报告 (Measurement Plan/Report)</li>
+                                    <li><i class="fas fa-calendar-alt"></i> 项目里程碑计划 (Project Milestone Plan)</li>
+                                    <li><i class="fas fa-users-cog"></i> 资源分配计划 (Resource Allocation Plan)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- PIM交付物 -->
+                            <div class="deliverable-group">
+                                <h5 class="process-group-title pim-title">过程改进过程组 (PIM)</h5>
+                                <ul class="deliverable-list">
+                                    <li><i class="fas fa-chart-line"></i> 过程改进计划 (Process Improvement Plan)</li>
+                                    <li><i class="fas fa-search"></i> 过程评估报告 (Process Assessment Report)</li>
+                                    <li><i class="fas fa-lightbulb"></i> 改进建议清单 (Improvement Suggestions List)</li>
+                                    <li><i class="fas fa-tools"></i> 过程优化工具包 (Process Optimization Toolkit)</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 模板库 -->
+                            <div class="deliverable-group template-section">
+                                <h5 class="process-group-title template-title">标准模板库</h5>
+                                <ul class="deliverable-list template-list">
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">需求规格书模板</a></li>
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">架构设计文档模板</a></li>
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">测试计划模板</a></li>
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">项目管理计划模板</a></li>
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">风险管理矩阵模板</a></li>
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">配置管理程序模板</a></li>
+                                    <li><i class="fas fa-download"></i> <a href="#" class="template-link">质量检查清单模板</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- 图例：V两侧对应关系说明 -->
-                <div class="text-center mt-3 small text-muted v-legend">
+                <div class="text-center mt-4 small text-muted v-legend">
                     <span class="badge bg-light text-dark me-2">左：定义/设计（向下）</span>
                     <span class="badge bg-light text-dark me-2">底：实现/编码（SWE.3）</span>
                     <span class="badge bg-light text-dark">右：验证/确认（向上）</span>
