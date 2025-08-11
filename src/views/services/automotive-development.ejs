@@ -153,6 +153,64 @@
                 <h2 class="display-5 fw-bold">开发流程</h2>
                 <p class="lead text-muted">标准化的车载应用开发流程，确保项目成功交付</p>
             </div>
+
+            <!-- V-Model 总览 -->
+            <style>
+                .vmodel-diagram{position:relative; max-width:1100px; margin:0 auto 2rem auto}
+                .vmodel-columns{display:flex; justify-content:space-between; gap:24px}
+                .vmodel-col{flex:1; display:flex; flex-direction:column; justify-content:space-between}
+                .vmodel-box{background:#fff; border:1px solid #e9ecef; border-left:4px solid #0d6efd; border-radius:8px; padding:12px 14px; box-shadow:0 2px 10px rgba(0,0,0,.04)}
+                .vmodel-center{display:flex; align-items:center; justify-content:center; margin:16px 0}
+                .vmodel-code{font-size:.75rem; color:#6c757d}
+                .vmodel-title{margin:0; font-weight:600}
+                .vmodel-arrow{position:absolute; left:50%; top:0; bottom:0; width:2px; background:linear-gradient(to bottom right, transparent 48%, #dee2e6 50%, transparent 52%) repeat-y; background-size:22px 22px; transform:translateX(-50%) rotate(45deg); pointer-events:none}
+                .vmodel-arrow-r{position:absolute; left:50%; top:0; bottom:0; width:2px; background:linear-gradient(to top right, transparent 48%, #dee2e6 50%, transparent 52%) repeat-y; background-size:22px 22px; transform:translateX(-50%) rotate(-45deg); pointer-events:none}
+                @media (max-width: 992px){
+                    .vmodel-columns{flex-direction:column}
+                    .vmodel-arrow,.vmodel-arrow-r{display:none}
+                }
+            </style>
+
+            <% const dp = serviceData.developmentProcess || []; %>
+            <div class="vmodel-diagram position-relative">
+                <!-- 左侧V：定义与设计 -->
+                <div class="vmodel-arrow"></div>
+                <div class="vmodel-arrow-r"></div>
+                <div class="vmodel-columns">
+                    <div class="vmodel-col">
+                        <% [0,1,2,3,4,5].forEach(function(i){ if(dp[i]){ %>
+                            <div class="vmodel-box mb-3">
+                                <div class="vmodel-code">步骤 <%= dp[i].step %> · <%= (dp[i].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                <p class="vmodel-title"><%= dp[i].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                            </div>
+                        <% }}); %>
+                    </div>
+
+                    <!-- 中部底部：实现/编码 -->
+                    <div class="vmodel-center">
+                        <div class="vmodel-box">
+                            <div class="vmodel-code">步骤 <%= dp[6] ? dp[6].step : 7 %> · SWE.3</div>
+                            <p class="vmodel-title"><%= dp[6] ? dp[6].title.replace(/\s*\(.*?\)\s*/,'') : '详细设计与单元实现' %></p>
+                        </div>
+                    </div>
+
+                    <!-- 右侧V：集成与验证/确认（自上而下与左侧对应） -->
+                    <div class="vmodel-col">
+                        <% [11,10,9,8,7].forEach(function(i){ if(dp[i]){ %>
+                            <div class="vmodel-box mb-3">
+                                <div class="vmodel-code">步骤 <%= dp[i].step %> · <%= (dp[i].title.match(/\((.*?)\)/) || [,''])[1] %></div>
+                                <p class="vmodel-title"><%= dp[i].title.replace(/\s*\(.*?\)\s*/,'') %></p>
+                            </div>
+                        <% }}); %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-4">
+                <span class="badge bg-secondary me-2">左侧：定义/设计</span>
+                <span class="badge bg-info text-dark me-2">底部：实现/编码</span>
+                <span class="badge bg-success">右侧：集成/验证/确认</span>
+            </div>
             
             <div class="row">
                 <% serviceData.developmentProcess.forEach(process => { %>

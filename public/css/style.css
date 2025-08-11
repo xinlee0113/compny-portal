@@ -198,6 +198,15 @@ body {
   margin-bottom: 1rem;
 }
 
+/* 修复：定价卡片标题在深色头部不可见的问题，继承父级文字颜色 */
+.pricing-card .card-header { position: relative; }
+.pricing-card .card-header .card-title {
+  color: inherit !important;
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
 /* 页脚样式 */
 footer {
   margin-top: 2rem;

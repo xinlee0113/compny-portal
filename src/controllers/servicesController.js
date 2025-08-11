@@ -108,36 +108,80 @@ class ServicesController {
         },
       ],
 
+      // 基于ASPICE V模型的详细流程
       developmentProcess: [
         {
           step: 1,
-          title: '需求分析',
-          description: '深入了解客户需求，制定技术方案',
-          deliverables: ['需求规格说明', '技术架构设计', '开发计划'],
+          title: '项目策划与立项 (SUP.1)',
+          description:
+            '定义范围、干系人、里程碑与资源，识别风险并制定应对策略',
+          deliverables: ['项目计划/里程碑', '角色职责矩阵', '风险清单与应对'],
         },
         {
           step: 2,
-          title: '原型设计',
-          description: '快速原型开发，验证设计方案',
-          deliverables: ['交互原型', 'UI/UX设计', '技术验证'],
+          title: '需求获取与系统需求分析 (SYS.2)',
+          description: '收集并分析用户/业务需求，形成系统级需求基线与追踪',
+          deliverables: ['系统需求规格(SyRS)', '用例模型', '需求基线与追踪矩阵'],
         },
         {
           step: 3,
-          title: '开发实现',
-          description: '敏捷开发模式，迭代交付',
-          deliverables: ['功能模块', '集成测试', '文档交付'],
+          title: '系统架构设计 (SYS.3)',
+          description: '制定系统架构与接口，明确关键技术与质量属性方案',
+          deliverables: ['系统架构说明', '接口/协议定义', '技术决策记录'],
         },
         {
           step: 4,
-          title: '测试验证',
-          description: '全面测试验证，确保质量',
-          deliverables: ['测试报告', '性能优化', '安全验证'],
+          title: '系统集成计划 (SYS.4-Plan)',
+          description: '规划系统级集成顺序、环境与测试策略，准备集成工装',
+          deliverables: ['系统集成计划', '接口矩阵', '集成环境与工装'],
         },
         {
           step: 5,
-          title: '部署维护',
-          description: '生产部署和持续维护支持',
-          deliverables: ['部署方案', '运维文档', '技术支持'],
+          title: '软件需求分析 (SWE.1)',
+          description: '从系统需求细化为软件需求，建立系统→软件的可追踪性',
+          deliverables: ['软件需求规格(SRS)', '追踪矩阵(SYS→SWE.1)', '验收准则'],
+        },
+        {
+          step: 6,
+          title: '软件架构设计 (SWE.2)',
+          description: '进行组件划分与接口设计，明确质量属性与非功能策略',
+          deliverables: ['软件架构说明', '接口/组件设计', '质量属性方案(性能/安全)'],
+        },
+        {
+          step: 7,
+          title: '详细设计与单元实现 (SWE.3)',
+          description: '编写详细设计并实现代码，静态检查与代码规范执行',
+          deliverables: ['详细设计说明', '源代码与构建脚本', '静态分析与规范报告'],
+        },
+        {
+          step: 8,
+          title: '单元验证 (SWE.4)',
+          description: '针对每个单元进行白盒测试与覆盖率度量，缺陷闭环',
+          deliverables: ['单元测试用例/报告', '覆盖率报告', '缺陷单与修复记录'],
+        },
+        {
+          step: 9,
+          title: '软件集成与集成测试 (SWE.5)',
+          description: '逐步集成组件，执行接口与集成测试，保障稳定性',
+          deliverables: ['集成构建产物', '集成测试报告', '回归测试清单'],
+        },
+        {
+          step: 10,
+          title: '软件确认测试 (SWE.6)',
+          description: '依据SRS执行软件级验证，覆盖功能/性能/鲁棒性',
+          deliverables: ['软件确认测试计划/报告', '问题清单与关闭', '发布评审记录'],
+        },
+        {
+          step: 11,
+          title: '系统集成与系统测试 (SYS.4-Do)',
+          description: '将软件与硬件/第三方件集成，完成系统级验证与验收',
+          deliverables: ['系统集成记录', '系统测试报告', '用户验收记录'],
+        },
+        {
+          step: 12,
+          title: '系统确认与发布 (SYS.5)',
+          description: '形成量产发布包与运维交付物，建立回滚与支持机制',
+          deliverables: ['量产发布包', '发布说明/回滚预案', '运维与支持SLA'],
         },
       ],
 
@@ -208,7 +252,8 @@ class ServicesController {
     };
 
     // 使用极端兜底，彻底避免读取未定义导致500
-    const pageTitle = (((texts || {}).services || {}).automotiveDevelopment || {}).title || '车载应用开发';
+    const pageTitle =
+      (((texts || {}).services || {}).automotiveDevelopment || {}).title || '车载应用开发';
     // 兜底以避免模板内 title 访问未定义
     const safeTexts = texts || {};
     if (!safeTexts.services) safeTexts.services = {};
@@ -265,7 +310,8 @@ class ServicesController {
     const siTitle = (((texts || {}).services || {}).systemIntegration || {}).title || '系统集成';
     const safeTextsSI = texts || {};
     if (!safeTextsSI.services) safeTextsSI.services = {};
-    if (!safeTextsSI.services.systemIntegration) safeTextsSI.services.systemIntegration = { title: siTitle };
+    if (!safeTextsSI.services.systemIntegration)
+      safeTextsSI.services.systemIntegration = { title: siTitle };
     res.render('services/system-integration', {
       title: siTitle,
       texts: safeTextsSI,
@@ -313,7 +359,8 @@ class ServicesController {
     const tvTitle = (((texts || {}).services || {}).testingValidation || {}).title || '测试验证';
     const safeTextsTV = texts || {};
     if (!safeTextsTV.services) safeTextsTV.services = {};
-    if (!safeTextsTV.services.testingValidation) safeTextsTV.services.testingValidation = { title: tvTitle };
+    if (!safeTextsTV.services.testingValidation)
+      safeTextsTV.services.testingValidation = { title: tvTitle };
     res.render('services/testing-validation', {
       title: tvTitle,
       texts: safeTextsTV,
