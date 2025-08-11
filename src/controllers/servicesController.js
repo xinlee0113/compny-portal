@@ -207,12 +207,8 @@ class ServicesController {
       },
     };
 
-    const pageTitle =
-      (texts &&
-        texts.services &&
-        texts.services.automotiveDevelopment &&
-        texts.services.automotiveDevelopment.title) ||
-      '车载应用开发';
+    // 使用极端兜底，彻底避免读取未定义导致500
+    const pageTitle = (((texts || {}).services || {}).automotiveDevelopment || {}).title || '车载应用开发';
     // 兜底以避免模板内 title 访问未定义
     const safeTexts = texts || {};
     if (!safeTexts.services) safeTexts.services = {};
@@ -266,9 +262,13 @@ class ServicesController {
       ],
     };
 
+    const siTitle = (((texts || {}).services || {}).systemIntegration || {}).title || '系统集成';
+    const safeTextsSI = texts || {};
+    if (!safeTextsSI.services) safeTextsSI.services = {};
+    if (!safeTextsSI.services.systemIntegration) safeTextsSI.services.systemIntegration = { title: siTitle };
     res.render('services/system-integration', {
-      title: texts.services.systemIntegration.title,
-      texts,
+      title: siTitle,
+      texts: safeTextsSI,
       serviceData,
       currentPage: 'services',
       currentPath: req.path,
@@ -310,9 +310,13 @@ class ServicesController {
       ],
     };
 
+    const tvTitle = (((texts || {}).services || {}).testingValidation || {}).title || '测试验证';
+    const safeTextsTV = texts || {};
+    if (!safeTextsTV.services) safeTextsTV.services = {};
+    if (!safeTextsTV.services.testingValidation) safeTextsTV.services.testingValidation = { title: tvTitle };
     res.render('services/testing-validation', {
-      title: texts.services.testingValidation.title,
-      texts,
+      title: tvTitle,
+      texts: safeTextsTV,
       serviceData,
       currentPage: 'services',
       currentPath: req.path,
