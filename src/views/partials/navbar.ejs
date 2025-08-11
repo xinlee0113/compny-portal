@@ -76,3 +76,46 @@
         </div>
     </div>
 </nav>
+
+<script>
+  (function () {
+    function initDropdownA11y() {
+      if (typeof bootstrap === 'undefined') return;
+      document.querySelectorAll('.navbar .dropdown').forEach(function (dropdownEl) {
+        const toggle = dropdownEl.querySelector('[data-bs-toggle="dropdown"]');
+        const menu = dropdownEl.querySelector('.dropdown-menu');
+        if (!toggle || !menu) return;
+        const bs = bootstrap.Dropdown.getOrCreateInstance(toggle, { autoClose: 'outside' });
+
+        // 焦点进入时自动展开
+        toggle.addEventListener('focus', function () { bs.show(); });
+        menu.addEventListener('focusin', function () { bs.show(); });
+
+        // 焦点离开下拉区域后自动收起
+        dropdownEl.addEventListener('focusout', function () {
+          setTimeout(function () {
+            const active = document.activeElement;
+            if (!dropdownEl.contains(active)) { bs.hide(); }
+          }, 0);
+        });
+
+        // 键盘交互增强：ArrowDown展开并聚焦首项，Esc关闭
+        toggle.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            bs.show();
+            const first = menu.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+            if (first) first.focus();
+          }
+          if (e.key === 'Escape') { bs.hide(); toggle.focus(); }
+        });
+        menu.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { bs.hide(); toggle.focus(); }
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') initDropdownA11y();
+    else window.addEventListener('load', initDropdownA11y);
+  })();
+</script>
