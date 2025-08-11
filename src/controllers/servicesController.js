@@ -213,9 +213,13 @@ class ServicesController {
         texts.services.automotiveDevelopment &&
         texts.services.automotiveDevelopment.title) ||
       '车载应用开发';
+    // 兜底以避免模板内 title 访问未定义
+    const safeTexts = texts || {};
+    if (!safeTexts.services) safeTexts.services = {};
+    if (!safeTexts.services.automotiveDevelopment) safeTexts.services.automotiveDevelopment = { title: pageTitle, description: '专业的车载应用开发服务' };
     res.render('services/automotive-development', {
       title: pageTitle,
-      texts,
+      texts: safeTexts,
       serviceData,
       currentPage: 'services',
       currentPath: req.path,

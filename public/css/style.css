@@ -305,8 +305,8 @@ footer {
 }
 
 /* 主页Hero标题与内容宽度与换行统一 */
-.automotive-hero .hero-content { max-width: 560px; }
-.automotive-hero h1.display-3 { line-height: 1.15; word-break: keep-all; overflow-wrap: anywhere; }
+.automotive-hero .hero-content { max-width: 640px; }
+.automotive-hero h1.display-3 { line-height: 1.2; word-break: keep-all; overflow-wrap: break-word; }
 .automotive-hero .hero-content .badge { white-space: nowrap; }
 
 /* 短款Hero，适用于非首页模块页 */
@@ -524,20 +524,18 @@ footer {
   line-height: 1;
 }
 
+/* 可信背书区域（从Hero下移）可复用 stat-item 样式 */
+.hero-stats .stat-item p { opacity: 0.85; }
+
 /* 响应式优化 */
 @media (max-width: 768px) {
-  .automotive-hero {
-    min-height: auto;
-    padding: 60px 0;
-  }
+  .automotive-hero { min-height: auto; padding: 56px 0; }
   
   .display-3 {
     font-size: 2.5rem;
   }
   
-  .hero-buttons {
-    justify-content: center;
-  }
+  .hero-buttons { justify-content: center; }
   
   .tech-card, .solution-card {
     margin-bottom: 30px;

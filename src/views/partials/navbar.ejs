@@ -11,97 +11,65 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <!-- 1. 首页 -->
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'active' : '' %>" href="/" <%= (typeof currentPage !== 'undefined' && currentPage === 'home') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-home"></i> <span><%= texts.nav.home %></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'active' : '' %>" href="/about" <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-users"></i> <span><%= texts.nav.about %></span>
-                    </a>
-                </li>
+
+                <!-- 2. 解决方案（服务） -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <%= (typeof currentPage !== 'undefined' && currentPage === 'services') ? 'active' : '' %>" 
                        href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-cogs"></i> <span><%= texts.nav.services %></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="servicesDropdown">
-                        <li><a class="dropdown-item" href="/services/automotive-development">
-                            <i class="fas fa-car text-primary me-2"></i>车载应用开发
-                        </a></li>
-                        <li><a class="dropdown-item" href="/services/system-integration">
-                            <i class="fas fa-network-wired text-success me-2"></i>系统集成服务
-                        </a></li>
-                        <li><a class="dropdown-item" href="/services/testing-validation">
-                            <i class="fas fa-shield-alt text-warning me-2"></i>测试验证服务
-                        </a></li>
+                        <li><a class="dropdown-item" href="/services/automotive-development"><i class="fas fa-car text-primary me-2"></i>车载应用开发</a></li>
+                        <li><a class="dropdown-item" href="/services/system-integration"><i class="fas fa-network-wired text-success me-2"></i>系统集成服务</a></li>
+                        <li><a class="dropdown-item" href="/services/testing-validation"><i class="fas fa-shield-alt text-warning me-2"></i>测试验证服务</a></li>
                     </ul>
                 </li>
+
+                <!-- 3. 案例与资料 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle <%= (typeof currentPage !== 'undefined' && (currentPage === 'case-studies' || currentPage === 'downloads' || currentPage === 'video-tutorials')) ? 'active' : '' %>" 
+                       href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-folder-open"></i> <span>案例与资料</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="resourcesDropdown">
+                        <li><a class="dropdown-item" href="/case-studies"><i class="fas fa-trophy text-primary me-2"></i><%= texts.nav.portfolio %></a></li>
+                        <li><a class="dropdown-item" href="/video-tutorials"><i class="fas fa-play-circle text-danger me-2"></i><%= texts.nav.videoTutorials %></a></li>
+                        <li><a class="dropdown-item" href="/downloads"><i class="fas fa-download text-success me-2"></i><%= texts.nav.downloads %></a></li>
+                    </ul>
+                </li>
+
+                <!-- 4. 公司介绍 -->
                 <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'active' : '' %>" href="/case-studies" <%= (typeof currentPage !== 'undefined' && currentPage === 'case-studies') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-trophy"></i> <span><%= texts.nav.portfolio %></span>
+                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'active' : '' %>" href="/about" <%= (typeof currentPage !== 'undefined' && currentPage === 'about') ? 'aria-current="page"' : '' %>>
+                        <i class="fas fa-users"></i> <span><%= texts.nav.about %></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'active' : '' %>" href="/products" <%= (typeof currentPage !== 'undefined' && currentPage === 'products') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-cube"></i> <span><%= texts.nav.products %></span>
-                    </a>
-                </li>
+
+                <!-- 5. 联系我们 -->
                 <li class="nav-item">
                     <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'active' : '' %>" href="/contact" <%= (typeof currentPage !== 'undefined' && currentPage === 'contact') ? 'aria-current="page"' : '' %>>
                         <i class="fas fa-phone"></i> <span><%= texts.nav.contact %></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'active' : '' %>" href="/video-tutorials" <%= (typeof currentPage !== 'undefined' && currentPage === 'video-tutorials') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-play-circle"></i> <span><%= texts.nav.videoTutorials %></span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'active' : '' %>" href="/downloads" <%= (typeof currentPage !== 'undefined' && currentPage === 'downloads') ? 'aria-current="page"' : '' %>>
-                        <i class="fas fa-download"></i> <span><%= texts.nav.downloads %></span>
-                    </a>
-                </li>
+
+                <!-- 6. 系统工具（含API与后台、开发中心） -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <%= (typeof currentPage !== 'undefined' && currentPage === 'dev-center') ? 'active' : '' %>" 
-                       href="#" id="devCenterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-laptop-code"></i> <span><%= texts.nav.devCenter %></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="devCenterDropdown">
-                        <li><a class="dropdown-item" href="/dev-center">
-                            <i class="fas fa-home text-primary me-2"></i>开发中心首页
-                        </a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/tools/development-framework">
-                            <i class="fas fa-code text-info me-2"></i>开发框架
-                        </a></li>
-                        <li><a class="dropdown-item" href="/dev-center/confluence">
-                            <i class="fas fa-file-alt text-info me-2"></i><%= texts.nav.confluence %>
-                        </a></li>
-                        <li><a class="dropdown-item" href="/dev-center/jira">
-                            <i class="fas fa-tasks text-success me-2"></i><%= texts.nav.jira %>
-                        </a></li>
-                        <li><a class="dropdown-item" href="/dev-center/gerrit">
-                            <i class="fas fa-code-branch text-warning me-2"></i><%= texts.nav.gerrit %>
-                        </a></li>
-                        <li><a class="dropdown-item" href="/dev-center/jenkins">
-                            <i class="fas fa-cogs text-danger me-2"></i><%= texts.nav.jenkins %>
-                        </a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="systemToolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       href="#" id="systemToolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-tools"></i> <span><%= texts.nav.systemTools %></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="systemToolsDropdown">
-                        <li><a class="dropdown-item" href="/api-docs" target="_blank">
-                            <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
-                        </a></li>
+                        <li><a class="dropdown-item" href="/api-docs" target="_blank"><i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %></a></li>
+                        <li><a class="dropdown-item" href="/admin"><i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %></a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/admin">
-                            <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
-                        </a></li>
+                        <li><a class="dropdown-item" href="/dev-center"><i class="fas fa-laptop-code text-primary me-2"></i>开发中心</a></li>
+                        <li><a class="dropdown-item" href="/tools/development-framework"><i class="fas fa-code text-success me-2"></i>开发框架</a></li>
                     </ul>
                 </li>
             </ul>
