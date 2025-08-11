@@ -196,6 +196,8 @@ footer {
     padding-left: 15px;
     padding-right: 15px;
   }
+  .automotive-hero .hero-content { max-width: 100%; }
+  .automotive-hero h1.display-3 { font-size: 2.25rem; }
   
   .navbar-brand {
     font-size: 1.25rem;
@@ -288,6 +290,11 @@ footer {
   position: relative;
   overflow: hidden;
 }
+
+/* 主页Hero标题与内容宽度与换行统一 */
+.automotive-hero .hero-content { max-width: 560px; }
+.automotive-hero h1.display-3 { line-height: 1.15; word-break: keep-all; overflow-wrap: anywhere; }
+.automotive-hero .hero-content .badge { white-space: nowrap; }
 
 .automotive-hero::before {
   content: '';

@@ -126,58 +126,8 @@
     <!-- 阅读进度条 -->
     <div class="reading-progress" id="readingProgress"></div>
 
-    <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/"><%= texts.site.name %></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/"><%= texts.nav.home %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about"><%= texts.nav.about %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'products' ? 'active' : '' %>" href="/products"><%= texts.nav.products %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news"><%= texts.nav.news %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact"><%= texts.nav.contact %></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'video-tutorials' ? 'active' : '' %>" href="/video-tutorials">
-                            <i class="fas fa-play-circle me-1"></i><%= texts.nav.videoTutorials %>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'downloads' ? 'active' : '' %>" href="/downloads">
-                            <i class="fas fa-download me-1"></i><%= texts.nav.downloads %>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-cog"></i> <%= texts.nav.systemTools %>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/api-docs" target="_blank">
-                                <i class="fas fa-book-open text-info me-2"></i><%= texts.nav.apiDocs %>
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/admin">
-                                <i class="fas fa-user-shield text-warning me-2"></i><%= texts.nav.adminPanel %>
-                            </a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- 统一导航栏 -->
+    <%- include('../partials/navbar', { currentPage: 'downloads', texts: texts }) %>
 
     <!-- 文档头部 -->
     <header class="document-header">
